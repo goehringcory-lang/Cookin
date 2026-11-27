@@ -9,6 +9,9 @@ import { KitchenScreen } from "@features/inventory";
 import { RecipesScreen } from "@features/recipes";
 import { RecipeScreen } from "@features/recipe";
 import { ImportScreen } from "@features/nyt-sync";
+import { SettingsScreen } from "@features/settings";
+import { ToastHost } from "@shared/ui";
+import { UiGallery } from "@shared/ui/Gallery";
 
 const TABS = [
   { name: "home", label: "This week", icon: "M4 6.5h16v13H4zM4 10.5h16M8.5 4v4M15.5 4v4" },
@@ -37,6 +40,8 @@ export function App() {
     case "kitchen": screen = <KitchenScreen />; break;
     case "recipes": screen = <RecipesScreen />; break;
     case "recipe": screen = <RecipeScreen id={route.param || ""} />; break;
+    case "settings": screen = <SettingsScreen />; break;
+    case "ui": screen = <UiGallery />; break;
     default: screen = <HomeScreen />;
   }
   const active = route.name === "recipe" ? "recipes" : TABS.some(t => t.name === route.name) ? route.name : "home";
@@ -53,6 +58,7 @@ export function App() {
           </button>
         ))}
       </nav>
+      <ToastHost />
     </div>
   );
 }

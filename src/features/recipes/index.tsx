@@ -7,6 +7,7 @@ import { useCollection } from "@shared/store";
 import { useOwned } from "@shared/domain";
 import { analyzeRecipe } from "@shared/catalog";
 
+import { RecipeCard, RecipeGrid, SearchField } from "@shared/ui";
 import { SyncSheet, SyncStatusBadge } from "@features/nyt-sync";
 import { filterRecipes, FILTERS, type FilterId, type Row } from "./filter";
 import "./recipes.css";
@@ -48,7 +49,7 @@ export function RecipesScreen() {
         </div>
       ) : (
         <>
-          <input className="ck-search" type="search" value={q} onChange={e => setQ(e.target.value)} placeholder="Search recipes or ingredients" aria-label="Search recipes" />
+          <SearchField value={q} onChange={setQ} placeholder="Search recipes or ingredients" label="Search recipes" />
           <div className="ck-chips ck-chips--scroll ck-recipes__chips" role="group" aria-label="Filter recipes">
             {FILTERS.filter(f => f.id !== "archived" || archivedCount > 0).map(f => (
               <button key={f.id} type="button" className="ck-chip ck-chip--filter" aria-pressed={filter === f.id} onClick={() => setFilter(filter === f.id ? null : f.id)}>
@@ -58,7 +59,7 @@ export function RecipesScreen() {
           </div>
           <p className="ck-muted ck-small ck-recipes__count" aria-live="polite">{shown.length === active.length && !filter && !query ? `${active.length} recipes` : `${shown.length} of ${filter === "archived" ? archivedCount : active.length}`}</p>
           {shown.length ? (
-            <div className="ck-recipe-grid">{shown.map(r => <RecipeCard key={r.recipe.id} row={r} />)}</div>
+            <RecipeGrid>{shown.map(r => <RecipeTile key={r.recipe.id} row={r} />)}</RecipeGrid>
           ) : (
             <div className="ck-empty"><p>No recipes match{query ? ` “${query}”` : ""}.</p><button className="ck-btn ck-btn--ghost" onClick={() => { setQ(""); setFilter(null); }}>Clear</button></div>
           )}
@@ -69,31 +70,15 @@ export function RecipesScreen() {
   );
 }
 
-function haveBadge(missing: number): { tone: "have" | "low" | "need"; text: string } {
-  if (missing === 0) return { tone: "have", text: "Have everything" };
-  return { tone: missing <= 2 ? "low" : "need", text: `Need ${missing}` };
-}
-
-export const minutesLabel = (m?: number) => (!m ? "" : m < 60 ? `${m} min` : `${Math.floor(m / 60)} hr${m % 60 ? ` ${m % 60} min` : ""}`);
-
-function RecipeCard({ row: { recipe: r, missing } }: { row: Row }) {
-  const [imgOk, setImgOk] = useState(true);
-  const b = haveBadge(missing);
+function RecipeTile({ row: { recipe: r, missing } }: { row: Row }) {
   return (
-    <a className="ck-card ck-recipe-card" href={`#recipe/${encodeURIComponent(r.id)}`}>
-      <div className="ck-recipe-card__img">
-        {r.imageUrl && imgOk
-          ? <img src={r.imageUrl} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={() => setImgOk(false)} />
-          : <span className="ck-recipe-card__fallback" aria-hidden="true">{r.title.trim()[0]?.toUpperCase() || "?"}</span>}
-      </div>
-      <div className="ck-recipe-card__body">
-        <span className="ck-recipe-card__title">{r.title}</span>
-        <span className="ck-recipe-card__meta">
-          {r.totalMinutes ? <span>{minutesLabel(r.totalMinutes)}</span> : null}
-          {r.ingredients.length ? <span className={`ck-badge ck-badge--${b.tone}`}>{b.text}</span> : <span>No ingredients yet</span>}
-        </span>
-      </div>
-    </a>
+    <RecipeCard
+      title={r.title}
+      image={r.imageUrl}
+      minutes={r.totalMinutes || undefined}
+      missing={r.ingredients.length ? missing : undefined}
+      meta={r.ingredients.length ? undefined : <span>No ingredients yet</span>}
+      href={`#recipe/${encodeURIComponent(r.id)}`}
+    />
   );
 }
-

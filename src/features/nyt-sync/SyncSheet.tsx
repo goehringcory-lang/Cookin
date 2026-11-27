@@ -4,6 +4,7 @@ import { useDoc } from "@shared/store";
 import type { NytSyncInfo } from "@shared/types";
 import { navigate } from "../../app/nav";
 import { AUTOMATION_SNIPPET, bookmarkletHref } from "./install";
+import { Sheet } from "@shared/ui";
 import "./nyt-sync.css";
 
 export const useNytSyncInfo = (): NytSyncInfo | undefined => useDoc("meta", "nyt");
@@ -36,21 +37,13 @@ export function SyncSheet({ onClose }: { onClose: () => void }) {
   const [copied, setCopied] = useState<"" | "bookmark" | "script">("");
   // React blocks javascript: URLs in JSX, so the bookmark's href is set directly.
   useEffect(() => { link.current?.setAttribute("href", bookmarkletHref()); }, []);
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
   const copy = async (what: "bookmark" | "script") => {
     try { await navigator.clipboard.writeText(what === "bookmark" ? bookmarkletHref() : AUTOMATION_SNIPPET); setCopied(what); setTimeout(() => setCopied(""), 2000); } catch { /* clipboard blocked */ }
   };
   return (
-    <>
-      <div className="ck-scrim" onClick={onClose} />
-      <div className="ck-sheet ck-nyt-sheet" role="dialog" aria-modal="true" aria-labelledby="ck-nyt-title">
-        <div className="ck-sheet__grip" />
+    <Sheet open onClose={onClose} title="Sync from NYT Cooking">
+      <div className="ck-nyt-sheet">
         <div>
-          <h2 className="ck-h2" id="ck-nyt-title">Sync from NYT Cooking</h2>
           <p className="ck-muted ck-small">
             {info ? `Last synced ${syncWhen(info.at)} ${info.via === "weekly" ? "by the Sunday auto-sync" : "with the button"}: ${info.added ? `${info.added} new` : "no new recipes"}, ${info.total} in your Recipe Box.` : "Bring in your whole Recipe Box once, then just the new ones."}
           </p>
@@ -77,6 +70,6 @@ export function SyncSheet({ onClose }: { onClose: () => void }) {
           <button className="ck-btn ck-btn--ghost" onClick={onClose}>Close</button>
         </div>
       </div>
-    </>
+    </Sheet>
   );
 }

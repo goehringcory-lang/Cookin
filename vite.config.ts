@@ -8,5 +8,5 @@ export default defineConfig({
   plugins: [react()],
   resolve: { alias: { "@shared": r("./src/shared"), "@features": r("./src/features"), "@styles": r("./src/styles") } },
   server: { proxy: { "/api": "http://127.0.0.1:8788" } },
-  test: { environment: "node" },
+  test: { environment: "node", include: ["src/**/*.test.{ts,tsx}", "functions/**/*.test.ts"] },
 } as any);
