@@ -1,0 +1,18 @@
+/* Scaffold base styles. The design-system thread owns src/styles/ (tokens.css, components.css)
+   and replaces these; keep class names prefixed "ck-". */
+:root {
+  --ck-bg: #f3f5ef; --ck-surface: #fff; --ck-ink: #1b221d; --ck-muted: #5b675f; --ck-line: #d5dccf; --ck-accent: #2e6b4a; --ck-accent-ink: #fff;
+  --ck-font: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root { --ck-bg: #111512; --ck-surface: #1a201c; --ck-ink: #e7ece7; --ck-muted: #9ba79f; --ck-line: #2f3832; --ck-accent: #74c495; --ck-accent-ink: #0d1a12; color-scheme: dark; } }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--ck-bg); color: var(--ck-ink); font: 15px/1.45 var(--ck-font); }
+.ck-main { max-width: 640px; margin: 0 auto; padding: calc(16px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) calc(88px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
+.ck-app--bare { max-width: 640px; margin: 0 auto; padding: calc(16px + env(safe-area-inset-top)) 16px 24px; }
+.ck-tabbar { position: fixed; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: repeat(4, 1fr); background: var(--ck-surface); border-top: 1px solid var(--ck-line); padding-bottom: env(safe-area-inset-bottom); }
+.ck-tabbar__tab { border: 0; background: none; color: var(--ck-muted); padding: 8px 4px 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; font: 500 12px var(--ck-font); }
+.ck-tabbar__tab svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ck-tabbar__tab[aria-current="page"] { color: var(--ck-accent); }
+.ck-banner { background: #f5ead0; color: #1b221d; padding: 10px 16px; text-align: center; }
+.ck-placeholder { padding: 24px; border: 1px dashed var(--ck-line); border-radius: 14px; color: var(--ck-muted); }

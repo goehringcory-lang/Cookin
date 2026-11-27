@@ -1,0 +1,4 @@
+# Copy to .dev.vars for `npm run dev:full`
+ALLOWED_EMAILS=you@example.com
+API_TOKEN=dev-token
+DEV_ALLOW_ANON=1

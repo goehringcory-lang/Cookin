@@ -1,0 +1,14 @@
+name = "cookin"
+pages_build_output_dir = "dist"
+compatibility_date = "2025-06-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "cookin"
+# Filled in once the D1 database is created (wrangler d1 create cookin).
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+
+# Secrets (set with `wrangler pages secret put`, or .dev.vars locally):
+#   ALLOWED_EMAILS  comma-separated emails Cloudflare Access lets in (Cory's)
+#   API_TOKEN       bearer token for automation (weekly NYT sync)
