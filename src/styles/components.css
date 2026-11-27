@@ -356,3 +356,4 @@ button.ck-recipe-card:not(.ck-recipe-card--compact), a.ck-recipe-card:not(.ck-re
 :root[data-theme="dark"] .ck-recipe-card__fallback[data-tone="1"] { --ck-art-bg: #26332A; --ck-art-ink: #84BE8A; }
 :root[data-theme="dark"] .ck-recipe-card__fallback[data-tone="2"] { --ck-art-bg: #392F18; --ck-art-ink: #E6AE3F; }
 :root[data-theme="dark"] .ck-recipe-card__fallback[data-tone="3"] { --ck-art-bg: #3A2620; --ck-art-ink: #D98A73; }
+.ck-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
