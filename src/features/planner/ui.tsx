@@ -1,6 +1,7 @@
 /** Small shared pieces for the planner and recipe screens. Classes come from src/styles/components.css. */
 import { useEffect, useState, type ReactNode } from "react";
 import type { Recipe } from "@shared/types";
+import { artTone } from "@shared/ui";
 
 /** Badge text for a recipe given how many ingredients are missing (mirrors haveBadge in @styles/tokens). */
 export function haveBadge(missing: number): { tone: "have" | "low" | "need"; text: string } {
@@ -14,13 +15,13 @@ export function HaveBadge({ missing }: { missing: number }) {
   return <span className={`ck-badge ck-badge--${b.tone}`}>{b.text}</span>;
 }
 
-/** Recipe photo, or the design system's warm fallback tile with the first letter. */
+/** Recipe photo, or the design system's soft illustrated placeholder. */
 export function RecipeImg({ recipe, eager }: { recipe: Pick<Recipe, "title" | "imageUrl">; eager?: boolean }) {
   const [failed, setFailed] = useState(false);
   if (recipe.imageUrl && !failed) {
     return <img src={recipe.imageUrl} alt="" loading={eager ? "eager" : "lazy"} decoding="async" onError={() => setFailed(true)} />;
   }
-  return <div className="ck-recipe-card__fallback" aria-hidden="true">{recipe.title.replace(/^(the|a|an)\s+/i, "").charAt(0).toUpperCase()}</div>;
+  return <div className="ck-recipe-card__fallback" data-tone={artTone(recipe.title)} aria-hidden="true" />;
 }
 
 export function minutesLabel(m?: number): string | undefined {
