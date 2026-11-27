@@ -2,18 +2,18 @@
  * Kitchen tab (#kitchen): connects the pantry / fridge / freezer screen to the shared store.
  *
  * Reads:  inventory, customItems, plan, recipes, list (checked + manual)
- * Writes: inventory via setStatus, customItems for new items, list.manual for "+ List" on out items
- *         (manual ids are "inv-<itemId>", removed again once the item is back in stock).
+ * Writes: inventory via setStatus, customItems for new items, and a manual list entry for "Add to list"
+ *         on an out item (list doc id "manual:inv-<itemId>", deleted again once the item is back in stock).
  */
 import { useMemo } from "react";
-import type { CatalogItem, ListState, StockStatus } from "@shared/types";
+import type { CatalogItem, ListEntry, StockStatus } from "@shared/types";
 import { store, useCollection } from "@shared/store";
-import { addDays, setStatus as setInventoryStatus, todayYmd, updateList, useListState, useOwned } from "@shared/domain";
+import { addDays, setStatus as setInventoryStatus, todayYmd, useCatalogVersion, useOwned, weekStart } from "@shared/domain";
 import { CATALOG, allItems, analyzeRecipe, getItem } from "@shared/catalog";
 import { InventoryScreen } from "./InventoryScreen";
 import type { CatalogEntry, InventoryActions, InventoryItem } from "./types";
 
-const MANUAL_PREFIX = "inv-";
+const MANUAL_PREFIX = "manual:inv-";
 const manualId = (itemId: string) => MANUAL_PREFIX + itemId;
 
 const slug = (s: string) =>
@@ -27,6 +27,7 @@ function useNeededFor(): Map<string, string> {
   const plan = useCollection("plan");
   const recipes = useCollection("recipes");
   const owned = useOwned();
+  const catalogVersion = useCatalogVersion();
   return useMemo(() => {
     const today = todayYmd();
     const end = addDays(today, 14);
@@ -40,17 +41,14 @@ function useNeededFor(): Map<string, string> {
       for (const id of analyzeRecipe(r, owned).missing) if (!out.has(id)) out.set(id, r.title);
     }
     return out;
-  }, [plan, recipes, owned]);
+    // catalogVersion: re-run when custom items change what the matcher knows.
+  }, [plan, recipes, owned, catalogVersion]); // eslint-disable-line react-hooks/exhaustive-deps
 }
 
-function withoutManual(list: ListState, itemIds: string[]): ListState["manual"] | null {
-  const drop = new Set(itemIds.map(manualId));
-  const next = list.manual.filter((m) => !drop.has(m.id));
-  return next.length === list.manual.length ? null : next;
-}
-
-function currentList(): ListState {
-  return { checked: {}, manual: [], dismissed: {}, updatedAt: 0, ...store.get("list", "current") };
+/** Delete hand-added list lines for these items (no-op when there are none). */
+function dropManual(itemIds: string[]) {
+  const ids = itemIds.map(manualId).filter((id) => store.get("list", id));
+  if (ids.length) store.putMany(ids.map((id) => ({ c: "list" as const, id, data: null })));
 }
 
 /** Store-backed actions. Exported for tests. */
@@ -58,10 +56,7 @@ export const kitchenActions: InventoryActions = {
   setStatus(ids, status: StockStatus) {
     setInventoryStatus(ids, status);
     // Back in stock (or low, which lists it anyway): drop any hand-added list line.
-    if (status !== "out") {
-      const manual = withoutManual(currentList(), ids);
-      if (manual) updateList({ manual });
-    }
+    if (status !== "out") dropManual(ids);
   },
   addItems(inputs) {
     const ids: string[] = [];
@@ -83,8 +78,7 @@ export const kitchenActions: InventoryActions = {
   },
   removeItem(id) {
     store.remove("inventory", id);
-    const manual = withoutManual(currentList(), [id]);
-    if (manual) updateList({ manual });
+    dropManual([id]);
   },
   updateItem(id, patch) {
     const cur = store.get("customItems", id);
@@ -92,22 +86,23 @@ export const kitchenActions: InventoryActions = {
     store.put("customItems", id, { ...cur, ...patch });
   },
   setOnList(id, on) {
-    const list = currentList();
-    const rest = list.manual.filter((m) => m.id !== manualId(id));
+    if (!on) return dropManual([id]);
     const name = getItem(id)?.name ?? store.get("customItems", id)?.name ?? id;
-    updateList({ manual: on ? [...rest, { id: manualId(id), name, addedAt: Date.now() }] : rest });
+    const entry: ListEntry = { id: manualId(id), type: "manual", name, weekOf: weekStart(), updatedAt: Date.now() };
+    store.put("list", entry.id, entry);
   },
 };
 
 export function KitchenScreen() {
   const inventory = useCollection("inventory");
   const custom = useCollection("customItems");
-  const list = useListState();
+  const list = useCollection("list");
   const neededFor = useNeededFor();
+  const catalogVersion = useCatalogVersion();
 
   const manualIds = useMemo(
-    () => new Set(list.manual.filter((m) => m.id.startsWith(MANUAL_PREFIX)).map((m) => m.id.slice(MANUAL_PREFIX.length))),
-    [list.manual],
+    () => new Set(Object.keys(list).filter((k) => k.startsWith(MANUAL_PREFIX)).map((k) => k.slice(MANUAL_PREFIX.length))),
+    [list],
   );
 
   const items = useMemo<InventoryItem[]>(() => {
@@ -128,7 +123,7 @@ export function KitchenScreen() {
       });
     }
     return out;
-  }, [inventory, custom, neededFor, manualIds]);
+  }, [inventory, custom, neededFor, manualIds, catalogVersion]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const catalog = useMemo<CatalogEntry[]>(() => {
     const seen = new Set<string>();
@@ -139,16 +134,19 @@ export function KitchenScreen() {
       out.push({ id: c.id, name: c.name, location: c.location, category: c.category, aliases: c.aliases });
     }
     return out;
-  }, [custom]);
+  }, [custom, catalogVersion]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  /** Item ids checked off on this week's grocery list (pre-selected in "Just shopped"). */
   const checkedOnList = useMemo(() => {
+    const week = weekStart();
     const s = new Set<string>();
-    for (const k of Object.keys(list.checked)) {
-      if (k.startsWith("item:")) s.add(k.slice(5));
-      else if (k.startsWith("manual:" + MANUAL_PREFIX)) s.add(k.slice(7 + MANUAL_PREFIX.length));
+    for (const e of Object.values(list)) {
+      if (e.type !== "check" || e.weekOf !== week || !e.key) continue;
+      if (e.key.startsWith("item:")) s.add(e.key.slice(5));
+      else if (e.key.startsWith(MANUAL_PREFIX)) s.add(e.key.slice(MANUAL_PREFIX.length));
     }
     return s;
-  }, [list.checked]);
+  }, [list]);
 
   return (
     <InventoryScreen
@@ -157,7 +155,6 @@ export function KitchenScreen() {
       categoryOrder={CATEGORY_ORDER}
       actions={kitchenActions}
       checkedOnList={checkedOnList}
-      onOpenList={() => { location.hash = "list"; }}
     />
   );
 }

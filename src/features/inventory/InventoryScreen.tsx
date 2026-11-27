@@ -25,8 +25,6 @@ export interface InventoryScreenProps {
   /** Preferred category order (e.g. from the catalog). Unknown categories sort A–Z after. */
   categoryOrder?: string[];
   actions: InventoryActions;
-  /** Open the grocery list screen. */
-  onOpenList?(): void;
   initialTab?: Tab;
   /** Item ids already checked off on the grocery list; pre-selected in "Just shopped". */
   checkedOnList?: ReadonlySet<string>;
@@ -70,7 +68,6 @@ export function InventoryScreen({
   catalog = [],
   categoryOrder,
   actions,
-  onOpenList,
   initialTab,
   checkedOnList,
 }: InventoryScreenProps) {
@@ -211,18 +208,7 @@ export function InventoryScreen({
             <h1 className="inv-title">Kitchen</h1>
             <p className="inv-sub">
               {items.length} item{items.length === 1 ? "" : "s"}
-              {onListCount > 0 && (
-                <>
-                  {" · "}
-                  {onOpenList ? (
-                    <button type="button" className="inv-link" onClick={onOpenList}>
-                      {onListCount} on your list
-                    </button>
-                  ) : (
-                    <span>{onListCount} on your list</span>
-                  )}
-                </>
-              )}
+              {onListCount > 0 && ` · ${onListCount} on your list`}
             </p>
           </div>
           <button type="button" className="inv-restock-btn" onClick={() => setSheet({ kind: "restock" })}>

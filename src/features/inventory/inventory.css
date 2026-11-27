@@ -102,6 +102,7 @@
   font-size: 14px;
 }
 .inv-link {
+  min-height: 44px;
   white-space: nowrap;
   background: none;
   border: 0;
@@ -203,7 +204,7 @@
   align-items: center;
   justify-content: center;
   gap: 5px;
-  min-height: 38px;
+  min-height: 44px;
   border: 0;
   border-radius: var(--ck-r-pill, 999px);
   background: transparent;
@@ -240,8 +241,8 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 36px;
-  padding: 0 14px;
+  min-height: 44px;
+  padding: 0 16px;
   border-radius: 999px;
   border: 1px solid var(--inv-line);
   background: var(--inv-surface);
@@ -381,14 +382,14 @@
   flex: none;
   display: inline-grid;
   grid-auto-flow: column;
-  margin-right: 10px;
+  margin-right: 8px;
   padding: 2px;
   border-radius: 999px;
   background: var(--inv-surface-2);
 }
 .inv-tri button {
-  min-width: 44px;
-  min-height: 34px;
+  min-width: 46px;
+  min-height: 44px;
   padding: 0 8px;
   border: 0;
   border-radius: 999px;
@@ -431,7 +432,7 @@
 .inv-pill-btn {
   flex: none;
   margin-right: 10px;
-  min-height: 36px;
+  min-height: 44px;
   padding: 0 14px;
   border-radius: 999px;
   border: 1px solid var(--inv-line);
@@ -602,8 +603,8 @@
 }
 
 .inv-icon-btn {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: 0;
   border-radius: 50%;
   background: transparent;
@@ -831,4 +832,33 @@
   background: var(--inv-accent);
   border: 2px solid var(--inv-accent);
   transition: background 0.16s, border-color 0.16s;
+}
+
+.inv-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Long recipe names in "on your list for …" stay on two lines. */
+.inv-row__status {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Dark mode: the lighter have/out fills need dark text for contrast. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .inv-tri button[data-value="have"][aria-checked="true"],
+  :root:not([data-theme="light"]) .inv-tri button[data-value="out"][aria-checked="true"] {
+    color: #1a1714 !important;
+  }
+}
+:root[data-theme="dark"] .inv-tri button[data-value="have"][aria-checked="true"],
+:root[data-theme="dark"] .inv-tri button[data-value="out"][aria-checked="true"] {
+  color: #1a1714 !important;
 }

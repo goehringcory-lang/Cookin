@@ -49,9 +49,6 @@ function ItemRowImpl({ item, showLocation, onTap, onSet, onEdit }: Props) {
       <button
         type="button"
         className="inv-row__main"
-        aria-label={`${item.name}${label ? `, ${label}` : ""}. Tap to mark ${
-          item.status === "have" ? "out" : "in stock"
-        }. Press and hold for more.`}
         onPointerDown={(e) => {
           longPressed.current = false;
           start.current = { x: e.clientX, y: e.clientY };
@@ -96,6 +93,9 @@ function ItemRowImpl({ item, showLocation, onTap, onSet, onEdit }: Props) {
               {showLocation && loc && <span className="inv-row__loc">{loc.label}</span>}
             </span>
           )}
+          <span className="inv-sr">
+            {item.status === "have" ? " Tap to mark out." : " Tap to mark in stock."} Press and hold for more.
+          </span>
         </span>
       </button>
       <div className="inv-tri" role="radiogroup" aria-label={`${item.name} status`}>
