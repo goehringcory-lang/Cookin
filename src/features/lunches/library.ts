@@ -3,8 +3,8 @@
  * Everything is 15 minutes or less hands-on, most of it 5. Lunchbox-friendly
  * ones are marked style "lunchbox" or "both".
  *
- * Ingredient ids are shared catalog ids (src/shared/catalog), plus a few
- * lunchbox items listed in LUNCH_EXTRA_ITEMS (kitchen.ts). `anyOf` lists swaps
+ * Ingredient ids are shared catalog ids (src/shared/catalog), including the
+ * lunchbox snacks it added for us. `anyOf` lists swaps
  * in order of preference.
  */
 import type { LibraryLunch, LunchIngredient } from './types';
