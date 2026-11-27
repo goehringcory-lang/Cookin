@@ -26,6 +26,15 @@ test.describe("shopping list", () => {
     await context.grantPermissions(["clipboard-read", "clipboard-write"]);
     await openDemoAt(page, "list");
     await expect(list(page)).toBeVisible();
+    // The list fills in from several sources (recipes, low items, staples). Wait for one
+    // line from each, and for the header count to match the rows, before reading names.
+    await expect(box(page, "Beef broth")).toBeVisible();
+    await expect(box(page, "Olive oil")).toBeVisible();
+    await expect(box(page, "Bananas")).toBeVisible();
+    await expect(async () => {
+      const n = await boxes(page).count();
+      await expect(page.getByText(`${n} to buy`)).toBeVisible({ timeout: 500 });
+    }).toPass();
   });
 
   test("has what the week's recipes need, what is running low, and the staples", async ({ page }) => {
