@@ -49,7 +49,8 @@ All data is JSON documents in collections; the types are in `src/shared/types.ts
 | `recipes` | `nyt-<id>` / `my-<id>` | `Recipe` | `ingredients` are raw lines; matching to catalog ids happens at read time with `analyzeRecipe`. |
 | `plan` | `YYYY-MM-DD:dinner\|lunch` | `PlanEntry` | One doc per slot. `kind: recipe / lunch / leftovers / none`. |
 | `staples` | slug | `Staple` | Always-buy (milk, bananas, eggs, bread, cereal) and kids' snacks. `when: always / when-low`. |
-| `list` | `current` | `ListState` | Only what can't be derived: checked keys, manual items, dismissed keys. |
+| `list` | `check:<key>` / `dismiss:<key>` / `manual:<id>` | `ListEntry` | One small doc per entry (no cross-device clobbering). check/dismiss are scoped by `weekOf`. Helpers: `useListEntries`, `setChecked`, `dismissLine`, `addManualItem`. |
+| `meta` | `nyt` | `NytSyncInfo` | Written by the server on each recipe import (last sync time and counts). |
 | `settings` | `app` | `AppSettings` | `onboardingComplete`, `dinnersPerWeek` (7), `householdSize` (3), last NYT sync. |
 
 The shopping list is **derived**, not stored: planned recipes' missing items + planned lunches'
@@ -71,22 +72,28 @@ setPlan({ date: "2026-11-30", meal: "dinner", kind: "recipe", refId: "nyt-123" }
 store.put("staples", "milk", {...});                    // any collection, any doc
 ```
 
+When you memoize `analyzeRecipe` results, include `useCatalogVersion()` in the deps so custom items re-match.
+
 Reads are synchronous from memory. Writes apply immediately, persist to localStorage and sync
 in the background. Conflicts are last-writer-wins per document, so keep docs small and focused
 (one per item/slot, not one big blob) unless a collection says otherwise.
 
 ## Sync protocol
 
-- `GET /api/sync?since=<cursor>` returns `{ docs: WireDoc[], cursor }` for everything changed after the cursor. Deleted docs come back with `data: null`.
-- `POST /api/sync { changes: WireDoc[] }` upserts with last-writer-wins on `updatedAt`.
-- `POST /api/import/recipes` (`RecipeImportRequest`) upserts NYT recipes server-side and records `settings.lastNytSync`.
+- `GET /api/sync?since=<cursor>` returns `{ docs, cursor, more }`, 500 docs per page. Deleted docs come back with `data: null`.
+- `POST /api/sync { changes: WireDoc[] }` upserts with last-writer-wins on `updatedAt` (clamped to server time + 60 s). Invalid changes are skipped and listed in `rejected`.
+- Sequence bump and inserts commit in one D1 batch, so the cursor never skips rows.
+- `POST /api/import/recipes` (`RecipeImportRequest`) upserts NYT recipes server-side and records `meta/nyt`. It only overwrites source fields (title, ingredients, ...), never app-owned fields like `makesLeftovers`.
 - The client pulls on start, on focus/visibility, and every 30 s; pushes 0.4 s after a write.
 - With no backend (plain `npm run dev`) the store stays in **local mode** and works from localStorage.
+- Demo mode (`?demo=1`) uses a separate storage key and never touches real data.
+- Known limit: localStorage (~5 MB). Fine for several hundred recipes; move to IndexedDB if it ever fills (the shell shows a warning).
 
 ## Auth
 
-`functions/_middleware.ts` guards `/api/*`: allowed if the Cloudflare Access email header is in
-`ALLOWED_EMAILS`, or `Authorization: Bearer <API_TOKEN>`, or `DEV_ALLOW_ANON=1` (local only).
+`functions/_middleware.ts` guards `/api/*`: allowed with a verified Cloudflare Access JWT (RS256 against the team certs,
+`aud` = `ACCESS_AUD`, email in `ALLOWED_EMAILS`), or `Authorization: Bearer <API_TOKEN>` (24+ chars), or `DEV_ALLOW_ANON=1` (local only).
+The client fetches with `redirect: "manual"` so an expired Access session shows the signed-out banner.
 Cloudflare Access (Zero Trust, free) protects every path of the Pages site and its `*.pages.dev` alias.
 
 ## NYT Cooking sync

@@ -13,8 +13,12 @@ import { COLLECTIONS } from "../types";
 type Docs = { [C in CollectionName]: Record<string, Collections[C]> };
 type Meta = Record<string, number>; // `${c}/${id}` -> updatedAt
 export type SyncStatus = "local" | "syncing" | "synced" | "offline" | "unauthorized";
+/** Network fetch options: Access answers an expired session with a cross-origin redirect. */
+const FETCH: RequestInit = { credentials: "include", redirect: "manual" };
+const isAuthFail = (r: Response) => r.type === "opaqueredirect" || r.status === 401 || r.status === 403;
 
 const LS_KEY = "cookin:v1";
+const DEMO_KEY = "cookin:demo";
 const emptyDocs = (): Docs => Object.fromEntries(COLLECTIONS.map(c => [c, {}])) as unknown as Docs;
 
 class Store {
@@ -28,10 +32,18 @@ class Store {
   private pulling = false;
   private pushTimer: ReturnType<typeof setTimeout> | undefined;
   private started = false;
-  /** Set false (e.g. demo mode, tests) to never talk to the server. */
+  /** False in demo mode/tests: never talks to the server and uses a separate storage key. */
   remote = true;
+  /** True after a localStorage write failed (quota). The shell shows a warning. */
+  storageError = false;
+  private key = LS_KEY;
 
-  constructor() { this.load(); }
+  constructor() {
+    this.load();
+    if (typeof window !== "undefined") window.addEventListener("pagehide", () => this.flushSave());
+  }
+  /** Switch to demo mode before start(): separate storage, no server. */
+  useDemo() { this.remote = false; this.key = DEMO_KEY; this.docs = emptyDocs(); this.meta = {}; this.queue.clear(); this.cursor = 0; this.load(); }
 
   /* ----- reads ----- */
   get<C extends CollectionName>(c: C, id: string): Collections[C] | undefined { return this.docs[c][id]; }
@@ -69,6 +81,7 @@ class Store {
 
   /** Replace all local data (demo/seed/tests). Does not push. */
   replaceAll(docs: { c: CollectionName; id: string; data: unknown }[]) {
+    if (this.remote) throw new Error("replaceAll is for demo mode only; call store.useDemo() first");
     this.docs = emptyDocs(); this.meta = {}; this.queue.clear(); this.cursor = 0;
     for (const d of docs) this.setDoc(d.c, d.id, d.data);
     this.changed();
@@ -100,10 +113,12 @@ class Store {
     const batch = [...this.queue.values()].slice(0, 400);
     try {
       this.setStatus("syncing");
-      const res = await fetch("/api/sync", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ changes: batch }), credentials: "include" });
-      if (res.status === 401 || res.status === 403) return this.setStatus("unauthorized");
+      const res = await fetch("/api/sync", { ...FETCH, method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ changes: batch }) });
+      if (isAuthFail(res)) return this.setStatus("unauthorized");
       if (!res.ok) throw new Error(String(res.status));
-      (await res.json()) as SyncPushResponse;
+      const out = (await res.json()) as SyncPushResponse;
+      if (out.rejected?.length) console.warn("cookin: server rejected", out.rejected.map(i => batch[i]));
+      // Accepted and rejected changes both leave the queue; a rejected change would never succeed.
       for (const d of batch) { const k = d.c + "/" + d.id; if (this.queue.get(k)?.updatedAt === d.updatedAt) this.queue.delete(k); }
       this.save();
       this.setStatus("synced");
@@ -118,8 +133,8 @@ class Store {
     this.pulling = true;
     try {
       for (let guard = 0; guard < 20; guard++) {
-        const res = await fetch("/api/sync?since=" + this.cursor, { credentials: "include" });
-        if (res.status === 401 || res.status === 403) { this.setStatus("unauthorized"); return; }
+        const res = await fetch("/api/sync?since=" + this.cursor, FETCH);
+        if (isAuthFail(res)) { this.setStatus("unauthorized"); return; }
         const ct = res.headers.get("content-type") || "";
         if (!res.ok || !ct.includes("json")) { this.setStatus("local"); return; } // no backend (vite dev)
         const body = (await res.json()) as SyncPullResponse;
@@ -135,7 +150,7 @@ class Store {
         }
         this.cursor = body.cursor;
         if (touched) this.changed(); else this.save();
-        if (body.docs.length < 5000) break;
+        if (!body.more) break;
       }
       this.setStatus(this.queue.size ? "syncing" : "synced");
       if (this.queue.size) this.schedulePush(0);
@@ -147,7 +162,7 @@ class Store {
   /* ----- persistence ----- */
   private load() {
     try {
-      const raw = typeof localStorage !== "undefined" && localStorage.getItem(LS_KEY);
+      const raw = typeof localStorage !== "undefined" && localStorage.getItem(this.key);
       if (!raw) return;
       const s = JSON.parse(raw);
       this.docs = Object.assign(emptyDocs(), s.docs || {});
@@ -158,9 +173,16 @@ class Store {
   private saveTimer: ReturnType<typeof setTimeout> | undefined;
   private save() {
     clearTimeout(this.saveTimer);
-    this.saveTimer = setTimeout(() => {
-      try { localStorage.setItem(LS_KEY, JSON.stringify({ docs: this.docs, meta: this.meta, cursor: this.cursor, queue: [...this.queue.values()] })); } catch { /* storage full or blocked */ }
-    }, 150);
+    this.saveTimer = setTimeout(() => this.flushSave(), 150);
+  }
+  private flushSave() {
+    clearTimeout(this.saveTimer);
+    try {
+      localStorage.setItem(this.key, JSON.stringify({ docs: this.docs, meta: this.meta, cursor: this.cursor, queue: [...this.queue.values()] }));
+      if (this.storageError) { this.storageError = false; this.listeners.forEach(f => f()); }
+    } catch {
+      if (!this.storageError) { this.storageError = true; this.listeners.forEach(f => f()); }
+    }
   }
 }
 

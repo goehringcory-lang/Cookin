@@ -12,7 +12,7 @@ import "@styles/base.css";
 async function boot() {
   const demo = import.meta.env.VITE_DEMO === "1" || new URLSearchParams(location.search).has("demo");
   if (demo) {
-    store.remote = false;
+    store.useDemo();
     const mods = import.meta.glob("./seed/index.ts");
     const load = mods["./seed/index.ts"];
     if (load) { const m = (await load()) as { seedDocs?: { c: never; id: string; data: unknown }[] }; if (m.seedDocs) store.replaceAll(m.seedDocs); }
