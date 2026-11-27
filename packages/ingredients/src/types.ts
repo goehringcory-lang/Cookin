@@ -22,6 +22,11 @@ export interface CatalogItem {
   location: Location;
   /** Most US kitchens keep this on hand. Pre-checked by "select all common" in onboarding. */
   common: boolean;
+  /**
+   * Name for the shopping list when it differs from `name`, e.g. "Rice" for "Rice (any)".
+   * Filled in automatically for generic items; use listNameOf(id) to read it.
+   */
+  listName?: string;
   /** Other phrasings recipes use. Matching is case-insensitive and singular/plural-insensitive. */
   aliases: string[];
   /** Always on hand (salt, water, ice). Never missing, never on a list, hidden from onboarding. */

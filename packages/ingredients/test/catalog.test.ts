@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   CATALOG, CATEGORIES, SELECTABLE_ITEMS, catalogByLocation, commonItemIds, getItem, searchCatalog,
-  parseIngredientLine, LEGACY_IDS,
+  parseIngredientLine, LEGACY_IDS, listNameOf,
 } from '../src';
 import { normalizePhrase } from '../src/normalize';
 import recipes from './fixtures/nyt-recipes.json';
@@ -101,5 +101,18 @@ describe('legacy ids', () => {
       expect(CATALOG.some((i) => i.id === old), old).toBe(false);
     }
     expect(getItem('jam')?.id).toBe('jelly');
+  });
+});
+
+describe('listNameOf', () => {
+  it('drops "(any)" for generic items and falls back to name', () => {
+    expect(listNameOf('rice')).toBe('Rice');
+    expect(listNameOf('bread')).toBe('Bread');
+    expect(listNameOf('chicken')).toBe('Chicken');
+    expect(listNameOf('pasta')).toBe('Pasta');
+    expect(listNameOf('rigatoni')).toBe('Rigatoni');
+    expect(listNameOf('jam')).toBe('Jelly or jam');
+    expect(listNameOf('c-unknown')).toBe('c-unknown');
+    expect(CATALOG.filter((i) => (i.listName ?? i.name).includes('(any'))).toEqual([]);
   });
 });
