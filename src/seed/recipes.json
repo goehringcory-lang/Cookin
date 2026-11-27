@@ -1,0 +1,1854 @@
+[
+  {
+    "id": "seed-garlic-butter-spaghetti-with-peas",
+    "title": "Garlic Butter Spaghetti with Peas",
+    "url": "https://cooking.nytimes.com/recipes/demo-1",
+    "imageUrl": null,
+    "totalTimeMin": 20,
+    "activeTimeMin": 15,
+    "servings": 4,
+    "tags": [
+      "pasta",
+      "quick",
+      "vegetarian",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "raw": "12 ounces spaghetti",
+        "ingredientId": "spaghetti"
+      },
+      {
+        "raw": "4 tablespoons butter",
+        "ingredientId": "butter"
+      },
+      {
+        "raw": "4 cloves garlic, thinly sliced",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "1 cup frozen peas",
+        "ingredientId": "frozen-peas"
+      },
+      {
+        "raw": "3/4 cup grated Parmesan",
+        "ingredientId": "parmesan"
+      },
+      {
+        "raw": "1/2 teaspoon red pepper flakes",
+        "ingredientId": "red-pepper-flakes"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      },
+      {
+        "raw": "Freshly ground black pepper",
+        "ingredientId": "black-pepper"
+      }
+    ],
+    "steps": [
+      "Boil the spaghetti in well-salted water, adding the peas for the last minute. Reserve a cup of pasta water, then drain.",
+      "Melt the butter in a large skillet over medium heat and cook the garlic and pepper flakes until fragrant, about 1 minute.",
+      "Toss in the pasta and peas with a splash of pasta water and most of the Parmesan.",
+      "Season with salt and pepper and serve with extra cheese."
+    ]
+  },
+  {
+    "id": "seed-black-bean-and-cheese-quesadillas",
+    "title": "Black Bean and Cheese Quesadillas",
+    "url": "https://cooking.nytimes.com/recipes/demo-2",
+    "imageUrl": null,
+    "totalTimeMin": 20,
+    "activeTimeMin": 15,
+    "servings": 4,
+    "tags": [
+      "mexican",
+      "quick",
+      "vegetarian",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "raw": "8 flour tortillas",
+        "ingredientId": "flour-tortillas"
+      },
+      {
+        "raw": "1 can black beans, drained and rinsed",
+        "ingredientId": "black-beans"
+      },
+      {
+        "raw": "2 cups shredded cheddar",
+        "ingredientId": "cheddar"
+      },
+      {
+        "raw": "1 teaspoon ground cumin",
+        "ingredientId": "cumin"
+      },
+      {
+        "raw": "1/2 cup salsa, plus more for serving",
+        "ingredientId": "salsa"
+      },
+      {
+        "raw": "1 tablespoon vegetable oil",
+        "ingredientId": "vegetable-oil"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      }
+    ],
+    "steps": [
+      "Mash half the beans with the cumin and a pinch of salt; stir in the remaining whole beans.",
+      "Spread bean mixture over half of each tortilla, top with cheese and a spoonful of salsa, and fold.",
+      "Cook in an oiled skillet over medium heat until golden and melted, 2 to 3 minutes per side.",
+      "Cut into wedges and serve with extra salsa."
+    ]
+  },
+  {
+    "id": "seed-egg-fried-rice-with-peas-and-carrots",
+    "title": "Egg Fried Rice with Peas and Carrots",
+    "url": "https://cooking.nytimes.com/recipes/demo-3",
+    "imageUrl": null,
+    "totalTimeMin": 20,
+    "activeTimeMin": 15,
+    "servings": 4,
+    "tags": [
+      "rice",
+      "quick",
+      "vegetarian",
+      "kid-friendly",
+      "stir-fry"
+    ],
+    "ingredients": [
+      {
+        "raw": "4 cups cooked white rice, chilled",
+        "ingredientId": "white-rice"
+      },
+      {
+        "raw": "3 large eggs, beaten",
+        "ingredientId": "eggs"
+      },
+      {
+        "raw": "1 cup frozen peas",
+        "ingredientId": "frozen-peas"
+      },
+      {
+        "raw": "1 carrot, finely diced",
+        "ingredientId": "carrot"
+      },
+      {
+        "raw": "3 scallions, sliced",
+        "ingredientId": "scallion"
+      },
+      {
+        "raw": "2 cloves garlic, minced",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "3 tablespoons soy sauce",
+        "ingredientId": "soy-sauce"
+      },
+      {
+        "raw": "1 teaspoon toasted sesame oil",
+        "ingredientId": "sesame-oil"
+      },
+      {
+        "raw": "2 tablespoons vegetable oil",
+        "ingredientId": "vegetable-oil"
+      }
+    ],
+    "steps": [
+      "Heat a tablespoon of oil in a large skillet and scramble the eggs until just set; remove to a plate.",
+      "Add remaining oil, carrot and garlic; cook 2 minutes. Add the rice and press it into the pan to crisp.",
+      "Stir in peas, soy sauce and eggs and cook until hot.",
+      "Finish with scallions and sesame oil."
+    ]
+  },
+  {
+    "id": "seed-creamy-tomato-soup",
+    "title": "Creamy Tomato Soup",
+    "url": "https://cooking.nytimes.com/recipes/demo-4",
+    "imageUrl": null,
+    "totalTimeMin": 40,
+    "activeTimeMin": 15,
+    "servings": 6,
+    "tags": [
+      "soup",
+      "vegetarian",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "raw": "2 tablespoons butter",
+        "ingredientId": "butter"
+      },
+      {
+        "raw": "1 yellow onion, chopped",
+        "ingredientId": "onion"
+      },
+      {
+        "raw": "3 cloves garlic, minced",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "1 can (28 ounces) crushed tomatoes",
+        "ingredientId": "crushed-tomatoes"
+      },
+      {
+        "raw": "2 cups vegetable broth",
+        "ingredientId": "vegetable-broth"
+      },
+      {
+        "raw": "1 teaspoon sugar",
+        "ingredientId": "sugar"
+      },
+      {
+        "raw": "3/4 cup whole milk",
+        "ingredientId": "milk"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      },
+      {
+        "raw": "Freshly ground black pepper",
+        "ingredientId": "black-pepper"
+      }
+    ],
+    "steps": [
+      "Melt butter in a pot and cook the onion until soft, about 8 minutes. Add the garlic for 1 minute.",
+      "Add tomatoes, broth and sugar; simmer 20 minutes.",
+      "Blend until smooth, then stir in the milk and warm gently.",
+      "Season well and serve with toast or grilled cheese."
+    ]
+  },
+  {
+    "id": "seed-sheet-pan-sausage-potatoes-and-peppers",
+    "title": "Sheet-Pan Sausage, Potatoes and Peppers",
+    "url": "https://cooking.nytimes.com/recipes/demo-5",
+    "imageUrl": null,
+    "totalTimeMin": 50,
+    "activeTimeMin": 15,
+    "servings": 4,
+    "tags": [
+      "sheet-pan",
+      "pork",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "raw": "1 pound Italian sausage links",
+        "ingredientId": "italian-sausage"
+      },
+      {
+        "raw": "1 1/2 pounds potatoes, cut in chunks",
+        "ingredientId": "potato"
+      },
+      {
+        "raw": "2 bell peppers, sliced",
+        "ingredientId": "bell-pepper"
+      },
+      {
+        "raw": "1 onion, cut in wedges",
+        "ingredientId": "onion"
+      },
+      {
+        "raw": "3 tablespoons olive oil",
+        "ingredientId": "olive-oil"
+      },
+      {
+        "raw": "1 teaspoon paprika",
+        "ingredientId": "paprika"
+      },
+      {
+        "raw": "3 cloves garlic, smashed",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      },
+      {
+        "raw": "Freshly ground black pepper",
+        "ingredientId": "black-pepper"
+      }
+    ],
+    "steps": [
+      "Heat the oven to 425 degrees.",
+      "Toss potatoes with oil, paprika, salt and pepper on a large sheet pan; roast 15 minutes.",
+      "Add sausage, peppers, onion and garlic and roast 25 minutes more, turning once, until browned and cooked through."
+    ]
+  },
+  {
+    "id": "seed-paprika-chicken-thighs-with-rice",
+    "title": "Paprika Chicken Thighs with Rice",
+    "url": "https://cooking.nytimes.com/recipes/demo-6",
+    "imageUrl": null,
+    "totalTimeMin": 55,
+    "activeTimeMin": 15,
+    "servings": 4,
+    "tags": [
+      "chicken",
+      "one-pan",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "raw": "8 bone-in chicken thighs",
+        "ingredientId": "chicken-thighs"
+      },
+      {
+        "raw": "2 teaspoons paprika",
+        "ingredientId": "paprika"
+      },
+      {
+        "raw": "1 onion, diced",
+        "ingredientId": "onion"
+      },
+      {
+        "raw": "3 cloves garlic, minced",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "1 1/2 cups long-grain white rice",
+        "ingredientId": "white-rice"
+      },
+      {
+        "raw": "2 1/2 cups chicken broth",
+        "ingredientId": "chicken-broth"
+      },
+      {
+        "raw": "2 tablespoons olive oil",
+        "ingredientId": "olive-oil"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      },
+      {
+        "raw": "Freshly ground black pepper",
+        "ingredientId": "black-pepper"
+      }
+    ],
+    "steps": [
+      "Season chicken with paprika, salt and pepper. Brown skin-side down in an oven-safe pan in the oil, then set aside.",
+      "Cook onion and garlic in the drippings, stir in the rice, then pour in the broth.",
+      "Nestle the chicken on top, cover, and bake at 375 degrees for 35 minutes until rice is tender."
+    ]
+  },
+  {
+    "id": "seed-one-pot-chili-mac",
+    "title": "One-Pot Chili Mac",
+    "url": "https://cooking.nytimes.com/recipes/demo-7",
+    "imageUrl": null,
+    "totalTimeMin": 35,
+    "activeTimeMin": 20,
+    "servings": 6,
+    "tags": [
+      "pasta",
+      "beef",
+      "one-pot",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "raw": "1 pound ground beef",
+        "ingredientId": "ground-beef"
+      },
+      {
+        "raw": "1 onion, diced",
+        "ingredientId": "onion"
+      },
+      {
+        "raw": "2 tablespoons chili powder",
+        "ingredientId": "chili-powder"
+      },
+      {
+        "raw": "1 teaspoon ground cumin",
+        "ingredientId": "cumin"
+      },
+      {
+        "raw": "1 can (14 ounces) diced tomatoes",
+        "ingredientId": "canned-tomatoes"
+      },
+      {
+        "raw": "1 can kidney beans, drained",
+        "ingredientId": "kidney-beans"
+      },
+      {
+        "raw": "2 cups chicken broth",
+        "ingredientId": "chicken-broth"
+      },
+      {
+        "raw": "8 ounces elbow macaroni",
+        "ingredientId": "macaroni"
+      },
+      {
+        "raw": "1 1/2 cups shredded cheddar",
+        "ingredientId": "cheddar"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      }
+    ],
+    "steps": [
+      "Brown the beef with the onion in a Dutch oven; drain excess fat.",
+      "Stir in spices, tomatoes, beans and broth and bring to a boil.",
+      "Add the macaroni, cover, and simmer 12 to 14 minutes, stirring often.",
+      "Stir in half the cheddar, top with the rest, and let melt."
+    ]
+  },
+  {
+    "id": "seed-weeknight-chicken-parmesan",
+    "title": "Weeknight Chicken Parmesan",
+    "url": "https://cooking.nytimes.com/recipes/demo-8",
+    "imageUrl": null,
+    "totalTimeMin": 45,
+    "activeTimeMin": 30,
+    "servings": 4,
+    "tags": [
+      "chicken",
+      "italian",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "raw": "4 chicken breasts, sliced into cutlets",
+        "ingredientId": "chicken-breast"
+      },
+      {
+        "raw": "1/2 cup all-purpose flour",
+        "ingredientId": "flour"
+      },
+      {
+        "raw": "2 eggs, beaten",
+        "ingredientId": "eggs"
+      },
+      {
+        "raw": "1 1/2 cups breadcrumbs",
+        "ingredientId": "breadcrumbs"
+      },
+      {
+        "raw": "1/2 cup grated Parmesan",
+        "ingredientId": "parmesan"
+      },
+      {
+        "raw": "2 cups marinara sauce",
+        "ingredientId": "marinara-sauce"
+      },
+      {
+        "raw": "8 ounces mozzarella, sliced",
+        "ingredientId": "mozzarella"
+      },
+      {
+        "raw": "1/3 cup olive oil",
+        "ingredientId": "olive-oil"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      }
+    ],
+    "steps": [
+      "Dredge cutlets in flour, egg, then breadcrumbs mixed with Parmesan.",
+      "Fry in olive oil until golden, 3 minutes per side.",
+      "Place in a baking dish, top with marinara and mozzarella, and bake at 425 degrees until bubbling, 12 minutes."
+    ]
+  },
+  {
+    "id": "seed-sheet-pan-lemon-chicken-with-broccoli",
+    "title": "Sheet-Pan Lemon Chicken with Broccoli",
+    "url": "https://cooking.nytimes.com/recipes/demo-9",
+    "imageUrl": null,
+    "totalTimeMin": 45,
+    "activeTimeMin": 15,
+    "servings": 4,
+    "tags": [
+      "chicken",
+      "sheet-pan",
+      "healthy"
+    ],
+    "ingredients": [
+      {
+        "raw": "1 1/2 pounds chicken breasts",
+        "ingredientId": "chicken-breast"
+      },
+      {
+        "raw": "1 large head broccoli, cut into florets",
+        "ingredientId": "broccoli"
+      },
+      {
+        "raw": "2 lemons",
+        "ingredientId": "lemon"
+      },
+      {
+        "raw": "4 cloves garlic, minced",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "1 teaspoon dried oregano",
+        "ingredientId": "oregano"
+      },
+      {
+        "raw": "3 tablespoons olive oil",
+        "ingredientId": "olive-oil"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      },
+      {
+        "raw": "Freshly ground black pepper",
+        "ingredientId": "black-pepper"
+      }
+    ],
+    "steps": [
+      "Heat the oven to 425 degrees.",
+      "Toss chicken with the juice of one lemon, garlic, oregano, oil, salt and pepper.",
+      "Arrange on a sheet pan with the broccoli and lemon slices; roast 25 to 30 minutes until cooked through."
+    ]
+  },
+  {
+    "id": "seed-beef-tacos-with-crunchy-slaw",
+    "title": "Beef Tacos with Crunchy Slaw",
+    "url": "https://cooking.nytimes.com/recipes/demo-10",
+    "imageUrl": null,
+    "totalTimeMin": 30,
+    "activeTimeMin": 20,
+    "servings": 4,
+    "tags": [
+      "tacos",
+      "mexican",
+      "beef",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "raw": "1 pound ground beef",
+        "ingredientId": "ground-beef"
+      },
+      {
+        "raw": "2 tablespoons taco seasoning",
+        "ingredientId": "taco-seasoning"
+      },
+      {
+        "raw": "8 small flour tortillas",
+        "ingredientId": "flour-tortillas"
+      },
+      {
+        "raw": "2 cups shredded cabbage",
+        "ingredientId": "cabbage"
+      },
+      {
+        "raw": "1 lime",
+        "ingredientId": "lime"
+      },
+      {
+        "raw": "1 cup shredded cheddar",
+        "ingredientId": "cheddar"
+      },
+      {
+        "raw": "1/2 cup sour cream",
+        "ingredientId": "sour-cream"
+      },
+      {
+        "raw": "1 avocado, sliced",
+        "ingredientId": "avocado"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      }
+    ],
+    "steps": [
+      "Brown the beef, then stir in the seasoning and a splash of water; simmer 5 minutes.",
+      "Toss cabbage with lime juice and salt.",
+      "Warm tortillas and fill with beef, slaw, cheese, avocado and sour cream."
+    ]
+  },
+  {
+    "id": "seed-chicken-fajita-skillet",
+    "title": "Chicken Fajita Skillet",
+    "url": "https://cooking.nytimes.com/recipes/demo-11",
+    "imageUrl": null,
+    "totalTimeMin": 35,
+    "activeTimeMin": 25,
+    "servings": 4,
+    "tags": [
+      "chicken",
+      "mexican",
+      "one-pan"
+    ],
+    "ingredients": [
+      {
+        "raw": "1 1/2 pounds chicken breasts, sliced",
+        "ingredientId": "chicken-breast"
+      },
+      {
+        "raw": "3 bell peppers, sliced",
+        "ingredientId": "bell-pepper"
+      },
+      {
+        "raw": "1 onion, sliced",
+        "ingredientId": "onion"
+      },
+      {
+        "raw": "2 tablespoons chili powder",
+        "ingredientId": "chili-powder"
+      },
+      {
+        "raw": "1 teaspoon ground cumin",
+        "ingredientId": "cumin"
+      },
+      {
+        "raw": "2 limes",
+        "ingredientId": "lime"
+      },
+      {
+        "raw": "8 flour tortillas",
+        "ingredientId": "flour-tortillas"
+      },
+      {
+        "raw": "1/2 cup sour cream",
+        "ingredientId": "sour-cream"
+      },
+      {
+        "raw": "2 tablespoons vegetable oil",
+        "ingredientId": "vegetable-oil"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      }
+    ],
+    "steps": [
+      "Toss chicken with spices, lime juice and salt.",
+      "Sear chicken in a hot skillet with oil until browned; remove.",
+      "Cook peppers and onion until charred at the edges, return the chicken, and serve in warm tortillas with sour cream."
+    ]
+  },
+  {
+    "id": "seed-baked-ziti-with-sausage",
+    "title": "Baked Ziti with Sausage",
+    "url": "https://cooking.nytimes.com/recipes/demo-12",
+    "imageUrl": null,
+    "totalTimeMin": 60,
+    "activeTimeMin": 25,
+    "servings": 6,
+    "tags": [
+      "pasta",
+      "italian",
+      "crowd-pleaser"
+    ],
+    "ingredients": [
+      {
+        "raw": "1 pound rigatoni",
+        "ingredientId": "rigatoni"
+      },
+      {
+        "raw": "1 pound Italian sausage, casings removed",
+        "ingredientId": "italian-sausage"
+      },
+      {
+        "raw": "3 cups marinara sauce",
+        "ingredientId": "marinara-sauce"
+      },
+      {
+        "raw": "1 cup ricotta",
+        "ingredientId": "ricotta"
+      },
+      {
+        "raw": "2 cups shredded mozzarella",
+        "ingredientId": "mozzarella"
+      },
+      {
+        "raw": "1/2 cup grated Parmesan",
+        "ingredientId": "parmesan"
+      },
+      {
+        "raw": "3 cloves garlic, minced",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "1 tablespoon olive oil",
+        "ingredientId": "olive-oil"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      }
+    ],
+    "steps": [
+      "Boil the rigatoni 2 minutes shy of package time. Drain.",
+      "Brown the sausage with garlic in the oil, then stir in the marinara.",
+      "Mix pasta with sauce and half the mozzarella, spread in a dish, dollop with ricotta, and top with remaining cheeses.",
+      "Bake at 400 degrees until bubbling and browned, about 25 minutes."
+    ]
+  },
+  {
+    "id": "seed-sesame-chicken-stir-fry-with-broccoli",
+    "title": "Sesame Chicken Stir-Fry with Broccoli",
+    "url": "https://cooking.nytimes.com/recipes/demo-13",
+    "imageUrl": null,
+    "totalTimeMin": 30,
+    "activeTimeMin": 20,
+    "servings": 4,
+    "tags": [
+      "chicken",
+      "stir-fry",
+      "rice",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "raw": "1 1/2 pounds chicken breasts, cubed",
+        "ingredientId": "chicken-breast"
+      },
+      {
+        "raw": "3 cups broccoli florets",
+        "ingredientId": "broccoli"
+      },
+      {
+        "raw": "3 tablespoons soy sauce",
+        "ingredientId": "soy-sauce"
+      },
+      {
+        "raw": "2 tablespoons honey",
+        "ingredientId": "honey"
+      },
+      {
+        "raw": "1 tablespoon grated fresh ginger",
+        "ingredientId": "ginger"
+      },
+      {
+        "raw": "2 cloves garlic, minced",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "1 tablespoon cornstarch",
+        "ingredientId": "cornstarch"
+      },
+      {
+        "raw": "1 tablespoon toasted sesame oil",
+        "ingredientId": "sesame-oil"
+      },
+      {
+        "raw": "1 tablespoon vegetable oil",
+        "ingredientId": "vegetable-oil"
+      },
+      {
+        "raw": "Cooked white rice, for serving",
+        "ingredientId": "white-rice"
+      }
+    ],
+    "steps": [
+      "Whisk soy sauce, honey, ginger, garlic, cornstarch and 1/4 cup water.",
+      "Stir-fry chicken in vegetable oil until golden; remove. Cook broccoli with a splash of water until bright, 3 minutes.",
+      "Return the chicken, add the sauce, and simmer until glossy. Finish with sesame oil and serve over rice."
+    ]
+  },
+  {
+    "id": "seed-beef-and-broccoli-stir-fry",
+    "title": "Beef and Broccoli Stir-Fry",
+    "url": "https://cooking.nytimes.com/recipes/demo-14",
+    "imageUrl": null,
+    "totalTimeMin": 30,
+    "activeTimeMin": 20,
+    "servings": 4,
+    "tags": [
+      "beef",
+      "stir-fry",
+      "rice"
+    ],
+    "ingredients": [
+      {
+        "raw": "1 pound flank steak, thinly sliced",
+        "ingredientId": "flank-steak"
+      },
+      {
+        "raw": "4 cups broccoli florets",
+        "ingredientId": "broccoli"
+      },
+      {
+        "raw": "1/4 cup soy sauce",
+        "ingredientId": "soy-sauce"
+      },
+      {
+        "raw": "2 tablespoons hoisin sauce",
+        "ingredientId": "hoisin"
+      },
+      {
+        "raw": "1 tablespoon cornstarch",
+        "ingredientId": "cornstarch"
+      },
+      {
+        "raw": "1 tablespoon grated ginger",
+        "ingredientId": "ginger"
+      },
+      {
+        "raw": "3 cloves garlic, minced",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "2 tablespoons vegetable oil",
+        "ingredientId": "vegetable-oil"
+      },
+      {
+        "raw": "Cooked white rice, for serving",
+        "ingredientId": "white-rice"
+      }
+    ],
+    "steps": [
+      "Toss the steak with cornstarch and a tablespoon of soy sauce.",
+      "Sear steak in hot oil in two batches; set aside.",
+      "Stir-fry broccoli, ginger and garlic, add the remaining soy and hoisin with a splash of water, return the beef, and toss until saucy."
+    ]
+  },
+  {
+    "id": "seed-peanut-noodles-with-cucumber",
+    "title": "Peanut Noodles with Cucumber",
+    "url": "https://cooking.nytimes.com/recipes/demo-15",
+    "imageUrl": null,
+    "totalTimeMin": 20,
+    "activeTimeMin": 15,
+    "servings": 4,
+    "tags": [
+      "pasta",
+      "quick",
+      "vegetarian",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "raw": "12 ounces spaghetti",
+        "ingredientId": "spaghetti"
+      },
+      {
+        "raw": "1/3 cup creamy peanut butter",
+        "ingredientId": "peanut-butter"
+      },
+      {
+        "raw": "3 tablespoons soy sauce",
+        "ingredientId": "soy-sauce"
+      },
+      {
+        "raw": "2 tablespoons rice vinegar",
+        "ingredientId": "rice-vinegar"
+      },
+      {
+        "raw": "1 tablespoon toasted sesame oil",
+        "ingredientId": "sesame-oil"
+      },
+      {
+        "raw": "1 cucumber, sliced into half-moons",
+        "ingredientId": "cucumber"
+      },
+      {
+        "raw": "2 scallions, sliced",
+        "ingredientId": "scallion"
+      },
+      {
+        "raw": "1 carrot, shredded",
+        "ingredientId": "carrot"
+      }
+    ],
+    "steps": [
+      "Cook the spaghetti and drain, reserving a little water.",
+      "Whisk peanut butter, soy sauce, vinegar, sesame oil and hot water into a smooth sauce.",
+      "Toss with warm noodles, then top with cucumber, carrot and scallions."
+    ]
+  },
+  {
+    "id": "seed-honey-soy-salmon-with-green-beans",
+    "title": "Honey-Soy Salmon with Green Beans",
+    "url": "https://cooking.nytimes.com/recipes/demo-16",
+    "imageUrl": null,
+    "totalTimeMin": 25,
+    "activeTimeMin": 15,
+    "servings": 4,
+    "tags": [
+      "fish",
+      "sheet-pan",
+      "quick",
+      "healthy"
+    ],
+    "ingredients": [
+      {
+        "raw": "4 salmon fillets",
+        "ingredientId": "salmon"
+      },
+      {
+        "raw": "12 ounces green beans, trimmed",
+        "ingredientId": "green-beans"
+      },
+      {
+        "raw": "3 tablespoons soy sauce",
+        "ingredientId": "soy-sauce"
+      },
+      {
+        "raw": "2 tablespoons honey",
+        "ingredientId": "honey"
+      },
+      {
+        "raw": "2 cloves garlic, grated",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "1 tablespoon sesame oil",
+        "ingredientId": "sesame-oil"
+      },
+      {
+        "raw": "1 cup uncooked white rice",
+        "ingredientId": "white-rice"
+      }
+    ],
+    "steps": [
+      "Heat the oven to 425 degrees and start the rice.",
+      "Whisk soy sauce, honey, garlic and sesame oil. Toss green beans with a third of it on a sheet pan.",
+      "Add salmon, brush with the rest of the glaze, and roast 10 to 12 minutes."
+    ]
+  },
+  {
+    "id": "seed-classic-chicken-noodle-soup",
+    "title": "Classic Chicken Noodle Soup",
+    "url": "https://cooking.nytimes.com/recipes/demo-17",
+    "imageUrl": null,
+    "totalTimeMin": 50,
+    "activeTimeMin": 20,
+    "servings": 6,
+    "tags": [
+      "soup",
+      "chicken",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "raw": "1 pound chicken breasts",
+        "ingredientId": "chicken-breast"
+      },
+      {
+        "raw": "8 ounces egg noodles",
+        "ingredientId": "egg-noodles"
+      },
+      {
+        "raw": "3 carrots, sliced",
+        "ingredientId": "carrot"
+      },
+      {
+        "raw": "3 celery stalks, sliced",
+        "ingredientId": "celery"
+      },
+      {
+        "raw": "1 onion, diced",
+        "ingredientId": "onion"
+      },
+      {
+        "raw": "8 cups chicken broth",
+        "ingredientId": "chicken-broth"
+      },
+      {
+        "raw": "2 sprigs thyme",
+        "ingredientId": "thyme"
+      },
+      {
+        "raw": "1 bay leaf",
+        "ingredientId": "bay-leaf"
+      },
+      {
+        "raw": "1/4 cup chopped parsley",
+        "ingredientId": "parsley"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      }
+    ],
+    "steps": [
+      "Simmer the chicken in the broth with thyme and bay leaf until cooked, 15 minutes; shred and discard herbs.",
+      "Add the vegetables and cook 10 minutes, then the noodles for 6 to 8 minutes.",
+      "Return the chicken, add parsley, and season."
+    ]
+  },
+  {
+    "id": "seed-red-lentil-soup-with-spinach",
+    "title": "Red Lentil Soup with Spinach",
+    "url": "https://cooking.nytimes.com/recipes/demo-18",
+    "imageUrl": null,
+    "totalTimeMin": 40,
+    "activeTimeMin": 15,
+    "servings": 6,
+    "tags": [
+      "soup",
+      "vegetarian",
+      "healthy"
+    ],
+    "ingredients": [
+      {
+        "raw": "1 onion, chopped",
+        "ingredientId": "onion"
+      },
+      {
+        "raw": "2 carrots, diced",
+        "ingredientId": "carrot"
+      },
+      {
+        "raw": "3 cloves garlic, minced",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "1 1/2 cups red lentils, rinsed",
+        "ingredientId": "red-lentils"
+      },
+      {
+        "raw": "1 teaspoon ground cumin",
+        "ingredientId": "cumin"
+      },
+      {
+        "raw": "1 teaspoon turmeric",
+        "ingredientId": "turmeric"
+      },
+      {
+        "raw": "6 cups vegetable broth",
+        "ingredientId": "vegetable-broth"
+      },
+      {
+        "raw": "5 ounces baby spinach",
+        "ingredientId": "spinach"
+      },
+      {
+        "raw": "1 lemon",
+        "ingredientId": "lemon"
+      },
+      {
+        "raw": "2 tablespoons olive oil",
+        "ingredientId": "olive-oil"
+      }
+    ],
+    "steps": [
+      "Soften onion and carrots in the oil, then add garlic and spices.",
+      "Add lentils and broth and simmer until the lentils break down, 25 minutes.",
+      "Wilt in the spinach and finish with lemon juice."
+    ]
+  },
+  {
+    "id": "seed-chickpea-and-spinach-coconut-curry",
+    "title": "Chickpea and Spinach Coconut Curry",
+    "url": "https://cooking.nytimes.com/recipes/demo-19",
+    "imageUrl": null,
+    "totalTimeMin": 35,
+    "activeTimeMin": 15,
+    "servings": 4,
+    "tags": [
+      "vegetarian",
+      "curry",
+      "rice",
+      "healthy"
+    ],
+    "ingredients": [
+      {
+        "raw": "1 onion, diced",
+        "ingredientId": "onion"
+      },
+      {
+        "raw": "3 cloves garlic, minced",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "1 tablespoon grated ginger",
+        "ingredientId": "ginger"
+      },
+      {
+        "raw": "2 tablespoons curry powder",
+        "ingredientId": "curry-powder"
+      },
+      {
+        "raw": "1 can (14 ounces) diced tomatoes",
+        "ingredientId": "canned-tomatoes"
+      },
+      {
+        "raw": "2 cans chickpeas, drained",
+        "ingredientId": "chickpeas"
+      },
+      {
+        "raw": "1 can coconut milk",
+        "ingredientId": "coconut-milk"
+      },
+      {
+        "raw": "5 ounces baby spinach",
+        "ingredientId": "spinach"
+      },
+      {
+        "raw": "Cooked white rice, for serving",
+        "ingredientId": "white-rice"
+      },
+      {
+        "raw": "2 tablespoons vegetable oil",
+        "ingredientId": "vegetable-oil"
+      }
+    ],
+    "steps": [
+      "Soften onion in oil, then cook garlic, ginger and curry powder for a minute.",
+      "Add tomatoes, chickpeas and coconut milk; simmer 15 minutes.",
+      "Stir in spinach until wilted and serve over rice."
+    ]
+  },
+  {
+    "id": "seed-loaded-baked-potato-soup",
+    "title": "Loaded Baked Potato Soup",
+    "url": "https://cooking.nytimes.com/recipes/demo-20",
+    "imageUrl": null,
+    "totalTimeMin": 55,
+    "activeTimeMin": 25,
+    "servings": 6,
+    "tags": [
+      "soup",
+      "potato",
+      "comfort"
+    ],
+    "ingredients": [
+      {
+        "raw": "4 large russet potatoes, peeled and cubed",
+        "ingredientId": "potato"
+      },
+      {
+        "raw": "6 slices bacon",
+        "ingredientId": "bacon"
+      },
+      {
+        "raw": "3 tablespoons butter",
+        "ingredientId": "butter"
+      },
+      {
+        "raw": "1/4 cup all-purpose flour",
+        "ingredientId": "flour"
+      },
+      {
+        "raw": "3 cups chicken broth",
+        "ingredientId": "chicken-broth"
+      },
+      {
+        "raw": "2 cups whole milk",
+        "ingredientId": "milk"
+      },
+      {
+        "raw": "1 1/2 cups shredded cheddar",
+        "ingredientId": "cheddar"
+      },
+      {
+        "raw": "1/2 cup sour cream",
+        "ingredientId": "sour-cream"
+      },
+      {
+        "raw": "3 scallions, sliced",
+        "ingredientId": "scallion"
+      }
+    ],
+    "steps": [
+      "Cook the bacon until crisp, then crumble.",
+      "Melt butter, whisk in flour for a minute, then slowly add broth and milk.",
+      "Add potatoes and simmer 20 minutes, mashing some. Stir in cheddar and sour cream.",
+      "Serve topped with bacon and scallions."
+    ]
+  },
+  {
+    "id": "seed-spinach-and-ricotta-lasagna",
+    "title": "Spinach and Ricotta Lasagna",
+    "url": "https://cooking.nytimes.com/recipes/demo-21",
+    "imageUrl": null,
+    "totalTimeMin": 90,
+    "activeTimeMin": 30,
+    "servings": 8,
+    "tags": [
+      "pasta",
+      "vegetarian",
+      "weekend",
+      "italian"
+    ],
+    "ingredients": [
+      {
+        "raw": "12 lasagna noodles",
+        "ingredientId": "lasagna-noodles"
+      },
+      {
+        "raw": "15 ounces ricotta",
+        "ingredientId": "ricotta"
+      },
+      {
+        "raw": "10 ounces frozen spinach, thawed and squeezed",
+        "ingredientId": "frozen-spinach"
+      },
+      {
+        "raw": "1 egg",
+        "ingredientId": "eggs"
+      },
+      {
+        "raw": "3 cups marinara sauce",
+        "ingredientId": "marinara-sauce"
+      },
+      {
+        "raw": "3 cups shredded mozzarella",
+        "ingredientId": "mozzarella"
+      },
+      {
+        "raw": "1/2 cup grated Parmesan",
+        "ingredientId": "parmesan"
+      },
+      {
+        "raw": "2 cloves garlic, minced",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "1 tablespoon olive oil",
+        "ingredientId": "olive-oil"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      }
+    ],
+    "steps": [
+      "Cook the noodles until pliable and drain.",
+      "Mix ricotta, spinach, egg, garlic, Parmesan and salt.",
+      "Layer sauce, noodles, ricotta mixture and mozzarella, repeating, and finish with cheese.",
+      "Cover and bake at 375 degrees for 45 minutes, then uncover for 15; rest 15 minutes."
+    ]
+  },
+  {
+    "id": "seed-sunday-pot-roast-with-carrots-and-potatoes",
+    "title": "Sunday Pot Roast with Carrots and Potatoes",
+    "url": "https://cooking.nytimes.com/recipes/demo-22",
+    "imageUrl": null,
+    "totalTimeMin": 200,
+    "activeTimeMin": 30,
+    "servings": 6,
+    "tags": [
+      "beef",
+      "weekend",
+      "comfort",
+      "slow-cooked"
+    ],
+    "ingredients": [
+      {
+        "raw": "3 pound chuck roast",
+        "ingredientId": "chuck-roast"
+      },
+      {
+        "raw": "1 tablespoon olive oil",
+        "ingredientId": "olive-oil"
+      },
+      {
+        "raw": "2 onions, quartered",
+        "ingredientId": "onion"
+      },
+      {
+        "raw": "4 carrots, in chunks",
+        "ingredientId": "carrot"
+      },
+      {
+        "raw": "1 1/2 pounds small potatoes",
+        "ingredientId": "potato"
+      },
+      {
+        "raw": "2 tablespoons tomato paste",
+        "ingredientId": "tomato-paste"
+      },
+      {
+        "raw": "2 cups beef broth",
+        "ingredientId": "beef-broth"
+      },
+      {
+        "raw": "3 sprigs thyme",
+        "ingredientId": "thyme"
+      },
+      {
+        "raw": "2 bay leaves",
+        "ingredientId": "bay-leaf"
+      },
+      {
+        "raw": "2 tablespoons all-purpose flour",
+        "ingredientId": "flour"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      },
+      {
+        "raw": "Freshly ground black pepper",
+        "ingredientId": "black-pepper"
+      }
+    ],
+    "steps": [
+      "Salt the roast and brown deeply in oil in a Dutch oven. Remove.",
+      "Cook onion with tomato paste, stir in flour, then broth, thyme and bay leaves.",
+      "Return roast, cover, and braise at 325 degrees for 2 hours.",
+      "Add carrots and potatoes and cook 60 minutes more until tender."
+    ]
+  },
+  {
+    "id": "seed-slow-roasted-pulled-pork-sandwiches",
+    "title": "Slow-Roasted Pulled Pork Sandwiches",
+    "url": "https://cooking.nytimes.com/recipes/demo-23",
+    "imageUrl": null,
+    "totalTimeMin": 260,
+    "activeTimeMin": 25,
+    "servings": 8,
+    "tags": [
+      "pork",
+      "weekend",
+      "slow-cooked",
+      "crowd-pleaser"
+    ],
+    "ingredients": [
+      {
+        "raw": "4 pound boneless pork shoulder",
+        "ingredientId": "pork-shoulder"
+      },
+      {
+        "raw": "2 tablespoons brown sugar",
+        "ingredientId": "brown-sugar"
+      },
+      {
+        "raw": "2 tablespoons paprika",
+        "ingredientId": "paprika"
+      },
+      {
+        "raw": "1 tablespoon kosher salt",
+        "ingredientId": "salt"
+      },
+      {
+        "raw": "1 onion, sliced",
+        "ingredientId": "onion"
+      },
+      {
+        "raw": "4 cloves garlic, smashed",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "1 cup barbecue sauce",
+        "ingredientId": "bbq-sauce"
+      },
+      {
+        "raw": "2 tablespoons apple cider vinegar",
+        "ingredientId": "apple-cider-vinegar"
+      },
+      {
+        "raw": "8 hamburger buns",
+        "ingredientId": "hamburger-buns"
+      }
+    ],
+    "steps": [
+      "Rub the pork with sugar, paprika and salt; place on the onion and garlic in a roasting pan.",
+      "Cover tightly and roast at 300 degrees for 4 hours until shreddable.",
+      "Shred, toss with barbecue sauce and vinegar, and pile on buns."
+    ]
+  },
+  {
+    "id": "seed-roast-chicken-with-lemon-thyme-and-potatoes",
+    "title": "Roast Chicken with Lemon, Thyme and Potatoes",
+    "url": "https://cooking.nytimes.com/recipes/demo-24",
+    "imageUrl": null,
+    "totalTimeMin": 90,
+    "activeTimeMin": 20,
+    "servings": 4,
+    "tags": [
+      "chicken",
+      "weekend",
+      "roast"
+    ],
+    "ingredients": [
+      {
+        "raw": "1 whole chicken (4 pounds)",
+        "ingredientId": "whole-chicken"
+      },
+      {
+        "raw": "2 lemons",
+        "ingredientId": "lemon"
+      },
+      {
+        "raw": "6 sprigs thyme",
+        "ingredientId": "thyme"
+      },
+      {
+        "raw": "1 head garlic, halved",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "2 pounds small potatoes, halved",
+        "ingredientId": "potato"
+      },
+      {
+        "raw": "3 carrots, in chunks",
+        "ingredientId": "carrot"
+      },
+      {
+        "raw": "3 tablespoons butter, softened",
+        "ingredientId": "butter"
+      },
+      {
+        "raw": "1 tablespoon olive oil",
+        "ingredientId": "olive-oil"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      },
+      {
+        "raw": "Freshly ground black pepper",
+        "ingredientId": "black-pepper"
+      }
+    ],
+    "steps": [
+      "Pat the chicken dry, salt generously, and rub with butter. Stuff with lemon, thyme and garlic.",
+      "Toss vegetables with oil in a roasting pan and set the chicken on top.",
+      "Roast at 425 degrees for 60 to 70 minutes until the juices run clear. Rest 10 minutes before carving."
+    ]
+  },
+  {
+    "id": "seed-turkey-meatballs-with-spaghetti",
+    "title": "Turkey Meatballs with Spaghetti",
+    "url": "https://cooking.nytimes.com/recipes/demo-25",
+    "imageUrl": null,
+    "totalTimeMin": 45,
+    "activeTimeMin": 25,
+    "servings": 4,
+    "tags": [
+      "pasta",
+      "turkey",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "raw": "1 pound ground turkey",
+        "ingredientId": "ground-turkey"
+      },
+      {
+        "raw": "1/2 cup breadcrumbs",
+        "ingredientId": "breadcrumbs"
+      },
+      {
+        "raw": "1/4 cup milk",
+        "ingredientId": "milk"
+      },
+      {
+        "raw": "1 egg",
+        "ingredientId": "eggs"
+      },
+      {
+        "raw": "1/2 cup grated Parmesan",
+        "ingredientId": "parmesan"
+      },
+      {
+        "raw": "2 cloves garlic, minced",
+        "ingredientId": "garlic"
+      },
+      {
+        "raw": "1/4 cup chopped parsley",
+        "ingredientId": "parsley"
+      },
+      {
+        "raw": "3 cups marinara sauce",
+        "ingredientId": "marinara-sauce"
+      },
+      {
+        "raw": "12 ounces spaghetti",
+        "ingredientId": "spaghetti"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      }
+    ],
+    "steps": [
+      "Soak breadcrumbs in milk, then mix with turkey, egg, Parmesan, garlic, parsley and salt. Roll into balls.",
+      "Simmer the meatballs in marinara, covered, for 20 minutes.",
+      "Cook spaghetti and serve with meatballs and sauce."
+    ]
+  },
+  {
+    "id": "seed-sheet-pan-cheeseburger-sliders",
+    "title": "Sheet-Pan Cheeseburger Sliders",
+    "url": "https://cooking.nytimes.com/recipes/demo-26",
+    "imageUrl": null,
+    "totalTimeMin": 35,
+    "activeTimeMin": 15,
+    "servings": 6,
+    "tags": [
+      "beef",
+      "kid-friendly",
+      "crowd-pleaser"
+    ],
+    "ingredients": [
+      {
+        "raw": "1 1/2 pounds ground beef",
+        "ingredientId": "ground-beef"
+      },
+      {
+        "raw": "12 slider buns",
+        "ingredientId": "hamburger-buns"
+      },
+      {
+        "raw": "2 cups shredded cheddar",
+        "ingredientId": "cheddar"
+      },
+      {
+        "raw": "1 small onion, minced",
+        "ingredientId": "onion"
+      },
+      {
+        "raw": "2 tablespoons ketchup",
+        "ingredientId": "ketchup"
+      },
+      {
+        "raw": "1 tablespoon yellow mustard",
+        "ingredientId": "mustard"
+      },
+      {
+        "raw": "1 teaspoon Worcestershire sauce",
+        "ingredientId": "worcestershire"
+      },
+      {
+        "raw": "3 tablespoons melted butter",
+        "ingredientId": "butter"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      }
+    ],
+    "steps": [
+      "Brown the beef with the onion; drain, then stir in ketchup, mustard, Worcestershire and salt.",
+      "Layer bun bottoms, beef, and cheddar on a sheet pan; cap with the tops and brush with butter.",
+      "Bake at 350 degrees for 15 minutes until melted and golden."
+    ]
+  },
+  {
+    "id": "seed-stovetop-mac-and-cheese-with-broccoli",
+    "title": "Stovetop Mac and Cheese with Broccoli",
+    "url": "https://cooking.nytimes.com/recipes/demo-27",
+    "imageUrl": null,
+    "totalTimeMin": 30,
+    "activeTimeMin": 20,
+    "servings": 4,
+    "tags": [
+      "pasta",
+      "vegetarian",
+      "kid-friendly",
+      "comfort"
+    ],
+    "ingredients": [
+      {
+        "raw": "12 ounces elbow macaroni",
+        "ingredientId": "macaroni"
+      },
+      {
+        "raw": "2 cups broccoli florets",
+        "ingredientId": "broccoli"
+      },
+      {
+        "raw": "3 tablespoons butter",
+        "ingredientId": "butter"
+      },
+      {
+        "raw": "3 tablespoons all-purpose flour",
+        "ingredientId": "flour"
+      },
+      {
+        "raw": "2 1/2 cups whole milk",
+        "ingredientId": "milk"
+      },
+      {
+        "raw": "3 cups shredded cheddar",
+        "ingredientId": "cheddar"
+      },
+      {
+        "raw": "1 teaspoon yellow mustard",
+        "ingredientId": "mustard"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      }
+    ],
+    "steps": [
+      "Boil the macaroni, adding broccoli for the last 2 minutes; drain.",
+      "Melt butter, whisk in flour for a minute, then gradually whisk in milk until thick.",
+      "Off the heat, stir in cheddar and mustard, then fold in the pasta and broccoli."
+    ]
+  },
+  {
+    "id": "seed-shrimp-tacos-with-lime-crema",
+    "title": "Shrimp Tacos with Lime Crema",
+    "url": "https://cooking.nytimes.com/recipes/demo-28",
+    "imageUrl": null,
+    "totalTimeMin": 25,
+    "activeTimeMin": 20,
+    "servings": 4,
+    "tags": [
+      "tacos",
+      "mexican",
+      "fish",
+      "quick"
+    ],
+    "ingredients": [
+      {
+        "raw": "1 1/2 pounds shrimp, peeled",
+        "ingredientId": "shrimp"
+      },
+      {
+        "raw": "8 corn tortillas",
+        "ingredientId": "corn-tortillas"
+      },
+      {
+        "raw": "2 teaspoons chili powder",
+        "ingredientId": "chili-powder"
+      },
+      {
+        "raw": "2 cups shredded cabbage",
+        "ingredientId": "cabbage"
+      },
+      {
+        "raw": "1/2 cup sour cream",
+        "ingredientId": "sour-cream"
+      },
+      {
+        "raw": "2 limes",
+        "ingredientId": "lime"
+      },
+      {
+        "raw": "1/4 cup chopped cilantro",
+        "ingredientId": "cilantro"
+      },
+      {
+        "raw": "1 avocado, sliced",
+        "ingredientId": "avocado"
+      },
+      {
+        "raw": "1 tablespoon vegetable oil",
+        "ingredientId": "vegetable-oil"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      }
+    ],
+    "steps": [
+      "Stir the sour cream with lime zest, juice and salt.",
+      "Toss shrimp with chili powder and sear in oil, 2 minutes per side.",
+      "Warm tortillas and fill with cabbage, shrimp, avocado, cilantro and crema."
+    ]
+  },
+  {
+    "id": "seed-sheet-pan-drumsticks-with-sweet-potatoes",
+    "title": "Sheet-Pan Drumsticks with Sweet Potatoes",
+    "url": "https://cooking.nytimes.com/recipes/demo-29",
+    "imageUrl": null,
+    "totalTimeMin": 55,
+    "activeTimeMin": 15,
+    "servings": 4,
+    "tags": [
+      "chicken",
+      "sheet-pan",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "raw": "8 chicken drumsticks",
+        "ingredientId": "chicken-drumsticks"
+      },
+      {
+        "raw": "2 sweet potatoes, cut into wedges",
+        "ingredientId": "sweet-potato"
+      },
+      {
+        "raw": "2 tablespoons olive oil",
+        "ingredientId": "olive-oil"
+      },
+      {
+        "raw": "2 teaspoons smoked paprika",
+        "ingredientId": "smoked-paprika"
+      },
+      {
+        "raw": "1 teaspoon garlic powder",
+        "ingredientId": "garlic-powder"
+      },
+      {
+        "raw": "2 tablespoons honey",
+        "ingredientId": "honey"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      }
+    ],
+    "steps": [
+      "Heat the oven to 425 degrees.",
+      "Toss drumsticks and sweet potatoes with oil, paprika, garlic powder and salt on two sheet pans.",
+      "Roast 40 minutes, brushing with honey for the last 5, until the chicken is deeply browned."
+    ]
+  },
+  {
+    "id": "seed-spinach-and-mushroom-frittata",
+    "title": "Spinach and Mushroom Frittata",
+    "url": "https://cooking.nytimes.com/recipes/demo-30",
+    "imageUrl": null,
+    "totalTimeMin": 30,
+    "activeTimeMin": 15,
+    "servings": 4,
+    "tags": [
+      "vegetarian",
+      "eggs",
+      "brunch"
+    ],
+    "ingredients": [
+      {
+        "raw": "8 large eggs",
+        "ingredientId": "eggs"
+      },
+      {
+        "raw": "1/4 cup milk",
+        "ingredientId": "milk"
+      },
+      {
+        "raw": "8 ounces mushrooms, sliced",
+        "ingredientId": "mushroom"
+      },
+      {
+        "raw": "5 ounces baby spinach",
+        "ingredientId": "spinach"
+      },
+      {
+        "raw": "1/2 onion, diced",
+        "ingredientId": "onion"
+      },
+      {
+        "raw": "1/2 cup crumbled feta",
+        "ingredientId": "feta"
+      },
+      {
+        "raw": "2 tablespoons olive oil",
+        "ingredientId": "olive-oil"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      },
+      {
+        "raw": "Freshly ground black pepper",
+        "ingredientId": "black-pepper"
+      }
+    ],
+    "steps": [
+      "Whisk the eggs with milk, feta, salt and pepper.",
+      "Cook the mushrooms and onion in oil in an oven-safe skillet, then wilt in the spinach.",
+      "Pour in the eggs and cook until the edges set, then bake at 400 degrees for 10 minutes."
+    ]
+  },
+  {
+    "id": "seed-pesto-rotini-with-cherry-tomatoes",
+    "title": "Pesto Rotini with Cherry Tomatoes",
+    "url": "https://cooking.nytimes.com/recipes/demo-31",
+    "imageUrl": null,
+    "totalTimeMin": 20,
+    "activeTimeMin": 15,
+    "servings": 4,
+    "tags": [
+      "pasta",
+      "quick",
+      "vegetarian",
+      "kid-friendly"
+    ],
+    "ingredients": [
+      {
+        "raw": "12 ounces rotini",
+        "ingredientId": "rotini"
+      },
+      {
+        "raw": "1/2 cup basil pesto",
+        "ingredientId": "pesto"
+      },
+      {
+        "raw": "1 pint cherry tomatoes, halved",
+        "ingredientId": "cherry-tomatoes"
+      },
+      {
+        "raw": "1/3 cup toasted pine nuts",
+        "ingredientId": "pine-nuts"
+      },
+      {
+        "raw": "1/2 cup grated Parmesan",
+        "ingredientId": "parmesan"
+      },
+      {
+        "raw": "1 tablespoon olive oil",
+        "ingredientId": "olive-oil"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      }
+    ],
+    "steps": [
+      "Cook the rotini and drain, saving a little water.",
+      "Toss hot pasta with pesto, tomatoes, olive oil and a splash of pasta water.",
+      "Top with pine nuts and Parmesan."
+    ]
+  },
+  {
+    "id": "seed-pan-seared-pork-chops-with-apples",
+    "title": "Pan-Seared Pork Chops with Apples",
+    "url": "https://cooking.nytimes.com/recipes/demo-32",
+    "imageUrl": null,
+    "totalTimeMin": 35,
+    "activeTimeMin": 20,
+    "servings": 4,
+    "tags": [
+      "pork",
+      "one-pan"
+    ],
+    "ingredients": [
+      {
+        "raw": "4 bone-in pork chops",
+        "ingredientId": "pork-chops"
+      },
+      {
+        "raw": "2 apples, sliced",
+        "ingredientId": "apple"
+      },
+      {
+        "raw": "1 onion, sliced",
+        "ingredientId": "onion"
+      },
+      {
+        "raw": "2 tablespoons butter",
+        "ingredientId": "butter"
+      },
+      {
+        "raw": "1 tablespoon Dijon mustard",
+        "ingredientId": "dijon-mustard"
+      },
+      {
+        "raw": "3/4 cup chicken broth",
+        "ingredientId": "chicken-broth"
+      },
+      {
+        "raw": "1 teaspoon thyme",
+        "ingredientId": "thyme"
+      },
+      {
+        "raw": "Kosher salt",
+        "ingredientId": "salt"
+      },
+      {
+        "raw": "Freshly ground black pepper",
+        "ingredientId": "black-pepper"
+      }
+    ],
+    "steps": [
+      "Season the chops and sear in butter, 4 minutes per side. Remove.",
+      "Cook onion and apples until golden, then add broth, mustard and thyme.",
+      "Return the chops and simmer 5 minutes until cooked through."
+    ]
+  }
+]
