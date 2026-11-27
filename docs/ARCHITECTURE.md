@@ -111,3 +111,14 @@ checklist note makes one checkbox per line. Web Share (`navigator.share`) is off
   dependencies without asking the lead thread. Adding a dev script or a dependency your module needs is fine; say so in the PR.
 - Every PR: `npm run typecheck && npm test && npm run build` pass.
 - Mobile first (390 px wide), light and dark mode, 44 px tap targets.
+
+## Deploying
+
+`.github/workflows/deploy.yml` builds and deploys every push to `main` once the repo has:
+- secret `CLOUDFLARE_API_TOKEN` (permissions: Cloudflare Pages Edit, D1 Edit)
+- variable `CLOUDFLARE_ACCOUNT_ID`
+- the real `database_id` in `wrangler.toml`
+
+One-time setup (lead thread): create D1 `cookin` and Pages project `cookin`, set Pages secrets
+`ALLOWED_EMAILS` and `API_TOKEN`, bind D1 as `DB`, and add a Cloudflare Access application covering
+the production domain and `*.cookin.pages.dev` with a policy allowing only Cory's email.
