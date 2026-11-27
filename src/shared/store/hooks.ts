@@ -15,3 +15,7 @@ export function useDoc<C extends CollectionName>(c: C, id: string): Collections[
 export function useSyncStatus(): SyncStatus {
   return useSyncExternalStore(subscribe, () => store.status);
 }
+/** True when the browser refused to save (storage full). */
+export function useStorageError(): boolean {
+  return useSyncExternalStore(subscribe, () => store.storageError);
+}

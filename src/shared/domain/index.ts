@@ -2,10 +2,10 @@
  * Typed helpers over the store that several features share. Feature-specific logic
  * (list building, lunch suggestions, plan ranking) lives in its feature folder.
  */
-import { useMemo } from "react";
-import type { AppSettings, InventoryEntry, ListState, PlanEntry, Staple, StockStatus } from "../types";
+import { useLayoutEffect, useMemo, useSyncExternalStore } from "react";
+import type { AppSettings, InventoryEntry, ListEntry, PlanEntry, Staple, StockStatus } from "../types";
 import { store, useCollection, useDoc } from "../store";
-import { setCustomItems } from "../catalog";
+import { setCustomItems, catalogVersion, subscribeCatalog } from "../catalog";
 
 /* ---------- settings ---------- */
 export const DEFAULT_SETTINGS: AppSettings = { onboardingComplete: false, dinnersPerWeek: 7, householdSize: 3, weekStartsOn: 1, updatedAt: 0 };
@@ -29,8 +29,10 @@ export function useOwned(): Set<string> {
 /** Keeps the matcher in sync with Cory's custom items. Mounted once in App. */
 export function useCustomItemsSync() {
   const custom = useCollection("customItems");
-  useMemo(() => setCustomItems(Object.values(custom).map(c => ({ ...c, custom: true }))), [custom]);
+  useLayoutEffect(() => setCustomItems(Object.values(custom).map(c => ({ ...c, custom: true }))), [custom]);
 }
+/** Bumps when the catalog/matcher changes; include it in useMemo deps around analyzeRecipe(). */
+export const useCatalogVersion = () => useSyncExternalStore(subscribeCatalog, catalogVersion);
 
 /* ---------- dates & plan ---------- */
 export const ymd = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
@@ -64,6 +66,23 @@ export const DEFAULT_STAPLES: Omit<Staple, "updatedAt">[] = [
 ];
 
 /* ---------- list ---------- */
-export const EMPTY_LIST: ListState = { checked: {}, manual: [], dismissed: {}, updatedAt: 0 };
-export const useListState = (): ListState => { const l = useDoc("list", "current"); return useMemo(() => ({ ...EMPTY_LIST, ...l }), [l]); };
-export const updateList = (fields: Partial<ListState>) => store.put("list", "current", { ...EMPTY_LIST, ...store.get("list", "current"), ...fields, updatedAt: Date.now() });
+/** List entries that apply to the week starting `weekOf` (manual items apply to every week). */
+export function useListEntries(weekOf: string): ListEntry[] {
+  const all = useCollection("list");
+  return useMemo(() => Object.values(all).filter(e => e.type === "manual" || e.weekOf === weekOf), [all, weekOf]);
+}
+export function setChecked(key: string, checked: boolean, weekOf: string) {
+  const id = "check:" + key;
+  if (checked) store.put("list", id, { id, type: "check", key, weekOf, updatedAt: Date.now() });
+  else store.remove("list", id);
+}
+export function dismissLine(key: string, weekOf: string) {
+  const id = "dismiss:" + key;
+  store.put("list", id, { id, type: "dismiss", key, weekOf, updatedAt: Date.now() });
+}
+export function addManualItem(name: string, weekOf: string): string {
+  const id = "manual:" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  store.put("list", id, { id, type: "manual", name: name.trim().slice(0, 80), weekOf, updatedAt: Date.now() });
+  return id;
+}
+export const removeListEntry = (id: string) => store.remove("list", id);

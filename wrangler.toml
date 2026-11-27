@@ -10,5 +10,7 @@ database_id = "00000000-0000-0000-0000-000000000000"
 migrations_dir = "migrations"
 
 # Secrets (set with `wrangler pages secret put`, or .dev.vars locally):
-#   ALLOWED_EMAILS  comma-separated emails Cloudflare Access lets in (Cory's)
+#   ALLOWED_EMAILS      comma-separated emails allowed in (Cory's)
+#   ACCESS_TEAM_DOMAIN  e.g. <team>.cloudflareaccess.com
+#   ACCESS_AUD          Access application AUD tag
 #   API_TOKEN       bearer token for automation (weekly NYT sync)

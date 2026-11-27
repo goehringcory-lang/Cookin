@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRoute, navigate } from "./nav";
 import { useSettings, useCustomItemsSync } from "@shared/domain";
-import { useSyncStatus } from "@shared/store";
+import { useSyncStatus, useStorageError } from "@shared/store";
 import { Onboarding } from "@features/onboarding";
 import { HomeScreen } from "@features/planner";
 import { ListScreen } from "@features/shopping";
@@ -21,6 +21,7 @@ export function App() {
   const settings = useSettings();
   const route = useRoute();
   const status = useSyncStatus();
+  const storageError = useStorageError();
   const onboarding = !settings.onboardingComplete || route.name === "onboarding";
 
   useEffect(() => { window.scrollTo(0, 0); }, [route.name, route.param]);
@@ -39,6 +40,7 @@ export function App() {
   return (
     <div className="ck-app">
       {status === "unauthorized" && <div className="ck-banner" role="status">You're signed out. Reload the page to sign in again.</div>}
+      {storageError && <div className="ck-banner" role="alert">This phone is out of space for Cookin, so recent changes may not be saved offline.</div>}
       <main className="ck-main">{screen}</main>
       <nav className="ck-tabbar" aria-label="Sections">
         {TABS.map(t => (
