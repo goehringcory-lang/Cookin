@@ -10,7 +10,7 @@ const filter = (page: Page, name: string) => page.getByRole("group", { name: "Fi
 interface Tile { title: string; minutes: number; badge: string }
 /** Reads every visible tile: title, total minutes, and the have/need badge. */
 async function readTiles(page: Page): Promise<Tile[]> {
-  const raw = await tiles(page).evaluateAll(els => els.map(e => (e as HTMLElement).innerText.split("\n").map(s => s.trim()).filter(Boolean)));
+  const raw = await tiles(page).evaluateAll(els => els.map(e => (e as HTMLElement).innerText.split("\n").map(s => s.replace(/^,\s*/, "").trim()).filter(Boolean)));
   return raw.map(([title, time, badge]) => {
     const h = /(\d+) hr/.exec(time)?.[1], m = /(\d+) min/.exec(time)?.[1];
     return { title, minutes: Number(h ?? 0) * 60 + Number(m ?? 0), badge };

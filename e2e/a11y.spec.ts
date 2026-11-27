@@ -15,7 +15,7 @@ const CHIP_40 = /\(\d+x40\)$/;
 const WEEK_NAV = /^(Previous|Next) week \(36x36\)$/;
 const CHECK_28 = /\(28x28\)$/;
 const LIST_LINK = /^Edit always-buy items \(\d+x20\)$/;
-const SYNC_BADGE = /^Not synced yet\. Sync options \(\d+x28\)$/;
+const SYNC_BADGE = /^(Not synced yet|\d+ recipes · Never synced from NYT)\. Sync options \(\d+x28\)$/;
 const SMALL_BTN_36 = /^(Sync|Start|Open) \(\d+x36\)$/;
 const SEGMENT_38 = /^(Dinner|Lunch) \(\d+x38\)$/;
 
@@ -95,7 +95,7 @@ test.describe("main screens", () => {
 
   test("Recipes", async ({ page }) => {
     await openDemoAt(page, "recipes");
-    await expect(page.getByText("32 recipes")).toBeVisible();
+    await expect(page.getByText("32 recipes", { exact: true })).toBeVisible();
     await audit(page, [CHIP_40, SYNC_BADGE, SMALL_BTN_36]);
   });
 
