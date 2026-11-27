@@ -11,7 +11,7 @@ export const FILTERS: { id: FilterId; label: string }[] = [
   { id: "lunch", label: "Lunch" },
   { id: "leftovers", label: "Makes leftovers" },
   { id: "new", label: "New this week" },
-  { id: "archived", label: "No longer saved" },
+  { id: "archived", label: "Removed" },
 ];
 
 const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");

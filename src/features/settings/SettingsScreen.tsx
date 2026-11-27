@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { useCollection, useDoc, useSyncStatus, type SyncStatus } from "@shared/store";
+import { useCollection, useSyncStatus, type SyncStatus } from "@shared/store";
 import { updateSettings, useSettings } from "@shared/domain";
 import { AppBar, Button, Card, SectionTitle, Stepper } from "@shared/ui";
 import { navigate } from "../../app/nav";
@@ -41,7 +41,6 @@ function Row({ title, hint, children }: { title: ReactNode; hint?: ReactNode; ch
 export function SettingsScreen() {
   const settings = useSettings();
   const status = useSyncStatus();
-  const nyt = useDoc("meta", "nyt");
   const recipeCount = Object.keys(useCollection("recipes")).length;
 
   return (
@@ -87,14 +86,7 @@ export function SettingsScreen() {
         <Row title="This device" hint={SYNC_TEXT[status]}>
           <span className="ck-st-dot" data-status={status} aria-hidden />
         </Row>
-        <Row
-          title="NYT Recipe Box"
-          hint={
-            nyt
-              ? `Last synced ${ago(nyt.at)} by ${nyt.via === "weekly" ? "the Sunday sync" : "the Sync button"}: ${nyt.added} new, ${nyt.updated} updated. ${recipeCount} recipes in Cookin.`
-              : `Not synced yet. ${recipeCount} recipes in Cookin.`
-          }
-        >
+        <Row title="Recipe library" hint={`${recipeCount} recipes. Add more by pasting NYT Cooking gift links.`}>
           <Button variant="secondary" size="sm" onClick={() => navigate("recipes")}>
             Open
           </Button>

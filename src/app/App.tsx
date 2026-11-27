@@ -22,6 +22,22 @@ const TABS = [
   { name: "recipes", label: "Recipes", icon: "M5 4.5h10a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h10" },
 ];
 
+/** "add" -> "" (open the Add sheet), "add=<link>" -> the shared link, else undefined. */
+const addParam = (p?: string) => (p === "add" ? "" : p?.startsWith("add=") ? p.slice(4) : undefined);
+
+/**
+ * Phone Share sheet (manifest share_target, GET /share?url=&text=&title=; Pages serves the app
+ * shell for /share): move the shared link into #recipes/add=<link> and clean the address bar.
+ */
+function takeSharedLink() {
+  if (location.pathname !== "/share") return;
+  const q = new URLSearchParams(location.search);
+  const shared = [q.get("url"), q.get("text"), q.get("title")].filter(Boolean).join(" ");
+  const keep = q.has("demo") ? "?demo=1" : "";
+  history.replaceState(null, "", "/" + keep + "#recipes/add" + (shared ? "=" + encodeURIComponent(shared) : ""));
+  window.dispatchEvent(new HashChangeEvent("hashchange"));
+}
+
 export function App() {
   useCustomItemsSync();
   const settings = useSettings();
@@ -31,6 +47,7 @@ export function App() {
   const onboarding = !settings.onboardingComplete || route.name === "onboarding";
 
   useEffect(() => { window.scrollTo(0, 0); }, [route.name, route.param]);
+  useEffect(() => { takeSharedLink(); }, []);
 
   // NYT import window (opened by the Sync to Cookin button) works even before onboarding.
   if (route.name === "import" || new URLSearchParams(location.search).has("import")) return <main className="ck-app ck-app--bare"><Suspense fallback={null}><ImportScreen /></Suspense></main>;
@@ -40,7 +57,7 @@ export function App() {
   switch (route.name) {
     case "list": screen = <ListScreen />; break;
     case "kitchen": screen = <KitchenScreen />; break;
-    case "recipes": screen = <RecipesScreen />; break;
+    case "recipes": screen = <RecipesScreen key={route.param ?? ""} add={addParam(route.param)} />; break;
     case "recipe": screen = <RecipeScreen id={route.param || ""} />; break;
     case "settings": screen = <SettingsScreen />; break;
     case "ui": screen = <Suspense fallback={null}><UiGallery /></Suspense>; break;

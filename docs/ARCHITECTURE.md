@@ -96,7 +96,16 @@ in the background. Conflicts are last-writer-wins per document, so keep docs sma
 The client fetches with `redirect: "manual"` so an expired Access session shows the signed-out banner.
 Cloudflare Access (Zero Trust, free) protects every path of the Pages site and its `*.pages.dev` alias.
 
-## NYT Cooking sync
+## Adding recipes by link (primary path)
+
+The Recipes tab is Cory's library. **+ Add** takes an NYT Cooking gift link (or any recipe link);
+`POST /api/recipes/fetch {url}` reads the page server-side and parses its schema.org JSON-LD
+(`src/features/nyt-sync/core/link.ts`). NYT pages carry the full ingredient list in JSON-LD even
+without a subscription. If a page can't be read, the sheet falls back to pasting the ingredient
+lines. The app saves with `addedVia: "link"`. "Remove from my library" sets `archived` + `removed`.
+The phone Share sheet works through the manifest `share_target` (`/share?url=&text=`, Android).
+
+## NYT Cooking sync (retired from the UI 2026-11-27; code kept)
 
 NYT has no API. Two paths, both owned by the NYT sync thread:
 1. **Bookmark button** on cooking.nytimes.com/recipe-box: reads the saved recipe links, fetches each

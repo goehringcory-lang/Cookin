@@ -135,7 +135,7 @@ export function PlanWeek({ week, slot }: { week?: string; slot?: string }) {
       </div>
 
       <div className="ck-pl-filters">
-        <input type="search" className="ck-search" placeholder="Search your Recipe Box" aria-label="Search recipes" value={q} onChange={(e) => setQ(e.target.value)} enterKeyHint="search" autoComplete="off" />
+        <input type="search" className="ck-search" placeholder="Search your recipes" aria-label="Search recipes" value={q} onChange={(e) => setQ(e.target.value)} enterKeyHint="search" autoComplete="off" />
         <div className="ck-chips ck-chips--scroll" role="group" aria-label="Filter recipes">
           {([["best", "Best match"], ["ready", "Have everything"], ["quick", `Under ${QUICK_MINUTES} min`]] as const).map(([k, l]) => (
             <button key={k} className="ck-chip ck-chip--filter" aria-pressed={filter === k} onClick={() => setFilter(k)}>{l}</button>
@@ -146,7 +146,7 @@ export function PlanWeek({ week, slot }: { week?: string; slot?: string }) {
       {recipes.length === 0 ? (
         <div className="ck-empty">
           <h2 className="ck-h2">No recipes yet</h2>
-          <p>Sync your NYT Cooking Recipe Box and your recipes show up here, ranked by what you already have.</p>
+          <p>Add recipes by pasting NYT Cooking links on the Recipes tab, and they show up here, ranked by what you already have.</p>
           <button className="ck-btn ck-btn--primary" onClick={() => navigate("recipes")}>Go to Recipes</button>
         </div>
       ) : (

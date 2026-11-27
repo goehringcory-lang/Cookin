@@ -90,7 +90,7 @@ export function Home({ start }: { start?: string }) {
             <article className="ck-card ck-card--pad ck-pl-hero ck-pl-hero--empty">
               <span className="ck-overline">Tonight · {dayName(today, true)}</span>
               <h2 className="ck-h2">Nothing planned yet</h2>
-              <p className="ck-muted ck-small">Pick something below you can make right now, or browse your Recipe Box.</p>
+              <p className="ck-muted ck-small">Pick something below you can make right now, or browse your recipes.</p>
               <button className="ck-btn ck-btn--primary" onClick={() => navigate(href.plan(ws, planId(today, "dinner")))}>Pick tonight's dinner</button>
             </article>
           )}
