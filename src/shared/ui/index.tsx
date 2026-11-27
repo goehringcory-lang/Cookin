@@ -234,10 +234,11 @@ export function RecipeCard({ title, image, minutes, missing, variant = "grid", o
       <div className="ck-recipe-card__body">
         {overline && <div className="ck-overline">{overline}</div>}
         <h3 className="ck-recipe-card__title">{title}</h3>
+        {/* Hidden commas so screen readers say "Title, 35 min, Need 2" instead of running it together. */}
         <div className="ck-recipe-card__meta">
-          {minutes != null && <span>{formatMinutes(minutes)}</span>}
-          {meta}
-          {missing != null && <HaveBadge missing={missing} />}
+          {minutes != null && <span><span className="ck-sr-only">, </span>{formatMinutes(minutes)}</span>}
+          {meta && <span><span className="ck-sr-only">, </span>{meta}</span>}
+          {missing != null && <span><span className="ck-sr-only">, </span><HaveBadge missing={missing} /></span>}
         </div>
       </div>
     </>
