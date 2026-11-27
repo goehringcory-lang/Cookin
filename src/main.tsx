@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { App } from "./app/App";
 import { store } from "@shared/store";
 import "@styles/base.css";
+import { registerServiceWorker } from "./pwa/registerServiceWorker";
 
 /**
  * Demo mode (VITE_DEMO=1 at build time, or ?demo=1 in the URL): never talks to the server and
@@ -18,6 +19,7 @@ async function boot() {
     if (load) { const m = (await load()) as { seedDocs?: { c: never; id: string; data: unknown }[] }; if (m.seedDocs) store.replaceAll(m.seedDocs); }
   }
   store.start();
+  if (!demo) registerServiceWorker();
   createRoot(document.getElementById("root")!).render(<StrictMode><App /></StrictMode>);
 }
 boot();
