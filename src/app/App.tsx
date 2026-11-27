@@ -30,7 +30,7 @@ export function App() {
 
   useEffect(() => { window.scrollTo(0, 0); }, [route.name, route.param]);
 
-  // NYT import window (opened by the Sync to Cokkin button) works even before onboarding.
+  // NYT import window (opened by the Sync to Cookin button) works even before onboarding.
   if (route.name === "import" || new URLSearchParams(location.search).has("import")) return <main className="ck-app ck-app--bare"><ImportScreen /></main>;
   if (onboarding) return <main className="ck-app ck-app--bare"><Onboarding /></main>;
 

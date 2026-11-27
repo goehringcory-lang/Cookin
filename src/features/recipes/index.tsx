@@ -44,7 +44,7 @@ export function RecipesScreen() {
         <div className="ck-empty">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 4.5h10a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h10" /></svg>
           <h2 className="ck-h2">Bring in your Recipe Box</h2>
-          <p>Sync your saved NYT Cooking recipes once and Cokkin keeps up with the new ones.</p>
+          <p>Sync your saved NYT Cooking recipes once and Cookin keeps up with the new ones.</p>
           <button className="ck-btn ck-btn--primary" onClick={() => setSheet(true)}>Sync from NYT Cooking</button>
         </div>
       ) : (

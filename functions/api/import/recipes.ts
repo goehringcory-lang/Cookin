@@ -8,7 +8,7 @@ import { json, writeDocs } from "../../_lib";
  * POST /api/import/recipes — NYT bookmark button and weekly Sunday sync (owned by the NYT sync thread).
  *
  * Body: RecipeImportRequest, optionally with `boxIds` (every recipe id in the Recipe Box; see
- * NytImportRequest). The button only sends recipes Cokkin doesn't have yet plus boxIds, so the server
+ * NytImportRequest). The button only sends recipes Cookin doesn't have yet plus boxIds, so the server
  * can un-archive re-saved recipes and archive unsaved ones without re-reading every page.
  * Only source-owned fields are overwritten (src/features/nyt-sync/core/merge.ts); app-owned fields
  * such as makesLeftovers are kept. Writes recipes plus `meta/nyt` (NytSyncInfo).

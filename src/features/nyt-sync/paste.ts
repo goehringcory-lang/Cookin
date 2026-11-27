@@ -3,7 +3,7 @@ import { cleanNumericIds, sanitizeRequest, type ImportRecipe, type NytImportRequ
 
 /**
  * Parse what the button's "Copy instead" put on the clipboard. Accepts the current format
- * ({cokkin: 3, ids, pages}), a plain import request, and the first prototype's format.
+ * ({cookin: 3, ids, pages}), a plain import request, and the first prototype's format.
  */
 export function parsePaste(text: string): { request: NytImportRequest; failed: number } | undefined {
   let j: unknown;
@@ -11,7 +11,7 @@ export function parsePaste(text: string): { request: NytImportRequest; failed: n
   if (!j || typeof j !== "object") return undefined;
   const o = j as Record<string, unknown>;
   const via = o.via === "weekly" ? "weekly" : "button";
-  if (o.cokkin === 3 && Array.isArray(o.pages)) {
+  if (o.cookin === 3 && Array.isArray(o.pages)) {
     const ids = cleanNumericIds(o.ids);
     const recipes: ImportRecipe[] = [];
     let failed = 0;
@@ -24,8 +24,8 @@ export function parsePaste(text: string): { request: NytImportRequest; failed: n
     const request = sanitizeRequest({ via, total: ids.length, complete: ids.length > 0 && ids.length === (o.pages as unknown[]).length, boxIds: ids.map(id => `nyt-${id}`), recipes });
     return request ? { request, failed } : undefined;
   }
-  if (o.cokkin === 2 && o.request) { const request = sanitizeRequest(o.request); return request ? { request, failed: 0 } : undefined; }
-  if (o.cokkin === 1 && Array.isArray(o.recipes)) {
+  if (o.cookin === 2 && o.request) { const request = sanitizeRequest(o.request); return request ? { request, failed: 0 } : undefined; }
+  if (o.cookin === 1 && Array.isArray(o.recipes)) {
     // First prototype: {id, url, title, ing, time, yield, cat}
     const recipes = (o.recipes as Record<string, unknown>[]).map(r => ({ id: r.id, url: r.url, title: r.title, ingredients: r.ing, yield: r.yield, tags: typeof r.cat === "string" ? r.cat.split(",").map(s => s.trim().toLowerCase()).filter(Boolean) : undefined }));
     const request = sanitizeRequest({ via, total: o.total, complete: false, recipes });

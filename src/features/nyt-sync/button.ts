@@ -1,20 +1,20 @@
 /**
- * The "Sync to Cokkin" bookmark button. Bundled by tools/bookmarklet/build.mjs into a javascript:
+ * The "Sync to Cookin" bookmark button. Bundled by tools/bookmarklet/build.mjs into a javascript:
  * URL and run on cooking.nytimes.com/recipe-box.
  *
- * It is a thin proxy (see core/protocol.ts): it finds the saved recipe ids, opens Cokkin in a new
- * window, then fetches whichever recipe pages Cokkin asks for with Cory's NYT session. Cokkin does
+ * It is a thin proxy (see core/protocol.ts): it finds the saved recipe ids, opens Cookin in a new
+ * window, then fetches whichever recipe pages Cookin asks for with Cory's NYT session. Cookin does
  * the parsing and saving, so the bookmark never needs reinstalling when parsing improves.
  *
- * For automation (weekly sync): `document.documentElement.dataset.cokkinSync` reports the state
+ * For automation (weekly sync): `document.documentElement.dataset.cookinSync` reports the state
  * (collecting | ready | waiting | reading | saving | done | error), the main button has id
- * "cokkin-sync-go" and the status text has id "cokkin-sync-msg".
+ * "cookin-sync-go" and the status text has id "cookin-sync-msg".
  */
 import { collectBoxIds, fetchRecipePage } from "./collector";
 import { isFetch, isHello, isStatus, PROTOCOL_VERSION, type BoxMessage, type ClipboardPayload, type PageMessage } from "./core/protocol";
 
 export interface ButtonOptions {
-  /** Cokkin's origin, e.g. https://cookin.pages.dev (baked in when the button is installed). */
+  /** Cookin's origin, e.g. https://cookin.pages.dev (baked in when the button is installed). */
   app: string;
   via?: "button" | "weekly";
 }
@@ -25,27 +25,27 @@ export async function runSyncButton(opts: ButtonOptions) {
   const d = document;
   const via = opts.via === "weekly" ? "weekly" : "button";
   const app = opts.app.replace(/\/+$/, "");
-  const setState = (s: string) => { d.documentElement.dataset.cokkinSync = s; };
-  d.getElementById("cokkin-sync")?.remove();
+  const setState = (s: string) => { d.documentElement.dataset.cookinSync = s; };
+  d.getElementById("cookin-sync")?.remove();
 
   /* ---------- overlay ---------- */
   const el = <K extends keyof HTMLElementTagNameMap>(tag: K, css: string, text = "") => {
     const e = d.createElement(tag); e.style.cssText = css; if (text) e.textContent = text; return e;
   };
   const ov = el("div", `position:fixed;right:16px;top:16px;z-index:2147483647;box-sizing:border-box;width:min(380px,calc(100vw - 32px));background:${C.bg};color:${C.ink};border:1px solid ${C.line};border-radius:20px;padding:18px;font:15px/1.45 Inter,-apple-system,system-ui,sans-serif;box-shadow:0 18px 50px rgba(42,34,27,.28);display:flex;flex-direction:column;gap:12px;text-align:left`);
-  ov.id = "cokkin-sync";
+  ov.id = "cookin-sync";
   ov.setAttribute("role", "dialog");
-  ov.setAttribute("aria-label", "Sync to Cokkin");
+  ov.setAttribute("aria-label", "Sync to Cookin");
   const head = el("div", "display:flex;align-items:center;gap:10px");
   head.append(
     el("span", `width:32px;height:32px;border-radius:10px;background:${C.primary};color:#fff;display:grid;place-items:center;font:700 17px Georgia,serif;flex:none`, "C"),
-    el("strong", "font:600 17px Georgia,serif;flex:1", "Sync to Cokkin"),
+    el("strong", "font:600 17px Georgia,serif;flex:1", "Sync to Cookin"),
   );
   const x = el("button", `border:0;background:none;font:18px sans-serif;color:${C.muted};cursor:pointer;width:44px;height:44px;border-radius:10px`, "✕");
   x.setAttribute("aria-label", "Close");
   head.appendChild(x);
   const msg = el("div", "font-weight:500");
-  msg.id = "cokkin-sync-msg";
+  msg.id = "cookin-sync-msg";
   msg.setAttribute("aria-live", "polite");
   const sub = el("div", `color:${C.muted};font-size:13px`);
   const bar = el("div", `height:6px;border-radius:99px;background:${C.line};overflow:hidden;display:none`);
@@ -65,7 +65,7 @@ export async function runSyncButton(opts: ButtonOptions) {
   };
   const button = (label: string, primary: boolean, fn: () => void, main = false) => {
     const b = el("button", `font:600 15px Inter,system-ui,sans-serif;min-height:44px;padding:0 18px;border-radius:999px;cursor:pointer;border:1px solid ${primary ? C.primary : C.line};background:${primary ? C.primary : "#fff"};color:${primary ? "#fff" : C.ink}`, label);
-    if (main) b.id = "cokkin-sync-go";
+    if (main) b.id = "cookin-sync-go";
     b.onclick = fn;
     btns.appendChild(b);
     return b;
@@ -75,7 +75,7 @@ export async function runSyncButton(opts: ButtonOptions) {
 
   if (!/(^|\.)cooking\.nytimes\.com$/.test(location.hostname) || !/^\/recipe-box/.test(location.pathname)) {
     setState("error");
-    say("Open your NYT Cooking Recipe Box first.", "Go to cooking.nytimes.com/recipe-box while signed in, then tap Sync to Cokkin again.");
+    say("Open your NYT Cooking Recipe Box first.", "Go to cooking.nytimes.com/recipe-box while signed in, then tap Sync to Cookin again.");
     if (/(^|\.)nytimes\.com$/.test(location.hostname)) button("Open Recipe Box", true, openBox, true);
     return;
   }
@@ -91,7 +91,7 @@ export async function runSyncButton(opts: ButtonOptions) {
     return;
   }
 
-  /* ---------- 2a. copy fallback: read every page here, paste in Cokkin ---------- */
+  /* ---------- 2a. copy fallback: read every page here, paste in Cookin ---------- */
   const copyFallback = async () => {
     clearButtons();
     setState("reading");
@@ -103,7 +103,7 @@ export async function runSyncButton(opts: ButtonOptions) {
       await new Promise(r => setTimeout(r, 600 + Math.random() * 400));
     }
     if (closed) return;
-    const text = JSON.stringify({ cokkin: 3, via, ids, pages } satisfies ClipboardPayload);
+    const text = JSON.stringify({ cookin: 3, via, ids, pages } satisfies ClipboardPayload);
     let ok = false;
     try { await navigator.clipboard.writeText(text); ok = true; } catch { /* below */ }
     if (!ok) {
@@ -113,41 +113,41 @@ export async function runSyncButton(opts: ButtonOptions) {
     }
     setState("done");
     progressBar();
-    say(ok ? `Copied ${pages.length} recipes.` : "Select the text above and copy it.", "In Cokkin, open Recipes → Sync from NYT → Paste.");
-    button("Open Cokkin", true, () => { window.open(`${app}/?import=paste#import`, "_blank"); }, true);
+    say(ok ? `Copied ${pages.length} recipes.` : "Select the text above and copy it.", "In Cookin, open Recipes → Sync from NYT → Paste.");
+    button("Open Cookin", true, () => { window.open(`${app}/?import=paste#import`, "_blank"); }, true);
   };
 
-  /* ---------- 2b. hand-off to Cokkin ---------- */
+  /* ---------- 2b. hand-off to Cookin ---------- */
   setState("ready");
-  say(`Found ${ids.length} saved recipes.`, "Cokkin opens in a new window and reads only the new ones.");
-  button("Sync to Cokkin", true, () => start(), true).focus();
+  say(`Found ${ids.length} saved recipes.`, "Cookin opens in a new window and reads only the new ones.");
+  button("Sync to Cookin", true, () => start(), true).focus();
   button("Copy instead", false, () => { void copyFallback(); });
 
   function start() {
     const nonce = Math.random().toString(36).slice(2) + Date.now().toString(36);
     // Opened inside the click handler so it isn't blocked as a pop-up.
-    const win = window.open(`${app}/?import=1&nonce=${nonce}#import`, "cokkin-import");
+    const win = window.open(`${app}/?import=1&nonce=${nonce}#import`, "cookin-import");
     clearButtons();
     if (!win) {
       setState("error");
-      say("Your browser blocked the Cokkin window.", "Allow pop-ups for cooking.nytimes.com, or copy instead.");
+      say("Your browser blocked the Cookin window.", "Allow pop-ups for cooking.nytimes.com, or copy instead.");
       button("Try again", true, () => start(), true);
       button("Copy instead", false, () => { void copyFallback(); });
       return;
     }
     setState("waiting");
-    say("Opening Cokkin…", "Sign in there if it asks. Keep this tab open until it finishes.");
+    say("Opening Cookin…", "Sign in there if it asks. Keep this tab open until it finishes.");
     let talking = false;
     const onMessage = async (e: MessageEvent) => {
       if (e.origin !== app || !e.data || e.data.nonce !== nonce) return;
       const reply = (m: object) => (e.source as Window | null || win).postMessage(m, app);
       if (isHello(e.data)) {
-        if (!talking) { talking = true; clearTimeout(timer); say("Connected to Cokkin…"); }
-        reply({ type: "cokkin-box", nonce, v: PROTOCOL_VERSION, ids, via } satisfies BoxMessage);
+        if (!talking) { talking = true; clearTimeout(timer); say("Connected to Cookin…"); }
+        reply({ type: "cookin-box", nonce, v: PROTOCOL_VERSION, ids, via } satisfies BoxMessage);
       } else if (isFetch(e.data)) {
         const { reqId, id } = e.data;
         const page = await fetchRecipePage(id).catch(() => ({ status: 0, url: "", ld: [] }));
-        reply({ type: "cokkin-page", nonce, reqId, page } satisfies PageMessage);
+        reply({ type: "cookin-page", nonce, reqId, page } satisfies PageMessage);
       } else if (isStatus(e.data)) {
         const s = e.data;
         setState(s.state);
@@ -174,7 +174,7 @@ export async function runSyncButton(opts: ButtonOptions) {
       if (talking) return;
       cleanup();
       setState("error");
-      say("Cokkin didn't answer.", "If it asked you to sign in, finish that and try again. Otherwise copy instead.");
+      say("Cookin didn't answer.", "If it asked you to sign in, finish that and try again. Otherwise copy instead.");
       button("Try again", true, () => start(), true);
       button("Copy instead", false, () => { void copyFallback(); });
     }, 120_000);

@@ -51,9 +51,9 @@ export function SyncSheet({ onClose }: { onClose: () => void }) {
         <div className="ck-card ck-card--pad ck-stack">
           <strong>On your computer</strong>
           <ol className="ck-small">
-            <li>Drag this button to your bookmarks bar: <br /><a ref={link} className="ck-nyt-bookmark" onClick={e => e.preventDefault()} draggable>Sync to Cokkin</a></li>
+            <li>Drag this button to your bookmarks bar: <br /><a ref={link} className="ck-nyt-bookmark" onClick={e => e.preventDefault()} draggable>Sync to Cookin</a></li>
             <li>Open your <a href="https://cooking.nytimes.com/recipe-box" target="_blank" rel="noreferrer">NYT Recipe Box</a> while signed in.</li>
-            <li>Tap <b>Sync to Cokkin</b> in your bookmarks. Only new recipes are read.</li>
+            <li>Tap <b>Sync to Cookin</b> in your bookmarks. Only new recipes are read.</li>
           </ol>
           <div className="ck-row">
             <button className="ck-btn ck-btn--ghost ck-btn--sm" onClick={() => copy("bookmark")}>{copied === "bookmark" ? "Copied" : "Copy bookmark link"}</button>
@@ -62,7 +62,7 @@ export function SyncSheet({ onClose }: { onClose: () => void }) {
         </div>
         <div className="ck-card ck-card--pad ck-stack">
           <strong>Every Sunday, automatically</strong>
-          <p className="ck-muted ck-small">Claude runs the same sync in Chrome on your computer each Sunday. Your computer needs to be on with Chrome open and signed in to NYT Cooking and Cokkin.</p>
+          <p className="ck-muted ck-small">Claude runs the same sync in Chrome on your computer each Sunday. Your computer needs to be on with Chrome open and signed in to NYT Cooking and Cookin.</p>
           <div className="ck-row"><button className="ck-btn ck-btn--ghost ck-btn--sm" onClick={() => copy("script")}>{copied === "script" ? "Copied" : "Copy weekly-sync line"}</button></div>
         </div>
         <div className="ck-row">

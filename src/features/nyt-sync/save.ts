@@ -16,14 +16,14 @@ export async function saveImport(req: NytImportRequest): Promise<SaveResult> {
       headers: { "content-type": "application/json" },
       body: JSON.stringify(req),
     });
-    if (res.status === 401 || res.status === 403) throw new Error("You're signed out of Cokkin. Reload this window to sign in, then sync again.");
+    if (res.status === 401 || res.status === 403) throw new Error("You're signed out of Cookin. Reload this window to sign in, then sync again.");
     const ct = res.headers.get("content-type") || "";
     if (res.ok && ct.includes("json")) {
       const out = (await res.json()) as SaveResult;
       await store.pull();
       return out;
     }
-    if (res.status !== 404 && ct.includes("json")) throw new Error(`Cokkin couldn't save the recipes (error ${res.status}).`);
+    if (res.status !== 404 && ct.includes("json")) throw new Error(`Cookin couldn't save the recipes (error ${res.status}).`);
     // No API here (vite dev): fall through to a local merge.
   }
   const r = mergeImport(store.all("recipes"), req);

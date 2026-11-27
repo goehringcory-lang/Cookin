@@ -7,7 +7,7 @@ import { BOOKMARKLET_CODE, BOOKMARKLET_PLACEHOLDER } from "../bookmarklet.genera
 
 describe("parsePaste", () => {
   it("parses the button's Copy format", () => {
-    const text = JSON.stringify({ cokkin: 3, via: "button", ids: ["1017518", "2"], pages: [
+    const text = JSON.stringify({ cookin: 3, via: "button", ids: ["1017518", "2"], pages: [
       { id: "1017518", page: { status: 200, url: "", ld: jsonLdTexts(pageHtml(panzanella)) } },
       { id: "2", page: { status: 200, url: "", ld: [] } },
     ] });
@@ -18,7 +18,7 @@ describe("parsePaste", () => {
     expect(p.request.complete).toBe(true);
   });
   it("parses the first prototype's format", () => {
-    const p = parsePaste(JSON.stringify({ cokkin: 1, total: 1, recipes: [{ id: "nyt-5", url: "https://cooking.nytimes.com/recipes/5", title: "T", ing: ["1 egg"], cat: "Dinner, Easy" }] }))!;
+    const p = parsePaste(JSON.stringify({ cookin: 1, total: 1, recipes: [{ id: "nyt-5", url: "https://cooking.nytimes.com/recipes/5", title: "T", ing: ["1 egg"], cat: "Dinner, Easy" }] }))!;
     expect(p.request.recipes[0]).toMatchObject({ id: "nyt-5", ingredients: ["1 egg"], tags: ["dinner", "easy"] });
   });
   it("rejects junk", () => {
