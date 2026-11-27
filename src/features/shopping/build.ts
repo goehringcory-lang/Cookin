@@ -177,7 +177,9 @@ export function buildShoppingList(input: ListInput): ShoppingList {
 
   // 5: typed in by hand. If it names one catalog item, merge with that line.
   for (const m of manual) {
-    const ids = matchLine(m.name!);
+    // "Add to list" on the Kitchen screen writes manual:inv-<itemId>; it is that exact item.
+    const inv = m.id.startsWith("manual:inv-") ? m.id.slice("manual:inv-".length) : undefined;
+    const ids = inv ? [inv] : matchLine(m.name!);
     const parsed = parseLine(m.name!);
     // Entry ids already look like "manual:<random>", which is the ListLine key format.
     const d = ids.length === 1 ? itemDraft(ids[0]) : draft(drafts, m.id, m.name!.trim());
