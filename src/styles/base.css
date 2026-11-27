@@ -27,3 +27,6 @@
 }
 .ck-banner { background: var(--ck-low-soft); color: var(--ck-low-ink); padding: 10px 16px; text-align: center; font-size: var(--ck-fs-small); font-weight: 500; }
 .ck-placeholder { padding: var(--ck-s6); border: 1.5px dashed var(--ck-border); border-radius: var(--ck-r-md); color: var(--ck-text-muted); }
+
+/* Action bars sit above the tab bar inside the tabbed shell. */
+.ck-main .ck-actionbar { bottom: calc(var(--ck-tabbar-h) + env(safe-area-inset-bottom)); padding-bottom: var(--ck-s3); }

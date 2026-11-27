@@ -48,10 +48,10 @@ Settings (staples, household, sync, data) open from a gear button in the top-rig
 One question per screen. Progress shown as a thin segmented bar at the top. "Back" top-left, "Skip" top-right only where skipping makes sense. Primary button pinned to the bottom ("Continue"). Everything chosen here is editable later in Settings or Pantry.
 
 1. **Welcome.** Headline "Dinner, sorted." Sub "Tell me what's in your kitchen once. I'll plan the week and write the list." Button "Let's set up". Illustration: simple line drawing of a pot (our own, drawn in SVG, tomato stroke).
-2. **Household.** "Who's eating?" Two steppers: Adults (default 2), Kids (default 2). Used to scale servings.
-3. **Cooking nights.** "Which nights do you cook?" Day chips Mon–Sun (multi-select, default Sun–Thu). Shows "5 dinners a week" live below.
+2. **Household.** "Who's eating?" Two steppers: Adults (default 2), Kids (default 1, a toddler; a baby joins later, so this must stay easy to change). Used to scale servings.
+3. **Cooking nights.** "Which nights do you cook?" Day chips Mon–Sun (multi-select, default all 7). Shows "7 dinners a week" live below.
 4. **Lunches.** "Plan lunches too?" Three option cards: *Leftovers when we can* (default, selected), *Easy lunches every day*, *Skip lunches*. Sub-option toggle "Kids' lunchbox ideas".
-5. **Staples.** "What do you always buy?" Pre-checked chips: Milk, Bananas, Fig bars, Fruit bars, Bread, Eggs, Yogurt, Cheese sticks, Apples, Goldfish crackers, Applesauce pouches, Granola bars. Add your own with a text field. Staples always appear on the list.
+5. **Staples.** "What do you always buy?" Pre-checked chips: Milk, Bananas, Eggs, Bread, Cereal, Fig bars, Fruit bars, Yogurt, Cheese sticks, Apples, Goldfish crackers, Applesauce pouches, Granola bars. Add your own with a text field. Staples always appear on the list.
 6. **Pantry, fridge, freezer** (the big one). Intro screen: "Now the fun part. Tap everything you have." Then a scrolling, sectioned chip grid:
    - Sticky search bar on top ("Search 250 ingredients").
    - Sticky segmented control: **Pantry · Fridge · Freezer · Spices**.
