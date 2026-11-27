@@ -8,6 +8,8 @@ import { PlanWeek } from "./PlanWeek";
 import { MealSheet } from "./MealSheet";
 import { parseParams } from "./routes";
 import { ToastHost } from "./ui";
+import { LunchPickerSheet } from "@features/lunches";
+import { weekStart } from "@shared/domain";
 import "./planner.css";
 
 export function HomeScreen() {
@@ -25,6 +27,7 @@ export function HomeScreen() {
     <>
       <Home start={params.w} />
       {params.m && <MealSheet slot={params.m} mode={params.x} week={params.w} />}
+      {params.l && <LunchPickerSheet date={params.l} start={params.w ?? weekStart(params.l)} onClose={() => history.back()} />}
       <ToastHost />
     </>
   );

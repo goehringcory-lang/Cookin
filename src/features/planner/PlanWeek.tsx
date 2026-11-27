@@ -10,6 +10,7 @@ import { dayName, nextOpenDinner, QUICK_MINUTES, rankForPlanning, relDay, shortD
 import { assign, clear, restore, snapshot, usePlan, useRecipes, useSettings, useStatusMap } from "./data";
 import { entryLabel } from "./Home";
 import { href, parseSlot } from "./routes";
+import { LunchPickerSheet } from "@features/lunches";
 import { BackIcon, CheckIcon, CloseIcon, HaveBadge, PlusIcon, RecipeImg, Time, toast } from "./ui";
 
 type Filter = "best" | "ready" | "quick";
@@ -30,6 +31,7 @@ export function PlanWeek({ week, slot }: { week?: string; slot?: string }) {
   const [meal, setMeal] = useState<Meal>(pre?.meal ?? "dinner");
   const [filter, setFilter] = useState<Filter>("best");
   const [q, setQ] = useState("");
+  const [lunchPicker, setLunchPicker] = useState(false);
 
   const weekPlanned = useMemo(() => new Set(dates.map((d) => plan[planId(d, "dinner")]).filter((e) => e?.kind === "recipe").map((e) => e!.refId!)), [plan, ws]);
   const recent = useMemo(() => {
@@ -117,6 +119,7 @@ export function PlanWeek({ week, slot }: { week?: string; slot?: string }) {
                 Leftover {byId[e!.refId!].title.split(/ with | and /i)[0]} <span className="ck-muted">· {dayName(e!.date)}</span>
               </button>
             ))}
+            <button className="ck-chip ck-chip--filter" aria-pressed="true" onClick={() => setLunchPicker(true)}>Easy lunch ideas</button>
             <button className="ck-chip" onClick={() => put({ kind: "none", note: "On our own" }, "No-cook lunch")}>No lunch to plan</button>
           </div>
         )}
@@ -171,6 +174,8 @@ export function PlanWeek({ week, slot }: { week?: string; slot?: string }) {
           })}
         </ul>
       )}
+
+      {lunchPicker && <LunchPickerSheet date={date} start={ws} onClose={() => setLunchPicker(false)} />}
 
       <div className="ck-actionbar">
         <span className="ck-pl-actionbar__count"><b>{planned} of {settings.dinnersPerWeek}</b> dinners picked</span>

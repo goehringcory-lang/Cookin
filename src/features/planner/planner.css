@@ -7,9 +7,13 @@
 .ck-pl-time svg { opacity: 0.8; }
 
 /* ---------- app bar with week chevrons ---------- */
-.ck-pl-appbar { display: flex; align-items: center; gap: var(--ck-s1); margin: 0 calc(-1 * var(--ck-s2)) var(--ck-s4); }
-.ck-pl-appbar__title { flex: 1; min-width: 0; text-align: center; }
-.ck-pl-appbar--plan .ck-pl-appbar__title { text-align: left; }
+.ck-pl-appbar { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--ck-s1); margin-bottom: var(--ck-s4); }
+.ck-pl-appbar__title { flex: 1; min-width: 0; }
+.ck-pl-appbar--plan { align-items: center; margin-left: calc(-1 * var(--ck-s2)); }
+.ck-pl-weeknav { display: flex; align-items: center; margin: 0 0 0 -12px; }
+.ck-pl-weeknav .ck-icon-btn { width: 36px; height: 36px; color: var(--ck-text-muted); }
+.ck-pl-weeknav .ck-appbar__sub { margin: 0; white-space: nowrap; }
+.ck-pl-lunch.is-static { cursor: default; }
 .ck-pl-appbar .ck-h1 { margin: 0; }
 .ck-pl-appbar .ck-appbar__sub { margin-top: 2px; font-size: var(--ck-fs-small); }
 

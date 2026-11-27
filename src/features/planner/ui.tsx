@@ -59,25 +59,29 @@ export function Sheet({ open, onClose, label, children, tall }: { open: boolean;
 export interface ToastMsg { text: string; action?: { label: string; run: () => void } }
 
 /* Same call shape as toast() in @shared/ui (design PR #4); switch the import when it lands. */
-const toastSubs = new Set<(t: (ToastMsg & { id: number }) | null) => void>();
+type Live = ToastMsg & { id: number; at: number };
+const toastSubs = new Set<(t: Live | null) => void>();
 let toastSeq = 0;
+/** Kept so a toast fired right before navigating still shows on the next screen. */
+let lastToast: Live | null = null;
 export function toast(text: string, action?: ToastMsg["action"]) {
-  const msg = { id: ++toastSeq, text, action };
+  const msg = { id: ++toastSeq, text, action, at: Date.now() };
+  lastToast = msg;
   toastSubs.forEach((fn) => fn(msg));
 }
 export function ToastHost({ duration = 5000 }: { duration?: number }) {
-  const [msg, setMsg] = useState<(ToastMsg & { id: number }) | null>(null);
+  const [msg, setMsg] = useState<Live | null>(() => (lastToast && Date.now() - lastToast.at < 1500 ? lastToast : null));
   useEffect(() => { toastSubs.add(setMsg); return () => { toastSubs.delete(setMsg); }; }, []);
   useEffect(() => {
     if (!msg) return;
-    const t = window.setTimeout(() => setMsg(null), duration);
+    const t = window.setTimeout(() => { setMsg(null); if (lastToast?.id === msg.id) lastToast = null; }, duration - (Date.now() - msg.at));
     return () => window.clearTimeout(t);
   }, [msg, duration]);
   if (!msg) return null;
   return (
     <div className="ck-toast" role="status" aria-live="polite" key={msg.id}>
       <span>{msg.text}</span>
-      {msg.action && <button type="button" onClick={() => { msg.action!.run(); setMsg(null); }}>{msg.action.label}</button>}
+      {msg.action && <button type="button" onClick={() => { msg.action!.run(); lastToast = null; setMsg(null); }}>{msg.action.label}</button>}
     </div>
   );
 }
@@ -97,4 +101,5 @@ export const MoreIcon = () => <I d={<><circle cx="5" cy="12" r="1.2" /><circle c
 export const SwapIcon = () => <I d={<><path d="M7 7h11l-3-3" /><path d="M17 17H6l3 3" /></>} />;
 export const CartIcon = () => <I d={<><circle cx="9" cy="20" r="1.3" /><circle cx="18" cy="20" r="1.3" /><path d="M3 4h2l2.4 11.2a1 1 0 0 0 1 .8h9.7a1 1 0 0 0 1-.8L21 8H6.2" /></>} />;
 export const ExternalIcon = () => <I size={16} d={<><path d="M14 4h6v6" /><path d="M20 4l-9 9" /><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></>} />;
+export const GearIcon = () => <I d={<><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" /></>} />;
 export const BoltIcon = () => <I size={14} d={<path d="M13 3L5 14h6l-1 7 8-11h-6l1-7z" />} />;

@@ -9,7 +9,8 @@ import { addDays, planId, todayYmd, weekDates, weekStart } from "@shared/domain"
 import { dayName, match, relDay, shortDate, weekRange, type StatusMap } from "./logic";
 import { usePlan, useRecipes, useSettings, useStatusMap } from "./data";
 import { SwapBar } from "./SwapBar";
-import { CartIcon, ChevronL, ChevronR, HaveBadge, MoreIcon, PlusIcon, RecipeImg, Time } from "./ui";
+import { CartIcon, ChevronL, ChevronR, GearIcon, HaveBadge, MoreIcon, PlusIcon, RecipeImg, Time } from "./ui";
+import { LunchSlot, describeLunch, useKitchenStatus } from "@features/lunches";
 import { href } from "./routes";
 
 export function Home({ start }: { start?: string }) {
@@ -47,12 +48,15 @@ export function Home({ start }: { start?: string }) {
   return (
     <div className="ck-pl ck-pl-home">
       <header className="ck-appbar ck-pl-appbar">
-        <button className="ck-icon-btn" aria-label="Previous week" onClick={() => navigate(href.home(addDays(ws, -7) === thisStart ? undefined : addDays(ws, -7)))}><ChevronL /></button>
         <div className="ck-pl-appbar__title">
           <h1 className="ck-h1">{title}</h1>
-          <div className="ck-appbar__sub ck-muted">{weekRange(dates)}{settings.dinnersPerWeek ? ` · ${planned} of ${settings.dinnersPerWeek} dinners` : ""}</div>
+          <div className="ck-pl-weeknav">
+            <button className="ck-icon-btn" aria-label="Previous week" onClick={() => navigate(href.home(addDays(ws, -7) === thisStart ? undefined : addDays(ws, -7)))}><ChevronL /></button>
+            <span className="ck-appbar__sub">{weekRange(dates)} · {planned} of {settings.dinnersPerWeek} dinners</span>
+            <button className="ck-icon-btn" aria-label="Next week" onClick={() => navigate(href.home(addDays(ws, 7) === thisStart ? undefined : addDays(ws, 7)))}><ChevronR /></button>
+          </div>
         </div>
-        <button className="ck-icon-btn" aria-label="Next week" onClick={() => navigate(href.home(addDays(ws, 7) === thisStart ? undefined : addDays(ws, 7)))}><ChevronR /></button>
+        <button className="ck-icon-btn" aria-label="Settings" onClick={() => navigate("settings")}><GearIcon /></button>
       </header>
 
       {isThisWeek && (
@@ -160,12 +164,9 @@ export function entryLabel(e: PlanEntry, byId: Record<string, Recipe>): string {
     const t = e.refId && byId[e.refId]?.title;
     return t ? `Leftover ${t}${e.fromDate ? ` from ${dayName(e.fromDate, true)}` : ""}` : "Leftovers";
   }
-  if (e.kind === "lunch") return e.note || lunchName(e.refId);
+  if (e.kind === "lunch") return e.note || describeLunch(e, byId).label.replace(/^Lunch: /, "").replace(/^./, (c) => c.toUpperCase());
   return e.note || "No cooking";
 }
-
-/** Lunch idea ids look like "l-grilled-cheese"; the lunches thread owns the library. */
-export const lunchName = (id?: string) => (id ? id.replace(/^l-/, "").replace(/-/g, " ").replace(/^./, (c) => c.toUpperCase()) : "Lunch");
 
 interface DayRowProps { date: string; today: string; ws: string; plan: Record<string, PlanEntry>; byId: Record<string, Recipe>; status: StatusMap; readOnly?: boolean }
 
@@ -205,7 +206,7 @@ function DayRow({ date, today, ws, plan, byId, status, readOnly }: DayRowProps) 
       ) : (
         <div className="ck-pl-emptyday">
           <button className="ck-add-slot" onClick={() => navigate(href.plan(ws, planId(date, "dinner")))}><PlusIcon /> Add dinner</button>
-          {lunch && <LunchLine date={date} lunch={lunch} byId={byId} ws={ws} />}
+          <LunchLine date={date} lunch={lunch} byId={byId} ws={ws} />
         </div>
       )}
     </li>
@@ -213,11 +214,7 @@ function DayRow({ date, today, ws, plan, byId, status, readOnly }: DayRowProps) 
 }
 
 function LunchLine({ date, lunch, byId, ws, readOnly }: { date: string; lunch?: PlanEntry; byId: Record<string, Recipe>; ws: string; readOnly?: boolean }) {
-  if (!lunch && readOnly) return null;
-  return (
-    <button className="ck-meal__lunch ck-pl-lunch" disabled={readOnly} onClick={() => navigate(href.plan(ws, planId(date, "lunch")))}>
-      <b>Lunch:</b>
-      <span>{lunch ? entryLabel(lunch, byId) : <span className="ck-pl-lunch__add">add lunch</span>}</span>
-    </button>
-  );
+  const kitchen = useKitchenStatus();
+  if (readOnly) return lunch ? <div className="ck-meal__lunch ck-pl-lunch is-static">{describeLunch(lunch, byId).label}</div> : null;
+  return <LunchSlot entry={lunch} recipes={byId} kitchen={kitchen} onOpen={() => navigate(href.home(ws === weekStart(todayYmd()) ? undefined : ws, undefined, undefined, date))} />;
 }

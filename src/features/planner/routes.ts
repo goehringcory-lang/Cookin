@@ -4,6 +4,7 @@
  *   #home                          this week
  *   #home/w=2026-12-07             another week
  *   #home/m=2026-12-03:dinner      meal sheet open (add /x=menu for the options menu)
+ *   #home/l=2026-12-03             lunch picker (lunches feature) for that day
  *   #plan/w=2026-12-07/s=2026-12-08:lunch   plan picker, slot preselected
  *   #recipe/<id>/plan=<slot>       recipe for a planned meal (servings, cooked)
  *   #recipe/<id>/swap=<slot>       recipe previewed as a swap ("Make this tonight")
@@ -26,7 +27,7 @@ const join = (base: string, kv: Record<string, string | undefined>) =>
   [base, ...Object.entries(kv).filter(([, v]) => v).map(([k, v]) => `${k}=${v}`)].join("/");
 
 export const href = {
-  home: (week?: string, meal?: string, extra?: "menu" | "move") => join("home", { w: week, m: meal, x: extra }),
+  home: (week?: string, meal?: string, extra?: "menu" | "move", lunchDate?: string) => join("home", { w: week, m: meal, x: extra, l: lunchDate }),
   plan: (week?: string, slot?: string) => join("plan", { w: week, s: slot }),
   recipe: (id: string, ctx: { plan?: string; swap?: string; add?: string } = {}) => join(`recipe/${encodeURIComponent(id)}`, ctx),
 };
