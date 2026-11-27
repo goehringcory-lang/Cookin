@@ -22,10 +22,11 @@ export function syncWhen(at: number, now = Date.now()): string {
 
 export function SyncStatusBadge({ count, onClick }: { count: number; onClick?: () => void }) {
   const info = useNytSyncInfo();
-  const stale = !info || Date.now() - info.at > 9 * 86_400_000;
-  const text = info ? `Synced ${syncWhen(info.at)} · ${count} recipes` : "Not synced yet";
+  // Amber only when a sync has happened and gone stale; "never synced" with recipes (demo, hand-added) stays neutral.
+  const tone = !info ? (count ? "" : "ck-badge--low") : Date.now() - info.at > 9 * 86_400_000 ? "ck-badge--low" : "ck-badge--have";
+  const text = info ? `Synced ${syncWhen(info.at)} · ${count} recipes` : count ? `${count} recipes · Never synced from NYT` : "Not synced yet";
   return (
-    <button type="button" className={`ck-badge ${stale ? "ck-badge--low" : "ck-badge--have"} ck-nyt-badge`} onClick={onClick} aria-label={`${text}. Sync options`}>
+    <button type="button" className={`ck-badge ${tone} ck-nyt-badge`} onClick={onClick} aria-label={`${text}. Sync options`}>
       {text}
     </button>
   );

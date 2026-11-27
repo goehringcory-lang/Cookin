@@ -11,7 +11,7 @@
 .ck-pl-appbar__title { flex: 1; min-width: 0; }
 .ck-pl-appbar--plan { align-items: center; margin-left: calc(-1 * var(--ck-s2)); }
 .ck-pl-weeknav { display: flex; align-items: center; margin: 0 0 0 -12px; }
-.ck-pl-weeknav .ck-icon-btn { width: 36px; height: 36px; color: var(--ck-text-muted); }
+.ck-pl-weeknav .ck-icon-btn { width: 44px; height: 44px; margin: -4px; color: var(--ck-text-muted); }
 .ck-pl-weeknav .ck-appbar__sub { margin: 0; white-space: nowrap; }
 .ck-pl-lunch.is-static { cursor: default; }
 .ck-pl-appbar .ck-h1 { margin: 0; }
@@ -89,7 +89,7 @@
   background: transparent; color: var(--ck-text); text-align: left; font-size: var(--ck-fs-body); cursor: pointer;
 }
 .ck-pl-options button small { color: var(--ck-text-muted); font-size: var(--ck-fs-small); text-align: right; max-width: 55%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ck-pl-options button.is-danger { color: var(--ck-need); }
+.ck-pl-options button.is-danger { color: var(--ck-need-ink); }
 .ck-pl-options button:active { background: var(--ck-surface-2); }
 
 /* ---------- plan picker ---------- */
@@ -146,3 +146,4 @@
 .ck-pl-nyt { margin-top: var(--ck-s5); padding-left: 0; }
 .ck-pl-recipe__bar { bottom: calc(var(--ck-tabbar-h, 64px) + env(safe-area-inset-bottom)); padding-bottom: var(--ck-s3); }
 .ck-pl .ck-btn--ghost, .ck-pl-nudge__go { color: var(--ck-primary-press); }
+.ck-pl .ck-chip, .ck-swap-bar .ck-chip { min-height: 44px; min-width: 44px; }

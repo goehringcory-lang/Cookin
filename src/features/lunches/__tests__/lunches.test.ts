@@ -275,8 +275,8 @@ describe("describeLunch", () => {
     expect(describeLunch(undefined).empty).toBe(true);
     expect(describeLunch(entry("2026-12-01", "lunch", "l-pbj")).label).toBe("Lunch: PB&J");
     expect(describeLunch(entry("2026-12-01", "lunch", "l-ham-cheese-roll-ups")).label).toBe("Lunch: ham and cheese roll-ups");
-    expect(describeLunch(entry("2026-12-01", "leftovers", "nyt-1", { fromDate: "2026-11-30" }), { "nyt-1": { title: "Chili" } }).label).toBe(
-      "Lunch: leftovers from Monday's chili",
+    expect(describeLunch(entry("2026-12-01", "leftovers", "nyt-1", { fromDate: "2026-11-30" }), { "nyt-1": { title: "Chili" } }).label).toBe( // recipe titles keep their own casing
+      "Lunch: leftovers from Monday's Chili",
     );
     expect(describeLunch(entry("2026-12-01", "none", undefined, { note: "School pizza day" })).label).toBe("Lunch: School pizza day");
   });

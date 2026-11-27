@@ -61,12 +61,16 @@ export function PlanWeek({ week, slot }: { week?: string; slot?: string }) {
   const put = (entry: Parameters<typeof assign>[2], label: string) => {
     const undo = snapshot([{ date, meal }]);
     assign(date, meal, entry);
-    toast(`${label} added to ${relDay(date, today) === "Today" ? (meal === "dinner" ? "tonight" : "today") : dayName(date, true)}.`, { label: "Undo", run: () => restore(undo) });
+    const where = relDay(date, today) === "Today" ? (meal === "dinner" ? "tonight" : "today") : dayName(date, true);
+    let next: string | undefined;
     if (meal === "dinner") {
       const after = { ...plan, [slotId]: { id: slotId } as never };
-      const next = nextOpenDinner(after, dates, date) ?? nextOpenDinner(after, dates, ws === thisStart ? today : undefined);
+      next = nextOpenDinner(after, dates, date) ?? nextOpenDinner(after, dates, ws === thisStart ? today : undefined);
       if (next) setDate(next);
     }
+    const tail = meal !== "dinner" ? "" : next ? ` Next up: ${dayName(next, true)}.` : " Every night is planned.";
+    toast(`Added to ${where}.${tail}`, { label: "Undo", run: () => { restore(undo); setDate(date); } });
+    void label;
   };
 
   const back = () => (history.length > 1 ? history.back() : navigate("home"));
