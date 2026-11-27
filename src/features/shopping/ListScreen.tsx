@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState, type FormEvent, type PointerEvent as ReactPointerEvent } from "react";
+import { useRef, useState, type FormEvent, type PointerEvent as ReactPointerEvent } from "react";
+import { Sheet, toast } from "@shared/ui";
+import { StaplesEditor } from "@features/settings";
 import { useShoppingList } from "./useShoppingList";
 import { addManual, clearChecked, finishShopping, removeLine, removeRestocks, toggleChecked } from "./actions";
 import { canShareToKeep, copyForKeep, shareToKeep, toKeepText } from "./keep";
@@ -7,25 +9,11 @@ import "./shopping.css";
 
 const KEEP_URL = "https://keep.google.com/";
 
-interface Toast { text: string; action?: { label: string; run: () => void }; id: number }
-
-function useToast() {
-  const [toast, setToast] = useState<Toast | null>(null);
-  const timer = useRef<number | undefined>(undefined);
-  const show = (t: Omit<Toast, "id">, ms = 5000) => {
-    window.clearTimeout(timer.current);
-    setToast({ ...t, id: Date.now() });
-    timer.current = window.setTimeout(() => setToast(null), ms);
-  };
-  useEffect(() => () => window.clearTimeout(timer.current), []);
-  return { toast, show, hide: () => setToast(null) };
-}
-
 const plural = (n: number, one: string, many = one + "s") => `${n} ${n === 1 ? one : many}`;
 
 export function ListScreen() {
   const { lines, doubleCheck, toBuy, inCart, weekOf } = useShoppingList();
-  const { toast, show, hide } = useToast();
+  const [staplesOpen, setStaplesOpen] = useState(false);
   const [draft, setDraft] = useState("");
   const share = canShareToKeep();
   const all = [...lines, ...doubleCheck];
@@ -35,19 +23,19 @@ export function ListScreen() {
 
   const onCopy = async () => {
     const text = exportText();
-    if (!text) return show({ text: "Nothing left to buy." });
+    if (!text) return toast("Nothing left to buy.");
     const res = await copyForKeep(text);
-    if (res === "copied") show({ text: `Copied ${plural(toBuy, "item")}. Open Keep and paste into your list.`, action: { label: "Open Keep", run: () => window.open(KEEP_URL, "_blank", "noopener") } }, 7000);
-    else show({ text: "Couldn't copy. Try Share instead." });
+    if (res === "copied") toast(`Copied ${plural(toBuy, "item")}. Open Keep and paste into your list.`, { label: "Open Keep", run: () => window.open(KEEP_URL, "_blank", "noopener") });
+    else toast("Couldn't copy. Try Share instead.");
   };
 
   const onShare = async () => {
     const text = exportText();
-    if (!text) return show({ text: "Nothing left to buy." });
+    if (!text) return toast("Nothing left to buy.");
     const res = await shareToKeep(text);
-    if (res === "copied") show({ text: `Copied ${plural(toBuy, "item")}. Open Keep and paste.` });
-    else if (res === "shared") show({ text: "Sent. In Keep, tap ⋮ then Show checkboxes." }, 7000);
-    else if (res === "failed") show({ text: "Couldn't share or copy." });
+    if (res === "copied") toast(`Copied ${plural(toBuy, "item")}. Open Keep and paste.`);
+    else if (res === "shared") toast("Sent. In Keep, tap ⋮ then Show checkboxes.");
+    else if (res === "failed") toast("Couldn't share or copy.");
   };
 
   const onAdd = (e: FormEvent) => {
@@ -60,13 +48,13 @@ export function ListScreen() {
     const msg = removeRestocks(line)
       ? `${line.name} marked as in the kitchen.`
       : `Removed ${line.name}.`;
-    show({ text: msg, action: { label: "Undo", run: () => { undo(); hide(); } } });
+    toast(msg, { label: "Undo", run: undo });
   };
 
   const onDone = () => {
     const { restocked, bought, undo } = finishShopping(all, weekOf);
     const text = restocked ? `Nice. ${plural(restocked, "item")} back in the kitchen.` : `Cleared ${plural(bought, "item")}.`;
-    show({ text, action: { label: "Undo", run: () => { undo(); hide(); } } }, 7000);
+    toast(text, { label: "Undo", run: undo });
   };
 
   return (
@@ -132,12 +120,13 @@ export function ListScreen() {
         <button className="ck-btn ck-btn--secondary" type="submit" disabled={!draft.trim()}>Add</button>
       </form>
 
-      {toast && (
-        <div className="ck-toast" role="status" key={toast.id}>
-          <span>{toast.text}</span>
-          {toast.action && <button onClick={toast.action.run}>{toast.action.label}</button>}
-        </div>
-      )}
+      <p className="ck-shop__staples">
+        <button className="ck-shop__link" onClick={() => setStaplesOpen(true)}>Edit always-buy items</button>
+      </p>
+
+      <Sheet open={staplesOpen} onClose={() => setStaplesOpen(false)} title="Always buy">
+        <StaplesEditor />
+      </Sheet>
     </section>
   );
 }

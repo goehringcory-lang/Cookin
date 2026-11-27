@@ -16,6 +16,7 @@ import type { InventoryEntry, ListEntry, ListLine, ListReason, PlanEntry, Recipe
 import { Amount } from "./units";
 import { parseLine } from "./parse";
 import { normalizeName } from "./normalize";
+import { parseServings } from "@features/lunches";
 
 export interface ShoppingLine extends ListLine {
   /** Merged quantity across recipes, e.g. "2½ cups" or "3". Empty when unknown. */
@@ -73,12 +74,8 @@ const owned = (inv: Record<string, InventoryEntry>, id: string) => {
   return s === "have" || s === "low";
 };
 
-/** "4 servings", "Serves 4 to 6", "6" -> 4 / 4 / 6. */
-export function yieldServings(y?: string): number | undefined {
-  const m = y?.match(/\d+/);
-  const n = m ? Number(m[0]) : NaN;
-  return n > 0 && n < 100 ? n : undefined;
-}
+/** "4 servings" -> 4, "Serves 4 to 6" -> 4, "2 dozen cookies" -> undefined (not servings). */
+export const yieldServings = (y?: string): number | undefined => parseServings(y);
 
 const DAY = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export function weekday(ymd?: string): string {
@@ -128,8 +125,9 @@ export function buildShoppingList(input: ListInput): ShoppingList {
       const serves = yieldServings(recipe.yield);
       const people = entry.servings ?? input.householdSize;
       // Only scale up: half a recipe still needs a whole can of beans.
-      const leftovers = eatenAsLeftovers.has(recipe.id) && input.leftoverScale ? Math.max(1, input.leftoverScale(recipe)) : 1;
-      const scale = (serves && people > serves ? people / serves : 1) * leftovers;
+      const forPeople = serves && people > serves ? people / serves : 1;
+      // Cooking extra for tomorrow's lunch already counts the household, so take the larger.
+      const scale = eatenAsLeftovers.has(recipe.id) && input.leftoverScale ? Math.max(forPeople, input.leftoverScale(recipe)) : forPeople;
       const reason: ListReason = { type: "recipe", recipeId: recipe.id, title: recipe.title, date: entry.date };
       const analysis = analyzeRecipe(recipe, isOwned);
       for (const l of analysis.lines) {

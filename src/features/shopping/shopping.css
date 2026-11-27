@@ -66,6 +66,7 @@
 
 .ck-shop__add { display: flex; gap: 8px; margin-top: 16px; }
 .ck-shop__add .ck-btn { flex: none; }
+.ck-shop__staples { margin: 16px 4px 0; font-size: 14px; text-align: center; }
 
 .ck-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 

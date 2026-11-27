@@ -1,22 +1,9 @@
 import { useMemo } from "react";
 import { useCollection } from "@shared/store";
 import { DEFAULT_STAPLES, addDays, parseYmd, todayYmd, useCatalogVersion, useListEntries, useSettings, weekStart } from "@shared/domain";
-import type { PlanEntry, Recipe, Staple } from "@shared/types";
-import { buildShoppingList, type LunchNeed, type ShoppingList } from "./build";
-
-/**
- * Hooks into the lunches feature (lunchShoppingNeeds, leftoverScale). It is
- * registered rather than imported so this module builds before that one lands;
- * once both are on main this can become a plain import.
- */
-export interface LunchModule {
-  lunchShoppingNeeds: (plan: PlanEntry[], owned: Set<string>) => LunchNeed[];
-  leftoverScale?: (recipe: Recipe) => number;
-}
-let lunches: LunchModule | undefined;
-export function registerLunchModule(m: LunchModule) {
-  lunches = m;
-}
+import type { Recipe, Staple } from "@shared/types";
+import { leftoverScale, lunchShoppingNeeds, parseServings } from "@features/lunches";
+import { buildShoppingList, type ShoppingList } from "./build";
 
 /** Staples from the store, or the defaults until any are saved. */
 export function useStaples(): Staple[] {
@@ -64,8 +51,9 @@ export function useShoppingList(): ShoppingList & { weekOf: string } {
       staples,
       entries,
       householdSize: settings.householdSize,
-      lunchNeeds: lunches?.lunchShoppingNeeds(upcoming.filter((p) => p.kind === "lunch"), owned),
-      leftoverScale: lunches?.leftoverScale,
+      lunchNeeds: lunchShoppingNeeds(upcoming, owned),
+      leftoverScale: (r: Recipe) =>
+        leftoverScale({ date: "", recipeId: r.id, title: r.title, servings: parseServings(r.yield), makesLeftovers: r.makesLeftovers ?? true }),
     });
     return { ...built, weekOf };
     // catalogVersion: custom kitchen items change what recipe lines match.

@@ -139,7 +139,7 @@ describe("buildShoppingList", () => {
   it("parses recipe yields", () => {
     expect(yieldServings("4 servings")).toBe(4);
     expect(yieldServings("Serves 4 to 6")).toBe(4);
-    expect(yieldServings("About 2 dozen cookies")).toBe(2);
+    expect(yieldServings("About 2 dozen cookies")).toBeUndefined();
     expect(yieldServings(undefined)).toBeUndefined();
   });
 });
