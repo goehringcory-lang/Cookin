@@ -203,7 +203,9 @@ export function parseIngredientLine(line: string, index: CatalogIndex = getIndex
     if (u && TRAILING_UNITS.has(u)) unit = u;
   }
 
-  let groups = matchGroups(name, index);
+  // "1 can of tomatoes" means canned tomatoes, not fresh ones
+  let groups = unit === 'can' ? matchGroups(`canned ${name}`, index) : matchGroups(name, index);
+  if (unit === 'can' && groups.length === 0) groups = matchGroups(name, index);
   if (groups.length === 0) {
     // Fall back to the note ("Lime wedges, for serving" is fine already; "Neutral oil, such as canola")
     groups = matchGroups([note, ...parenNotes].filter(Boolean).join(' '), index);
