@@ -168,7 +168,12 @@ export function buildShoppingList(input: ListInput): ShoppingList {
   for (const s of input.staples) {
     if (!s.active) continue;
     if (s.when === "when-low" && (!s.itemId || status(inv, s.itemId) === "have")) continue;
-    const d = s.itemId ? itemDraft(s.itemId) : draft(drafts, `staple:${s.id}`, s.name);
+    // A staple covers its item's family: the "Bread" staple (sandwich bread) and a
+    // low "Bread (any)" are one line, not two.
+    const family = s.itemId && !drafts.has(itemKey(s.itemId))
+      ? [...drafts.values()].find((x) => x.itemId && related(x.itemId, s.itemId!))
+      : undefined;
+    const d = family ?? (s.itemId ? itemDraft(s.itemId) : draft(drafts, `staple:${s.id}`, s.name));
     // Cory's own word for a staple ("Bread") beats the catalog's ("Sandwich bread")
     // unless a recipe already put the item on the list.
     if (!d.reasons.some((r) => r.type === "recipe" || r.type === "lunch")) d.name = s.name;
@@ -211,6 +216,7 @@ export function buildShoppingList(input: ListInput): ShoppingList {
     };
   };
 
+  mergeSameName(drafts);
   const lines = sortLines([...drafts.values()].map(finish).filter((x): x is ShoppingLine => !!x));
   const doubleCheck = sortLines(
     [...unmatched.values()]
@@ -221,6 +227,33 @@ export function buildShoppingList(input: ListInput): ShoppingList {
   );
   const all = [...lines, ...doubleCheck];
   return { lines, doubleCheck, toBuy: all.filter((l) => !l.checked).length, inCart: all.filter((l) => l.checked).length };
+}
+
+/** One item satisfies the other (penne -> short pasta, sandwich bread -> bread). */
+function related(a: string, b: string): boolean {
+  return a === b || !!getItem(a)?.satisfies?.includes(b) || !!getItem(b)?.satisfies?.includes(a);
+}
+
+/**
+ * Lines that would read the same in Keep ("Bread" twice) become one. The line
+ * with a catalog item and the most reasons keeps its key; the others fold in.
+ */
+function mergeSameName(drafts: Map<string, Draft>) {
+  const groups = new Map<string, Draft[]>();
+  for (const d of drafts.values()) {
+    const k = d.name.trim().toLowerCase();
+    groups.set(k, [...(groups.get(k) ?? []), d]);
+  }
+  for (const group of groups.values()) {
+    if (group.length < 2) continue;
+    const [keep, ...rest] = [...group].sort((a, b) => Number(!!b.itemId) - Number(!!a.itemId) || b.reasons.length - a.reasons.length);
+    for (const d of rest) {
+      for (const r of d.reasons) if (!keep.reasons.some((x) => JSON.stringify(x) === JSON.stringify(r))) keep.reasons.push(r);
+      keep.amount.merge(d.amount);
+      keep.manualIds.push(...d.manualIds);
+      drafts.delete(d.key);
+    }
+  }
 }
 
 function rankOf(reasons: ListReason[]): number {

@@ -64,6 +64,13 @@ export class Amount {
     else this.counts.set(u, (this.counts.get(u) ?? 0) + quantity);
   }
 
+  /** Adds another amount into this one. */
+  merge(other: Amount): void {
+    this.volumeMl += other.volumeMl;
+    this.massG += other.massG;
+    for (const [u, n] of other.counts) this.counts.set(u, (this.counts.get(u) ?? 0) + n);
+  }
+
   isEmpty(): boolean {
     return this.volumeMl === 0 && this.massG === 0 && this.counts.size === 0;
   }
