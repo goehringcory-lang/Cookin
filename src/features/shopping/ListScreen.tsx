@@ -170,13 +170,16 @@ function Row({ line, weekOf, onRemove, removeLabel = "Remove" }: { line: Shoppin
       style={dx ? { transform: `translateX(${dx}px)`, transition: "none" } : undefined}
       data-swipe={dx < -SWIPE_REMOVE ? "remove" : undefined}
     >
+      {/* 44 px tap target around the 28 px circle: easier to hit with a cart in one hand. */}
       <button
-        className="ck-check"
+        className="ck-shop__hit"
         role="checkbox"
         aria-checked={line.checked}
         aria-label={label}
         onClick={() => toggleChecked(line, weekOf)}
-      />
+      >
+        <span className="ck-check" aria-hidden="true" aria-checked={line.checked} />
+      </button>
       <span className="ck-shop__text" onClick={() => toggleChecked(line, weekOf)}>
         <span className="ck-list-item__name">{line.name}</span>
         {line.why && <span className="ck-list-item__why">{line.why}</span>}

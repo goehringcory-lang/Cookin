@@ -33,6 +33,8 @@ describe("Amount", () => {
     expect(sum([2, "can"], [1, "can"])).toBe("3 cans");
     expect(sum([1, "lb"], [2])).toBe("1 lb + 2");
     expect(sum([undefined])).toBe("");
+    expect(sum([2.5])).toBe("3");
+    expect(sum([1.25, "can"])).toBe("2 cans");
   });
   it("formats fractions", () => {
     expect(fraction(2.5)).toBe("2½");

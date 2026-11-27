@@ -79,8 +79,10 @@ export class Amount {
     const parts: string[] = [];
     if (this.massG > 0) parts.push(formatMass(this.massG));
     if (this.volumeMl > 0) parts.push(formatVolume(this.volumeMl));
-    for (const [unit, n] of this.counts) {
-      parts.push(unit ? `${fraction(n)} ${pluralizeUnit(unit, n)}` : fraction(n));
+    for (const [unit, raw] of this.counts) {
+      // You can't buy 2½ lemons or 1¼ cans: round countable things up.
+      const n = Math.ceil(raw - 1e-9);
+      parts.push(unit ? `${n} ${pluralizeUnit(unit, n)}` : String(n));
     }
     return parts.join(' + ');
   }

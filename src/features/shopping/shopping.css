@@ -46,6 +46,14 @@
 .ck-shop__help--tight { margin: -4px 4px 8px; }
 .ck-shop__link { border: 0; background: none; padding: 0; color: var(--ck-text, var(--ck-ink)); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
 .ck-shop__link:disabled { opacity: 0.5; }
+.ck-shop__staples .ck-shop__link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; }
+.ck-shop__hit {
+  display: grid; place-items: center; width: 44px; height: 44px; margin: -8px;
+  padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.ck-shop__hit .ck-check { pointer-events: none; }
+.ck-shop__hit .ck-check::before { content: none; }
+.ck-shop__hit:focus-visible { outline: 2px solid var(--ck-focus, var(--ck-accent)); outline-offset: -2px; border-radius: 50%; }
 
 .ck-shop__row { grid-template-columns: auto 1fr auto auto; touch-action: pan-y; transition: transform 0.18s ease, opacity 0.18s ease; background: var(--ck-surface); }
 .ck-shop__row .ck-list-item__qty { grid-column: 3; text-align: right; }
