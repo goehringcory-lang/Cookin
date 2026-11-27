@@ -109,7 +109,7 @@ class Store {
     this.pushTimer = setTimeout(() => this.push(), delay);
   }
   async push() {
-    if (!this.queue.size) return;
+    if (!this.remote || !this.queue.size) return;
     const batch = [...this.queue.values()].slice(0, 400);
     try {
       this.setStatus("syncing");
