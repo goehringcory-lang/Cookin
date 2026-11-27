@@ -1,0 +1,84 @@
+/* Lunch feature styles. Uses the shared --ck-* tokens; falls back to the scaffold palette. */
+.ck-lunch-week { margin: 20px 0; }
+.ck-lunch-week__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.ck-lunch-week__head h2 { margin: 0; font-size: 18px; }
+.ck-lunch-week__note { margin: 8px 0 0; color: var(--ck-muted, #5b675f); font-size: 14px; }
+.ck-lunch-week__days { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
+.ck-lunch-week__days li { display: grid; grid-template-columns: 40px 1fr; align-items: center; gap: 8px; }
+.ck-lunch-week__day { font-weight: 600; color: var(--ck-muted, #5b675f); font-size: 13px; text-transform: uppercase; letter-spacing: .03em; }
+
+.ck-lunch-slot {
+  display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; padding: 8px 12px;
+  border: 1px solid var(--ck-line, #d5dccf); border-radius: 12px; background: var(--ck-surface, #fff);
+  color: var(--ck-ink, #1b221d); font: inherit; text-align: left; cursor: pointer;
+}
+.ck-lunch-slot.is-empty { border-style: dashed; color: var(--ck-muted, #5b675f); background: transparent; }
+.ck-lunch-slot__emoji { font-size: 18px; line-height: 1; }
+.ck-lunch-slot__label { flex: 1; min-width: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.ck-lunch-slot__tag { flex: none; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: #f5ead0; color: #6b4b00; }
+
+.ck-lunch-btn {
+  min-height: 44px; padding: 0 16px; border: 0; border-radius: 12px; font: 600 15px var(--ck-font, system-ui);
+  background: var(--ck-accent, #2e6b4a); color: var(--ck-accent-ink, #fff); cursor: pointer; white-space: nowrap;
+}
+.ck-lunch-btn:disabled { opacity: .5; }
+.ck-lunch-link { background: none; border: 0; padding: 10px 0; color: var(--ck-accent, #2e6b4a); font: inherit; text-decoration: underline; cursor: pointer; min-height: 44px; }
+.ck-lunch-icon-btn {
+  flex: none; width: 44px; height: 44px; border: 0; border-radius: 12px; background: transparent;
+  color: var(--ck-muted, #5b675f); font: 600 16px var(--ck-font, system-ui); cursor: pointer;
+}
+
+.ck-lunch-sheet { position: fixed; inset: 0; z-index: 50; background: rgba(0, 0, 0, .35); display: flex; align-items: flex-end; justify-content: center; }
+.ck-lunch-sheet__panel {
+  width: 100%; max-width: 640px; max-height: 88vh; overflow-y: auto; overscroll-behavior: contain;
+  background: var(--ck-bg, #f3f5ef); border-radius: 20px 20px 0 0;
+  padding: 8px 16px calc(24px + env(safe-area-inset-bottom));
+}
+.ck-lunch-picker__head { position: sticky; top: -8px; z-index: 1; display: flex; align-items: center; justify-content: space-between; padding: 8px 0; background: var(--ck-bg, #f3f5ef); }
+.ck-lunch-picker__head h2 { margin: 0; font-size: 18px; }
+
+.ck-lunch-section { margin: 14px 0; }
+.ck-lunch-section h3 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--ck-muted, #5b675f); }
+.ck-lunch-count { font-weight: 500; }
+.ck-lunch-empty { margin: 0; color: var(--ck-muted, #5b675f); font-size: 14px; }
+
+.ck-lunch-filters, .ck-lunch-chips { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0; margin: 0; list-style: none; scrollbar-width: none; }
+.ck-lunch-chip {
+  flex: none; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--ck-line, #d5dccf);
+  background: var(--ck-surface, #fff); color: var(--ck-ink, #1b221d); font: 500 14px var(--ck-font, system-ui); cursor: pointer;
+}
+.ck-lunch-chip[aria-pressed="true"] { background: var(--ck-accent, #2e6b4a); border-color: var(--ck-accent, #2e6b4a); color: var(--ck-accent-ink, #fff); }
+
+.ck-lunch-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.ck-lunch-card {
+  display: flex; flex-wrap: wrap; align-items: center; border: 1px solid var(--ck-line, #d5dccf); border-radius: 14px;
+  background: var(--ck-surface, #fff); color: var(--ck-ink, #1b221d);
+}
+button.ck-lunch-card { width: 100%; padding: 10px 12px; gap: 12px; font: inherit; text-align: left; cursor: pointer; }
+.ck-lunch-card.is-selected { border-color: var(--ck-accent, #2e6b4a); box-shadow: inset 0 0 0 1px var(--ck-accent, #2e6b4a); }
+.ck-lunch-card--leftovers { border-color: var(--ck-accent, #2e6b4a); }
+.ck-lunch-card__main { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; padding: 10px 0 10px 12px; min-height: 56px; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.ck-lunch-card__emoji { font-size: 26px; line-height: 1; width: 32px; text-align: center; }
+.ck-lunch-card__body { display: flex; flex-direction: column; min-width: 0; }
+.ck-lunch-card__name { font-weight: 600; }
+.ck-lunch-card__meta { font-size: 13px; color: var(--ck-muted, #5b675f); }
+.ck-lunch-card__need { font-size: 13px; color: #9a5b00; }
+.ck-lunch-card__low { font-size: 13px; color: var(--ck-muted, #5b675f); font-style: italic; }
+.ck-lunch-card__howto { flex-basis: 100%; margin: 0; padding: 0 12px 12px 56px; font-size: 14px; color: var(--ck-muted, #5b675f); }
+
+.ck-lunch-note { display: flex; gap: 8px; }
+.ck-lunch-note input {
+  flex: 1; min-width: 0; min-height: 44px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--ck-line, #d5dccf);
+  background: var(--ck-surface, #fff); color: var(--ck-ink, #1b221d); font: 16px var(--ck-font, system-ui);
+}
+
+.ck-lunch-toggle__row { display: flex; align-items: flex-start; gap: 12px; min-height: 44px; padding: 10px 0; cursor: pointer; }
+.ck-lunch-toggle__row input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--ck-accent, #2e6b4a); }
+.ck-lunch-toggle__row > span { display: flex; flex-direction: column; }
+.ck-lunch-toggle__title { font-weight: 600; }
+.ck-lunch-toggle__hint { font-size: 13px; color: var(--ck-muted, #5b675f); }
+
+@media (prefers-color-scheme: dark) {
+  .ck-lunch-slot__tag { background: #3a2f14; color: #f2d38a; }
+  .ck-lunch-card__need { color: #f2b766; }
+}
