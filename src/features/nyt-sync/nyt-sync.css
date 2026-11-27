@@ -1,0 +1,22 @@
+/* NYT sync screens. Uses design tokens from src/styles/tokens.css with scaffold fallbacks. */
+.ck-import { display: flex; flex-direction: column; gap: var(--ck-s4, 16px); padding-top: var(--ck-s2, 8px); }
+.ck-import__head { display: flex; gap: var(--ck-s3, 12px); align-items: center; }
+.ck-import__head .ck-h1, .ck-import__head p { margin: 0; }
+.ck-import__logo { flex: none; width: 44px; height: 44px; border-radius: var(--ck-r-md, 14px); display: grid; place-items: center; background: var(--ck-primary, var(--ck-accent)); color: var(--ck-on-primary, #fff); font: 700 22px var(--ck-font-display, Georgia, serif); }
+.ck-import__step { display: flex; align-items: center; gap: var(--ck-s3, 12px); }
+.ck-import__spinner { width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid var(--ck-border, var(--ck-line)); border-top-color: var(--ck-primary, var(--ck-accent)); animation: ck-spin 0.9s linear infinite; flex: none; }
+@keyframes ck-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .ck-import__spinner { animation-duration: 3s; } }
+.ck-import__paste { min-height: 120px; font: 13px/1.4 ui-monospace, monospace; resize: vertical; width: 100%; }
+.ck-import .ck-progress { height: 8px; border-radius: 99px; background: var(--ck-surface-2, var(--ck-line)); overflow: hidden; }
+.ck-import .ck-progress > span { display: block; height: 100%; background: var(--ck-primary, var(--ck-accent)); transition: width var(--ck-dur, 260ms) var(--ck-ease, ease); }
+
+/* Sync sheet on the Recipes screen */
+.ck-nyt-sheet { display: flex; flex-direction: column; gap: var(--ck-s4, 16px); }
+.ck-nyt-sheet > * { flex-shrink: 0; }
+.ck-nyt-sheet p { margin: 0; }
+.ck-nyt-sheet ol { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: var(--ck-s2, 8px); }
+.ck-nyt-bookmark { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: var(--ck-r-pill, 999px); background: var(--ck-primary, var(--ck-accent)); color: var(--ck-on-primary, #fff); font-weight: 600; text-decoration: none; cursor: grab; border: 2px dashed transparent; }
+.ck-nyt-bookmark:active { cursor: grabbing; }
+.ck-nyt-bookmark:focus-visible { outline: 3px solid var(--ck-focus, var(--ck-accent)); outline-offset: 2px; }
+.ck-nyt-sheet a:not(.ck-nyt-bookmark) { color: var(--ck-primary, var(--ck-accent)); font-weight: 600; }

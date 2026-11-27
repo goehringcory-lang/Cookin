@@ -1,0 +1,6 @@
+.ck-recipes { display: flex; flex-direction: column; gap: var(--ck-s3, 12px); }
+.ck-recipes .ck-appbar { padding-bottom: 0; }
+.ck-recipes .ck-h1 { margin: 0; }
+.ck-nyt-badge { border: 0; cursor: pointer; font: inherit; font-size: var(--ck-fs-small, 13px); min-height: 28px; }
+.ck-recipes__count { margin: 0; }
+.ck-recipes .ck-recipe-card { overflow: hidden; }

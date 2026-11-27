@@ -7,6 +7,7 @@
     "dev": "vite",
     "dev:full": "npm run build && wrangler pages dev dist --d1 DB --local",
     "build": "tsc -b && vite build",
+    "build:bookmarklet": "node tools/bookmarklet/build.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "typecheck": "tsc -b --noEmit",
