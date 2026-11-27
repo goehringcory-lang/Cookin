@@ -44,7 +44,7 @@
 .ck-shop__export { margin-bottom: 16px; }
 .ck-shop__help { margin: 8px 4px 0; color: var(--ck-text-muted, var(--ck-muted)); font-size: 13px; line-height: 1.4; }
 .ck-shop__help--tight { margin: -4px 4px 8px; }
-.ck-shop__link { border: 0; background: none; padding: 0; color: var(--ck-primary, var(--ck-accent)); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
+.ck-shop__link { border: 0; background: none; padding: 0; color: var(--ck-text, var(--ck-ink)); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
 .ck-shop__link:disabled { opacity: 0.5; }
 
 .ck-shop__row { grid-template-columns: auto 1fr auto auto; touch-action: pan-y; transition: transform 0.18s ease, opacity 0.18s ease; background: var(--ck-surface); }
