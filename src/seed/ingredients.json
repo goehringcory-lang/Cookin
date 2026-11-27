@@ -1,0 +1,1360 @@
+[
+  {
+    "id": "onion",
+    "name": "Onion",
+    "category": "produce",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "garlic",
+    "name": "Garlic",
+    "category": "produce",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "ginger",
+    "name": "Ginger",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "carrot",
+    "name": "Carrot",
+    "category": "produce",
+    "location": "fridge",
+    "common": true
+  },
+  {
+    "id": "celery",
+    "name": "Celery",
+    "category": "produce",
+    "location": "fridge",
+    "common": true
+  },
+  {
+    "id": "bell-pepper",
+    "name": "Bell pepper",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "broccoli",
+    "name": "Broccoli",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "spinach",
+    "name": "Spinach",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "kale",
+    "name": "Kale",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "zucchini",
+    "name": "Zucchini",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "tomato",
+    "name": "Tomato",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "cherry-tomatoes",
+    "name": "Cherry tomatoes",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "cucumber",
+    "name": "Cucumber",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "lettuce",
+    "name": "Lettuce",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "avocado",
+    "name": "Avocado",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "lemon",
+    "name": "Lemon",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "lime",
+    "name": "Lime",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "banana",
+    "name": "Bananas",
+    "category": "produce",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "apple",
+    "name": "Apple",
+    "category": "produce",
+    "location": "fridge",
+    "common": true
+  },
+  {
+    "id": "scallion",
+    "name": "Scallion",
+    "category": "produce",
+    "location": "fridge",
+    "common": true
+  },
+  {
+    "id": "cilantro",
+    "name": "Cilantro",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "parsley",
+    "name": "Parsley",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "basil",
+    "name": "Basil",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "mushroom",
+    "name": "Mushroom",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "potato",
+    "name": "Potato",
+    "category": "produce",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "sweet-potato",
+    "name": "Sweet potato",
+    "category": "produce",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "cabbage",
+    "name": "Cabbage",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "cauliflower",
+    "name": "Cauliflower",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "red-onion",
+    "name": "Red onion",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "jalapeno",
+    "name": "Jalapeno",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "butternut-squash",
+    "name": "Butternut squash",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "grapes",
+    "name": "Grapes",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "strawberries",
+    "name": "Strawberries",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "blueberries",
+    "name": "Blueberries",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "orange",
+    "name": "Orange",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "shallot",
+    "name": "Shallot",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "green-beans",
+    "name": "Green beans",
+    "category": "produce",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "milk",
+    "name": "Milk",
+    "category": "dairy-eggs",
+    "location": "fridge",
+    "common": true
+  },
+  {
+    "id": "butter",
+    "name": "Butter",
+    "category": "dairy-eggs",
+    "location": "fridge",
+    "common": true
+  },
+  {
+    "id": "eggs",
+    "name": "Eggs",
+    "category": "dairy-eggs",
+    "location": "fridge",
+    "common": true
+  },
+  {
+    "id": "cheddar",
+    "name": "Cheddar",
+    "category": "dairy-eggs",
+    "location": "fridge",
+    "common": true
+  },
+  {
+    "id": "mozzarella",
+    "name": "Mozzarella",
+    "category": "dairy-eggs",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "parmesan",
+    "name": "Parmesan",
+    "category": "dairy-eggs",
+    "location": "fridge",
+    "common": true
+  },
+  {
+    "id": "feta",
+    "name": "Feta",
+    "category": "dairy-eggs",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "sour-cream",
+    "name": "Sour cream",
+    "category": "dairy-eggs",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "greek-yogurt",
+    "name": "Greek yogurt",
+    "category": "dairy-eggs",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "heavy-cream",
+    "name": "Heavy cream",
+    "category": "dairy-eggs",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "cream-cheese",
+    "name": "Cream cheese",
+    "category": "dairy-eggs",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "cheese-sticks",
+    "name": "String cheese sticks",
+    "category": "dairy-eggs",
+    "location": "fridge",
+    "common": true
+  },
+  {
+    "id": "yogurt",
+    "name": "Yogurt",
+    "category": "dairy-eggs",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "ricotta",
+    "name": "Ricotta",
+    "category": "dairy-eggs",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "chicken-breast",
+    "name": "Chicken breast",
+    "category": "meat-seafood",
+    "location": "fridge",
+    "common": true
+  },
+  {
+    "id": "chicken-thighs",
+    "name": "Chicken thighs",
+    "category": "meat-seafood",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "chicken-drumsticks",
+    "name": "Chicken drumsticks",
+    "category": "meat-seafood",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "whole-chicken",
+    "name": "Whole chicken",
+    "category": "meat-seafood",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "ground-beef",
+    "name": "Ground beef",
+    "category": "meat-seafood",
+    "location": "fridge",
+    "common": true
+  },
+  {
+    "id": "ground-turkey",
+    "name": "Ground turkey",
+    "category": "meat-seafood",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "bacon",
+    "name": "Bacon",
+    "category": "meat-seafood",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "italian-sausage",
+    "name": "Italian sausage",
+    "category": "meat-seafood",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "salmon",
+    "name": "Salmon",
+    "category": "meat-seafood",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "shrimp",
+    "name": "Shrimp",
+    "category": "meat-seafood",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "pork-chops",
+    "name": "Pork chops",
+    "category": "meat-seafood",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "flank-steak",
+    "name": "Flank steak",
+    "category": "meat-seafood",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "pork-shoulder",
+    "name": "Pork shoulder",
+    "category": "meat-seafood",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "chuck-roast",
+    "name": "Chuck roast",
+    "category": "meat-seafood",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "tofu",
+    "name": "Tofu",
+    "category": "meat-seafood",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "spaghetti",
+    "name": "Spaghetti",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "penne",
+    "name": "Penne",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "rotini",
+    "name": "Rotini",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "macaroni",
+    "name": "Macaroni",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "rigatoni",
+    "name": "Rigatoni",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "fettuccine",
+    "name": "Fettuccine",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "lasagna-noodles",
+    "name": "Lasagna noodles",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "orzo",
+    "name": "Orzo",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "egg-noodles",
+    "name": "Egg noodles",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "rice-noodles",
+    "name": "Rice noodles",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "white-rice",
+    "name": "White rice",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "brown-rice",
+    "name": "Brown rice",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "basmati-rice",
+    "name": "Basmati rice",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "arborio-rice",
+    "name": "Arborio rice",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "quinoa",
+    "name": "Quinoa",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "rolled-oats",
+    "name": "Rolled oats",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "cereal",
+    "name": "Cereal",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "couscous",
+    "name": "Couscous",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "red-lentils",
+    "name": "Red lentils",
+    "category": "pasta-grains",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "flour",
+    "name": "All-purpose flour",
+    "category": "baking",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "whole-wheat-flour",
+    "name": "Whole wheat flour",
+    "category": "baking",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "sugar",
+    "name": "Sugar",
+    "category": "baking",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "brown-sugar",
+    "name": "Brown sugar",
+    "category": "baking",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "powdered-sugar",
+    "name": "Powdered sugar",
+    "category": "baking",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "baking-powder",
+    "name": "Baking powder",
+    "category": "baking",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "baking-soda",
+    "name": "Baking soda",
+    "category": "baking",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "cornstarch",
+    "name": "Cornstarch",
+    "category": "baking",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "vanilla",
+    "name": "Vanilla",
+    "category": "baking",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "cocoa-powder",
+    "name": "Cocoa powder",
+    "category": "baking",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "chocolate-chips",
+    "name": "Chocolate chips",
+    "category": "baking",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "breadcrumbs",
+    "name": "Breadcrumbs",
+    "category": "baking",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "cornmeal",
+    "name": "Cornmeal",
+    "category": "baking",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "salt",
+    "name": "Salt",
+    "category": "spices",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "black-pepper",
+    "name": "Black pepper",
+    "category": "spices",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "paprika",
+    "name": "Paprika",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "smoked-paprika",
+    "name": "Smoked paprika",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "cumin",
+    "name": "Cumin",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "chili-powder",
+    "name": "Chili powder",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "oregano",
+    "name": "Oregano",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "italian-seasoning",
+    "name": "Italian seasoning",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "red-pepper-flakes",
+    "name": "Red pepper flakes",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "cinnamon",
+    "name": "Cinnamon",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "garlic-powder",
+    "name": "Garlic powder",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "onion-powder",
+    "name": "Onion powder",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "curry-powder",
+    "name": "Curry powder",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "bay-leaf",
+    "name": "Bay leaf",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "turmeric",
+    "name": "Turmeric",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "coriander",
+    "name": "Coriander",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "nutmeg",
+    "name": "Nutmeg",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "thyme",
+    "name": "Thyme",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "taco-seasoning",
+    "name": "Taco seasoning",
+    "category": "spices",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "olive-oil",
+    "name": "Olive oil",
+    "category": "oils-vinegars",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "vegetable-oil",
+    "name": "Vegetable oil",
+    "category": "oils-vinegars",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "sesame-oil",
+    "name": "Sesame oil",
+    "category": "oils-vinegars",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "red-wine-vinegar",
+    "name": "Red wine vinegar",
+    "category": "oils-vinegars",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "rice-vinegar",
+    "name": "Rice vinegar",
+    "category": "oils-vinegars",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "balsamic-vinegar",
+    "name": "Balsamic vinegar",
+    "category": "oils-vinegars",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "apple-cider-vinegar",
+    "name": "Apple cider vinegar",
+    "category": "oils-vinegars",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "cooking-spray",
+    "name": "Cooking spray",
+    "category": "oils-vinegars",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "soy-sauce",
+    "name": "Soy sauce",
+    "category": "condiments-sauces",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "ketchup",
+    "name": "Ketchup",
+    "category": "condiments-sauces",
+    "location": "fridge",
+    "common": true
+  },
+  {
+    "id": "mustard",
+    "name": "Mustard",
+    "category": "condiments-sauces",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "dijon-mustard",
+    "name": "Dijon mustard",
+    "category": "condiments-sauces",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "mayonnaise",
+    "name": "Mayonnaise",
+    "category": "condiments-sauces",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "hot-sauce",
+    "name": "Hot sauce",
+    "category": "condiments-sauces",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "salsa",
+    "name": "Salsa",
+    "category": "condiments-sauces",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "bbq-sauce",
+    "name": "BBQ sauce",
+    "category": "condiments-sauces",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "honey",
+    "name": "Honey",
+    "category": "condiments-sauces",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "maple-syrup",
+    "name": "Maple syrup",
+    "category": "condiments-sauces",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "peanut-butter",
+    "name": "Peanut butter",
+    "category": "condiments-sauces",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "jam",
+    "name": "Jam",
+    "category": "condiments-sauces",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "worcestershire",
+    "name": "Worcestershire",
+    "category": "condiments-sauces",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "hoisin",
+    "name": "Hoisin",
+    "category": "condiments-sauces",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "teriyaki-sauce",
+    "name": "Teriyaki sauce",
+    "category": "condiments-sauces",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "ranch",
+    "name": "Ranch",
+    "category": "condiments-sauces",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "pesto",
+    "name": "Pesto",
+    "category": "condiments-sauces",
+    "location": "fridge",
+    "common": false
+  },
+  {
+    "id": "sriracha",
+    "name": "Sriracha",
+    "category": "condiments-sauces",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "canned-tomatoes",
+    "name": "Canned diced tomatoes",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "crushed-tomatoes",
+    "name": "Crushed tomatoes",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "tomato-paste",
+    "name": "Tomato paste",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "tomato-sauce",
+    "name": "Tomato sauce",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "marinara-sauce",
+    "name": "Marinara sauce",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "black-beans",
+    "name": "Black beans",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "chickpeas",
+    "name": "Chickpeas",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "kidney-beans",
+    "name": "Kidney beans",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "white-beans",
+    "name": "White beans",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "chicken-broth",
+    "name": "Chicken broth",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "vegetable-broth",
+    "name": "Vegetable broth",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "beef-broth",
+    "name": "Beef broth",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "coconut-milk",
+    "name": "Coconut milk",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "tuna",
+    "name": "Tuna",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "olives",
+    "name": "Olives",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "enchilada-sauce",
+    "name": "Enchilada sauce",
+    "category": "canned-jarred",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "frozen-peas",
+    "name": "Frozen peas",
+    "category": "frozen",
+    "location": "freezer",
+    "common": false
+  },
+  {
+    "id": "frozen-corn",
+    "name": "Frozen corn",
+    "category": "frozen",
+    "location": "freezer",
+    "common": false
+  },
+  {
+    "id": "frozen-broccoli",
+    "name": "Frozen broccoli",
+    "category": "frozen",
+    "location": "freezer",
+    "common": false
+  },
+  {
+    "id": "frozen-spinach",
+    "name": "Frozen spinach",
+    "category": "frozen",
+    "location": "freezer",
+    "common": false
+  },
+  {
+    "id": "frozen-waffles",
+    "name": "Frozen waffles",
+    "category": "frozen",
+    "location": "freezer",
+    "common": false
+  },
+  {
+    "id": "frozen-berries",
+    "name": "Frozen berries",
+    "category": "frozen",
+    "location": "freezer",
+    "common": false
+  },
+  {
+    "id": "bread",
+    "name": "Bread",
+    "category": "bread-bakery",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "flour-tortillas",
+    "name": "Flour tortillas",
+    "category": "bread-bakery",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "corn-tortillas",
+    "name": "Corn tortillas",
+    "category": "bread-bakery",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "hamburger-buns",
+    "name": "Hamburger buns",
+    "category": "bread-bakery",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "pita",
+    "name": "Pita",
+    "category": "bread-bakery",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "naan",
+    "name": "Naan",
+    "category": "bread-bakery",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "fig-bars",
+    "name": "Fig bars",
+    "category": "snacks",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "fruit-bars",
+    "name": "Fruit bars",
+    "category": "snacks",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "fruit-snacks",
+    "name": "Fruit snacks",
+    "category": "snacks",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "applesauce-pouches",
+    "name": "Applesauce pouches",
+    "category": "snacks",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "goldfish-crackers",
+    "name": "Goldfish crackers",
+    "category": "snacks",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "granola-bars",
+    "name": "Granola bars",
+    "category": "snacks",
+    "location": "pantry",
+    "common": true
+  },
+  {
+    "id": "crackers",
+    "name": "Crackers",
+    "category": "snacks",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "popcorn",
+    "name": "Popcorn",
+    "category": "snacks",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "pretzels",
+    "name": "Pretzels",
+    "category": "snacks",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "tortilla-chips",
+    "name": "Tortilla chips",
+    "category": "snacks",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "raisins",
+    "name": "Raisins",
+    "category": "snacks",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "orange-juice",
+    "name": "Orange juice",
+    "category": "beverages",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "apple-juice",
+    "name": "Apple juice",
+    "category": "beverages",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "coffee",
+    "name": "Coffee",
+    "category": "beverages",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "tea",
+    "name": "Tea",
+    "category": "beverages",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "sparkling-water",
+    "name": "Sparkling water",
+    "category": "beverages",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "almonds",
+    "name": "Almonds",
+    "category": "nuts-seeds",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "walnuts",
+    "name": "Walnuts",
+    "category": "nuts-seeds",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "peanuts",
+    "name": "Peanuts",
+    "category": "nuts-seeds",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "pine-nuts",
+    "name": "Pine nuts",
+    "category": "nuts-seeds",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "sesame-seeds",
+    "name": "Sesame seeds",
+    "category": "nuts-seeds",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "sunflower-seeds",
+    "name": "Sunflower seeds",
+    "category": "nuts-seeds",
+    "location": "pantry",
+    "common": false
+  },
+  {
+    "id": "cashews",
+    "name": "Cashews",
+    "category": "nuts-seeds",
+    "location": "pantry",
+    "common": false
+  }
+]
