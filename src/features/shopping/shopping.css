@@ -1,0 +1,73 @@
+/* Shopping list screen. Uses the shared design system classes (ck-list, ck-check,
+   ck-btn, ck-toast…) from src/styles/components.css. The @layer block below is a
+   low-priority fallback so the screen still looks right before that file lands;
+   any unlayered rule from the design system wins over it automatically. */
+
+@layer ck-shop-fallback {
+  .ck-shop .ck-appbar { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 8px 0 16px; }
+  .ck-shop .ck-appbar__sub { color: var(--ck-muted); font-size: 13px; margin-top: 2px; }
+  .ck-shop .ck-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 20px; border: 1px solid transparent; border-radius: 999px; font: 600 15px var(--ck-font); cursor: pointer; }
+  .ck-shop .ck-btn:disabled { opacity: 0.45; pointer-events: none; }
+  .ck-shop .ck-btn--primary { background: var(--ck-accent); color: var(--ck-accent-ink); }
+  .ck-shop .ck-btn--secondary { background: var(--ck-surface); color: var(--ck-ink); border-color: var(--ck-line); }
+  .ck-shop .ck-btn--ghost { background: transparent; color: var(--ck-accent); }
+  .ck-shop .ck-btn--block { display: flex; width: 100%; }
+  .ck-shop .ck-btn--sm { min-height: 36px; padding: 0 12px; font-size: 13px; }
+  .ck-shop .ck-btn svg { width: 20px; height: 20px; }
+  .ck-shop .ck-list { list-style: none; margin: 0; padding: 0; background: var(--ck-surface); border-radius: 14px; box-shadow: 0 1px 2px rgb(0 0 0 / 0.06); overflow: hidden; }
+  .ck-shop .ck-list-item { display: grid; gap: 12px; align-items: center; min-height: 60px; padding: 8px 16px; border-bottom: 1px solid var(--ck-line); }
+  .ck-shop .ck-list-item:last-child { border-bottom: 0; }
+  .ck-shop .ck-list-item__name { font-weight: 500; }
+  .ck-shop .ck-list-item__why { display: block; color: var(--ck-muted); font-size: 13px; }
+  .ck-shop .ck-list-item__qty { color: var(--ck-muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .ck-shop .ck-list-item[data-checked="true"] { opacity: 0.5; }
+  .ck-shop .ck-list-item[data-checked="true"] .ck-list-item__name { text-decoration: line-through; }
+  .ck-shop .ck-check { position: relative; display: grid; place-items: center; width: 28px; height: 28px; padding: 0; border: 2px solid var(--ck-line); border-radius: 50%; background: var(--ck-surface); cursor: pointer; }
+  .ck-shop .ck-check::before { content: ""; position: absolute; inset: -10px; }
+  .ck-shop .ck-check::after { content: ""; width: 10px; height: 6px; border: solid transparent; border-width: 0 0 2.5px 2.5px; transform: translateY(-1px) rotate(-45deg); }
+  .ck-shop .ck-check[aria-checked="true"] { background: var(--ck-accent); border-color: var(--ck-accent); }
+  .ck-shop .ck-check[aria-checked="true"]::after { border-color: #fff; }
+  .ck-shop .ck-input { width: 100%; min-height: 48px; padding: 0 16px; border: 1px solid var(--ck-line); border-radius: 999px; background: var(--ck-surface); color: var(--ck-ink); font: inherit; }
+  .ck-shop .ck-section-title { display: flex; align-items: baseline; justify-content: space-between; margin: 24px 0 8px; }
+  .ck-shop .ck-section-title h2 { margin: 0; font-size: 17px; }
+  .ck-shop .ck-empty { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 40px 24px; text-align: center; color: var(--ck-muted); }
+  .ck-shop .ck-empty svg { width: 72px; height: 72px; color: var(--ck-accent); }
+  .ck-shop .ck-toast {
+    position: fixed; left: 50%; bottom: calc(64px + env(safe-area-inset-bottom) + 12px); z-index: 50; transform: translateX(-50%);
+    width: min(calc(100% - 32px), 528px); display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 12px 16px; border-radius: 14px; background: var(--ck-ink); color: var(--ck-bg); font-size: 14px;
+  }
+  .ck-shop .ck-toast button { border: 0; background: none; color: inherit; font-weight: 700; text-decoration: underline; cursor: pointer; padding: 8px; margin: -8px; }
+}
+
+.ck-shop__title { margin: 0; font-size: 28px; line-height: 1.15; }
+.ck-shop__export { margin-bottom: 16px; }
+.ck-shop__help { margin: 8px 4px 0; color: var(--ck-text-muted, var(--ck-muted)); font-size: 13px; line-height: 1.4; }
+.ck-shop__help--tight { margin: -4px 4px 8px; }
+.ck-shop__link { border: 0; background: none; padding: 0; color: var(--ck-text, var(--ck-ink)); font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
+.ck-shop__link:disabled { opacity: 0.5; }
+
+.ck-shop__row { grid-template-columns: auto 1fr auto auto; touch-action: pan-y; transition: transform 0.18s ease, opacity 0.18s ease; background: var(--ck-surface); }
+.ck-shop__row .ck-list-item__qty { grid-column: 3; text-align: right; }
+.ck-shop__row[data-swipe="remove"] { opacity: 0.6; }
+.ck-shop__text { min-width: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ck-shop__text .ck-list-item__name, .ck-shop__text .ck-list-item__why { overflow-wrap: anywhere; }
+.ck-shop__remove {
+  grid-column: 4; display: grid; place-items: center; width: 44px; height: 44px; margin-right: -12px;
+  border: 0; border-radius: 50%; background: none; color: var(--ck-text-faint, var(--ck-muted)); cursor: pointer;
+}
+.ck-shop__remove svg { width: 18px; height: 18px; }
+.ck-shop__remove:active { background: var(--ck-surface-2, var(--ck-line)); }
+
+.ck-shop__done { margin-top: 16px; padding: 16px; border-radius: 14px; background: var(--ck-surface); }
+.ck-shop__done p { margin: 0 0 12px; color: var(--ck-text-muted, var(--ck-muted)); font-size: 14px; }
+.ck-shop__done--all { background: var(--ck-have-soft, var(--ck-surface)); }
+.ck-shop__done--all p { color: var(--ck-have-ink, var(--ck-ink)); font-weight: 500; }
+
+.ck-shop__add { display: flex; gap: 8px; margin-top: 16px; }
+.ck-shop__add .ck-btn { flex: none; }
+.ck-shop__staples { margin: 16px 4px 0; font-size: 14px; text-align: center; }
+
+.ck-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) { .ck-shop__row { transition: none; } }
