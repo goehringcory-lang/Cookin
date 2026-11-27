@@ -10,6 +10,8 @@
   --ob-accent: var(--ck-primary, var(--ck-accent, #2e6b4a));
   --ob-accent-ink: var(--ck-on-primary, var(--ck-accent-ink, #ffffff));
   --ob-accent-soft: var(--ck-primary-soft, color-mix(in srgb, var(--ob-accent) 14%, var(--ob-surface)));
+  /* Accent darkened toward the text colour so accent-coloured text passes AA in both themes. */
+  --ob-accent-text: color-mix(in srgb, var(--ob-accent) 55%, var(--ob-text));
   --ob-have: var(--ck-have, var(--ob-accent));
   --ob-have-ink: var(--ck-have-ink, var(--ob-accent-ink));
   --ob-have-soft: var(--ck-have-soft, var(--ob-accent));
@@ -117,7 +119,7 @@
   padding: 1px 8px;
   border-radius: 999px;
   background: var(--ob-accent-soft);
-  color: var(--ob-accent);
+  color: var(--ob-accent-text);
   font-weight: 600;
   font-size: 0.85rem;
   white-space: nowrap;
@@ -176,7 +178,7 @@
   min-height: 48px;
   border: 1.5px dashed var(--ob-accent) !important;
   border-radius: 12px;
-  color: var(--ob-accent) !important;
+  color: var(--ob-accent-text) !important;
   font-weight: 600;
 }
 
@@ -219,7 +221,7 @@
   font-variant-numeric: tabular-nums;
 }
 .ob-card-count b {
-  color: var(--ob-accent);
+  color: var(--ob-accent-text);
 }
 .ob-chev {
   font-size: 1.4rem;
@@ -234,8 +236,8 @@
   animation: ob-in 0.18s ease-out;
 }
 @keyframes ob-in {
+  /* Movement only: fading in from 0 opacity trips contrast checks while it runs. */
   from {
-    opacity: 0;
     transform: translateY(-4px);
   }
 }
@@ -253,7 +255,7 @@
   padding: 0 14px;
   border-radius: 999px;
   background: var(--ob-accent-soft) !important;
-  color: var(--ob-accent) !important;
+  color: var(--ob-accent-text) !important;
   font-weight: 600;
   font-size: 0.9rem;
 }
@@ -267,7 +269,7 @@
 .ob-more {
   margin-top: 10px;
   min-height: 40px;
-  color: var(--ob-accent) !important;
+  color: var(--ob-accent-text) !important;
   font-weight: 600;
 }
 .ob-next-cat {
@@ -457,7 +459,6 @@
 @keyframes ob-pop {
   from {
     transform: scale(0.4);
-    opacity: 0;
   }
 }
 .ob-summary {
