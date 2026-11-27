@@ -5,6 +5,9 @@ import { BASICS, GENERICS } from './data/basics';
 import { PANTRY } from './data/pantry';
 import { COLD } from './data/cold';
 import { normalizePhrase, normalizeTokens } from './normalize';
+import { LEGACY_IDS } from './data/legacy';
+
+export { LEGACY_IDS };
 
 export { CATEGORIES };
 
@@ -26,7 +29,23 @@ let customItems: CatalogItem[] = [];
 
 /** Catalog item by id, including custom items registered with setCustomItems. */
 export function getItem(id: string): CatalogItem | undefined {
-  return BY_ID.get(id) ?? customItems.find((i) => i.id === id);
+  const r = resolveId(id);
+  return BY_ID.get(r) ?? customItems.find((i) => i.id === r);
+}
+
+/** Map an id from the old interim catalog to its current id. Current ids pass through. */
+export function resolveId(id: string): string {
+  return BY_ID.has(id) ? id : LEGACY_IDS[id] ?? id;
+}
+
+const LEGACY_BY_TARGET = new Map<string, string[]>();
+for (const [old, cur] of Object.entries(LEGACY_IDS)) {
+  if (!LEGACY_BY_TARGET.has(cur)) LEGACY_BY_TARGET.set(cur, []);
+  LEGACY_BY_TARGET.get(cur)!.push(old);
+}
+/** Old ids that resolve to this id (so inventory saved under an old id still counts). */
+export function legacyIdsFor(id: string): readonly string[] {
+  return LEGACY_BY_TARGET.get(id) ?? [];
 }
 
 /** Built-in items plus custom items, in catalog order (custom last). */

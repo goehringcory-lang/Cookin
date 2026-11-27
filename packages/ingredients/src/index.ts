@@ -9,7 +9,7 @@ export type {
 
 export {
   CATALOG, CATEGORIES, SELECTABLE_ITEMS, getItem, allItems, setCustomItems, isSelectable, catalogByLocation, commonItemIds,
-  searchCatalog, buildIndex, getIndex,
+  searchCatalog, buildIndex, getIndex, resolveId, legacyIdsFor, LEGACY_IDS,
 } from './catalog';
 export type { CatalogIndex, CategoryWithItems } from './catalog';
 

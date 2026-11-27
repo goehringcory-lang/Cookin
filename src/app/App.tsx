@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 import { useRoute, navigate } from "./nav";
 import { useSettings, useCustomItemsSync } from "@shared/domain";
-import { useSyncStatus } from "@shared/store";
+import { useSyncStatus, useStorageError } from "@shared/store";
 import { Onboarding } from "@features/onboarding";
 import { HomeScreen } from "@features/planner";
 import { ListScreen } from "@features/shopping";
 import { KitchenScreen } from "@features/inventory";
 import { RecipesScreen } from "@features/recipes";
 import { RecipeScreen } from "@features/recipe";
+import { ToastHost } from "@shared/ui";
+import { UiGallery } from "@shared/ui/Gallery";
 
 const TABS = [
   { name: "home", label: "This week", icon: "M4 6.5h16v13H4zM4 10.5h16M8.5 4v4M15.5 4v4" },
@@ -21,6 +23,7 @@ export function App() {
   const settings = useSettings();
   const route = useRoute();
   const status = useSyncStatus();
+  const storageError = useStorageError();
   const onboarding = !settings.onboardingComplete || route.name === "onboarding";
 
   useEffect(() => { window.scrollTo(0, 0); }, [route.name, route.param]);
@@ -33,12 +36,14 @@ export function App() {
     case "kitchen": screen = <KitchenScreen />; break;
     case "recipes": screen = <RecipesScreen />; break;
     case "recipe": screen = <RecipeScreen id={route.param || ""} />; break;
+    case "ui": screen = <UiGallery />; break;
     default: screen = <HomeScreen />;
   }
   const active = route.name === "recipe" ? "recipes" : TABS.some(t => t.name === route.name) ? route.name : "home";
   return (
     <div className="ck-app">
       {status === "unauthorized" && <div className="ck-banner" role="status">You're signed out. Reload the page to sign in again.</div>}
+      {storageError && <div className="ck-banner" role="alert">This phone is out of space for Cookin, so recent changes may not be saved offline.</div>}
       <main className="ck-main">{screen}</main>
       <nav className="ck-tabbar" aria-label="Sections">
         {TABS.map(t => (
@@ -48,6 +53,7 @@ export function App() {
           </button>
         ))}
       </nav>
+      <ToastHost />
     </div>
   );
 }

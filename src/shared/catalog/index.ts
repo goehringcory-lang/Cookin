@@ -37,7 +37,15 @@ export const CATALOG: SharedCatalogItem[] = ing.SELECTABLE_ITEMS.map(toShared);
 /** Rebuild the matcher with Cory's custom items (collection `customItems`). Cheap; call when they change. */
 export function setCustomItems(custom: SharedCatalogItem[]): void {
   ing.setCustomItems(custom.map((c) => ({ ...c, custom: true, common: !!c.common, aliases: c.aliases ?? [] })));
+  version++;
+  catalogListeners.forEach((f) => f());
 }
+
+let version = 0;
+const catalogListeners = new Set<() => void>();
+/** Increments whenever setCustomItems() rebuilds the matcher. */
+export const catalogVersion = () => version;
+export const subscribeCatalog = (fn: () => void) => { catalogListeners.add(fn); return () => { catalogListeners.delete(fn); }; };
 
 export function getItem(id: string): SharedCatalogItem | undefined {
   const i = ing.getItem(id);

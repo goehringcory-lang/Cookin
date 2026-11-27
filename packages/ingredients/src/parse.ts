@@ -71,7 +71,7 @@ function round(n: number): number {
 /** Normalize typography so the regexes below stay simple. */
 function preprocess(line: string): string {
   let s = line
-    .replace(/ /g, ' ')
+    .replace(/\u00a0/g, ' ')
     .replace(/[–—−]/g, '-')
     .replace(/⁄/g, '/');
   // "1½" or "1 ½" -> "1 1/2"; lone "½" -> "1/2"
@@ -186,7 +186,8 @@ export function parseIngredientLine(line: string, index: CatalogIndex = getIndex
     }
   }
 
-  let [name, note] = splitNameNote(s);
+  const [rawName, note] = splitNameNote(s);
+  let name = rawName;
   // Parentheticals inside the name become notes: "Kosher salt (Diamond Crystal)"
   const parenNotes: string[] = [];
   name = name.replace(/\(([^)]*)\)/g, (_m, inner: string) => {

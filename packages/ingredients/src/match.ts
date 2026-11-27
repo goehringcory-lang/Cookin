@@ -1,7 +1,7 @@
 import type {
   IngredientStatus, Owned, ParsedIngredient, RecipeAnalysis, RecipeLike, ShoppingNeed,
 } from './types';
-import { getIndex, type CatalogIndex } from './catalog';
+import { getIndex, legacyIdsFor, resolveId, type CatalogIndex } from './catalog';
 import { parseIngredients } from './parse';
 
 /** Turn any Owned shape into a predicate. */
@@ -16,9 +16,11 @@ function toPredicate(owned: Owned): (id: string) => boolean {
  * generics (owning penne covers "short pasta"; owning extra-virgin olive oil covers "olive oil").
  */
 export function makeHas(owned: Owned, index: CatalogIndex = getIndex()): (id: string) => boolean {
-  const own = toPredicate(owned);
+  const rawOwn = toPredicate(owned);
+  const own = (id: string) => rawOwn(id) || legacyIdsFor(id).some(rawOwn);
   const cache = new Map<string, boolean>();
-  return (id: string) => {
+  return (query: string) => {
+    const id = resolveId(query);
     const hit = cache.get(id);
     if (hit !== undefined) return hit;
     let ok = index.assumed.has(id) || own(id);
@@ -34,7 +36,7 @@ export function makeHas(owned: Owned, index: CatalogIndex = getIndex()): (id: st
 /** Of these catalog ids, which are not covered by what you own? Order preserved, duplicates removed. */
 export function missingFor(ingredientIds: readonly string[], owned: Owned, index: CatalogIndex = getIndex()): string[] {
   const has = makeHas(owned, index);
-  return [...new Set(ingredientIds)].filter((id) => !has(id));
+  return [...new Set(ingredientIds.map(resolveId))].filter((id) => !has(id));
 }
 
 function parsedOf(recipe: RecipeLike, index: CatalogIndex): ParsedIngredient[] {

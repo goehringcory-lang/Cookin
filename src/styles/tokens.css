@@ -1,0 +1,143 @@
+/* Cookin design tokens. Source of truth: docs/design-spec.md §9.
+   Fonts: load in index.html
+   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500..700,50&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"> */
+
+:root {
+  color-scheme: light dark;
+
+  /* Color: neutrals */
+  --ck-bg: #FBF7F1;
+  --ck-surface: #FFFFFF;
+  --ck-surface-2: #F4EDE3;
+  --ck-border: #E7DDD0;
+  --ck-text: #2A221B;
+  --ck-text-muted: #6E6257;
+  --ck-text-faint: #9A8D80;
+
+  /* Color: accents */
+  --ck-primary: #C8492F;
+  --ck-primary-press: #A93A23;
+  --ck-on-primary: #FFFFFF;
+  --ck-primary-soft: #FBE6DF;
+
+  --ck-have: #3F7D4E;
+  --ck-have-soft: #E3F0E5;
+  --ck-have-ink: #2C5E38;
+
+  --ck-low: #C98A12;
+  --ck-low-soft: #FBF0D6;
+  --ck-low-ink: #7A5200;
+
+  --ck-need: #C8492F;
+  --ck-need-soft: #FBE6DF;
+  --ck-need-ink: #8E2F1C;
+
+  --ck-focus: #2F6FDB;
+  --ck-scrim: rgba(42, 34, 27, 0.45);
+
+  /* Type */
+  --ck-font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --ck-font-ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --ck-fs-caption: 12px;
+  --ck-fs-small: 14px;
+  --ck-fs-body: 16px;
+  --ck-fs-lead: 18px;
+  --ck-fs-title: 22px;
+  --ck-fs-headline: 28px;
+  --ck-fs-display: 36px;
+  --ck-lh-body: 1.45;
+  --ck-lh-display: 1.15;
+
+  /* Space (4px grid) */
+  --ck-s1: 4px;
+  --ck-s2: 8px;
+  --ck-s3: 12px;
+  --ck-s4: 16px;
+  --ck-s5: 20px;
+  --ck-s6: 24px;
+  --ck-s8: 32px;
+  --ck-s10: 40px;
+  --ck-s14: 56px;
+  --ck-gutter: 16px;
+  --ck-max-width: 560px;
+  --ck-tap: 48px;
+  --ck-tabbar-h: 64px;
+
+  /* Radius */
+  --ck-r-sm: 8px;
+  --ck-r-md: 14px;
+  --ck-r-lg: 20px;
+  --ck-r-pill: 999px;
+
+  /* Shadow (warm) */
+  --ck-shadow-sm: 0 1px 2px rgba(74, 48, 24, 0.06), 0 2px 8px rgba(74, 48, 24, 0.06);
+  --ck-shadow-md: 0 4px 16px rgba(74, 48, 24, 0.10);
+  --ck-shadow-lg: 0 -8px 32px rgba(74, 48, 24, 0.16);
+
+  /* Motion */
+  --ck-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ck-dur-fast: 160ms;
+  --ck-dur: 260ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ck-bg: #1A1714;
+    --ck-surface: #24201C;
+    --ck-surface-2: #2E2924;
+    --ck-border: #3A342E;
+    --ck-text: #F5EFE7;
+    --ck-text-muted: #B5A99C;
+    --ck-text-faint: #857A6F;
+    --ck-primary: #E7694E;
+    --ck-primary-press: #F08369;
+    --ck-on-primary: #1A1714;
+    --ck-primary-soft: #3D241C;
+    --ck-have: #6BB37D;
+    --ck-have-soft: #1F3324;
+    --ck-have-ink: #A5D8B1;
+    --ck-low: #E6AE3F;
+    --ck-low-soft: #3A2E14;
+    --ck-low-ink: #F2CF85;
+    --ck-need: #E7694E;
+    --ck-need-soft: #3D241C;
+    --ck-need-ink: #F5AE9D;
+    --ck-focus: #7EA8F5;
+    --ck-scrim: rgba(0, 0, 0, 0.6);
+    --ck-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --ck-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+    --ck-shadow-lg: 0 -8px 32px rgba(0, 0, 0, 0.55);
+  }
+}
+
+:root[data-theme="dark"] {
+  --ck-bg: #1A1714;
+  --ck-surface: #24201C;
+  --ck-surface-2: #2E2924;
+  --ck-border: #3A342E;
+  --ck-text: #F5EFE7;
+  --ck-text-muted: #B5A99C;
+  --ck-text-faint: #857A6F;
+  --ck-primary: #E7694E;
+  --ck-primary-press: #F08369;
+  --ck-on-primary: #1A1714;
+  --ck-primary-soft: #3D241C;
+  --ck-have: #6BB37D;
+  --ck-have-soft: #1F3324;
+  --ck-have-ink: #A5D8B1;
+  --ck-low: #E6AE3F;
+  --ck-low-soft: #3A2E14;
+  --ck-low-ink: #F2CF85;
+  --ck-need: #E7694E;
+  --ck-need-soft: #3D241C;
+  --ck-need-ink: #F5AE9D;
+  --ck-focus: #7EA8F5;
+  --ck-scrim: rgba(0, 0, 0, 0.6);
+  --ck-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --ck-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+  --ck-shadow-lg: 0 -8px 32px rgba(0, 0, 0, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --ck-dur-fast: 1ms; --ck-dur: 1ms; }
+}

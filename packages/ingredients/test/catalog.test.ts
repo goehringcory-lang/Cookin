@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   CATALOG, CATEGORIES, SELECTABLE_ITEMS, catalogByLocation, commonItemIds, getItem, searchCatalog,
-  parseIngredientLine,
+  parseIngredientLine, LEGACY_IDS,
 } from '../src';
 import { normalizePhrase } from '../src/normalize';
 import recipes from './fixtures/nyt-recipes.json';
@@ -91,5 +91,15 @@ describe('NYT corpus', () => {
     const rate = 1 - unmatched.length / lines.length;
     if (rate < 0.97) console.log('Unmatched lines:\n' + unmatched.join('\n'));
     expect(rate).toBeGreaterThanOrEqual(0.97);
+  });
+});
+
+describe('legacy ids', () => {
+  it('every legacy id points at a real item and is not itself a current id', () => {
+    for (const [old, cur] of Object.entries(LEGACY_IDS)) {
+      expect(getItem(cur), `${old} -> ${cur}`).toBeDefined();
+      expect(CATALOG.some((i) => i.id === old), old).toBe(false);
+    }
+    expect(getItem('jam')?.id).toBe('jelly');
   });
 });

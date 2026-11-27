@@ -1,18 +1,32 @@
-/* Scaffold base styles. The design-system thread owns src/styles/ (tokens.css, components.css)
-   and replaces these; keep class names prefixed "ck-". */
+/* Cookin base: loads the design system and keeps the scaffold's class and variable names working.
+   Owned by the design-system thread. Spec: docs/design-spec.md. */
+@import "./tokens.css";
+@import "./components.css";
+
+/* Aliases for scaffold variable names, so existing feature code keeps working. Prefer the new names. */
 :root {
-  --ck-bg: #f3f5ef; --ck-surface: #fff; --ck-ink: #1b221d; --ck-muted: #5b675f; --ck-line: #d5dccf; --ck-accent: #2e6b4a; --ck-accent-ink: #fff;
-  --ck-font: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
-  color-scheme: light;
+  --ck-ink: var(--ck-text);
+  --ck-muted: var(--ck-text-muted);
+  --ck-line: var(--ck-border);
+  --ck-accent: var(--ck-primary);
+  --ck-accent-ink: var(--ck-on-primary);
+  --ck-font: var(--ck-font-ui);
 }
-@media (prefers-color-scheme: dark) { :root { --ck-bg: #111512; --ck-surface: #1a201c; --ck-ink: #e7ece7; --ck-muted: #9ba79f; --ck-line: #2f3832; --ck-accent: #74c495; --ck-accent-ink: #0d1a12; color-scheme: dark; } }
-* { box-sizing: border-box; }
-html, body { margin: 0; background: var(--ck-bg); color: var(--ck-ink); font: 15px/1.45 var(--ck-font); }
-.ck-main { max-width: 640px; margin: 0 auto; padding: calc(16px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) calc(88px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
-.ck-app--bare { max-width: 640px; margin: 0 auto; padding: calc(16px + env(safe-area-inset-top)) 16px 24px; }
-.ck-tabbar { position: fixed; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: repeat(4, 1fr); background: var(--ck-surface); border-top: 1px solid var(--ck-line); padding-bottom: env(safe-area-inset-bottom); }
-.ck-tabbar__tab { border: 0; background: none; color: var(--ck-muted); padding: 8px 4px 10px; display: flex; flex-direction: column; align-items: center; gap: 2px; font: 500 12px var(--ck-font); }
-.ck-tabbar__tab svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.ck-tabbar__tab[aria-current="page"] { color: var(--ck-accent); }
-.ck-banner { background: #f5ead0; color: #1b221d; padding: 10px 16px; text-align: center; }
-.ck-placeholder { padding: 24px; border: 1px dashed var(--ck-line); border-radius: 14px; color: var(--ck-muted); }
+
+/* Shell (src/app/App.tsx) */
+.ck-main {
+  max-width: var(--ck-max-width);
+  margin: 0 auto;
+  padding: calc(var(--ck-s3) + env(safe-area-inset-top)) max(var(--ck-gutter), env(safe-area-inset-right))
+           calc(var(--ck-tabbar-h) + var(--ck-s6) + env(safe-area-inset-bottom)) max(var(--ck-gutter), env(safe-area-inset-left));
+}
+.ck-app--bare {
+  max-width: var(--ck-max-width);
+  margin: 0 auto;
+  padding: calc(var(--ck-s3) + env(safe-area-inset-top)) var(--ck-gutter) calc(var(--ck-s6) + env(safe-area-inset-bottom));
+}
+.ck-banner { background: var(--ck-low-soft); color: var(--ck-low-ink); padding: 10px 16px; text-align: center; font-size: var(--ck-fs-small); font-weight: 500; }
+.ck-placeholder { padding: var(--ck-s6); border: 1.5px dashed var(--ck-border); border-radius: var(--ck-r-md); color: var(--ck-text-muted); }
+
+/* Action bars sit above the tab bar inside the tabbed shell. */
+.ck-main .ck-actionbar { bottom: calc(var(--ck-tabbar-h) + env(safe-area-inset-bottom)); padding-bottom: var(--ck-s3); }

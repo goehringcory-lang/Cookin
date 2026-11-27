@@ -64,6 +64,11 @@ describe('missingFor', () => {
     ]);
   });
 
+  it('resolves ids from the old interim catalog', () => {
+    expect(missingFor(['jam', 'ham', 'asian-noodles'], ['jelly', 'udon'])).toEqual(['deli-ham']);
+    expect(makeHas(['kosher-salt', 'brown-sugar'])('light-brown-sugar')).toBe(true);
+  });
+
   it('makeHas covers satisfies transitively', () => {
     const has = makeHas(['rigatoni']);
     expect(has('rigatoni')).toBe(true);
