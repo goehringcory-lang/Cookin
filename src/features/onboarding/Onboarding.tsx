@@ -7,7 +7,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CatalogItem, Location, Staple } from "@shared/types";
 import { store, useCollection } from "@shared/store";
-import { setStatus, updateSettings, useOwned, useSettings } from "@shared/domain";
+import { setStatus, updateSettings, useCatalogVersion, useOwned, useSettings } from "@shared/domain";
 import { allItems, catalogGroups } from "@shared/catalog";
 import { navigate } from "../../app/nav";
 import {
@@ -22,6 +22,17 @@ import {
 } from "./model";
 import { STAPLE_SUGGESTIONS, makeStaple } from "./staples";
 import "./onboarding.css";
+
+/** Adds custom items the catalog hasn't picked up yet to an "Added by you" group. */
+function withCustom(groups: CategoryGroup[], items: CatalogItem[], loc: Location): CategoryGroup[] {
+  const shown = new Set(groups.flatMap((g) => g.items.map((i) => i.id)));
+  const missing = items.filter((i) => i.custom && i.location === loc && !shown.has(i.id));
+  if (!missing.length) return groups;
+  const key = "Added by you";
+  const existing = groups.find((g) => g.key === key);
+  if (existing) return groups.map((g) => (g === existing ? { ...g, items: [...g.items, ...missing] } : g));
+  return [...groups, { key, name: key, emoji: "✏️", items: missing }];
+}
 
 const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? "" : "s"}`;
 
@@ -49,9 +60,16 @@ export function Onboarding() {
 
   useEffect(() => saveProgress({ step, open }), [step, open]);
 
-  // The App shell syncs custom items into the catalog before we render; re-read when they change.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const items = useMemo(() => allItems(), [customDocs]);
+  // The shell pushes custom items into the catalog in a layout effect after this renders,
+  // so key on the catalog version (and the docs, for the first paint) to never read a stale catalog.
+  const catalogVersion = useCatalogVersion();
+  const items = useMemo(() => {
+    const base = allItems();
+    const ids = new Set(base.map((i) => i.id));
+    const extra = Object.values(customDocs).filter((c) => !ids.has(c.id)).map((c) => ({ ...c, custom: true }));
+    return [...base, ...extra];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customDocs, catalogVersion]);
 
   const counts = useMemo(() => {
     const byLoc: Record<Location, number> = { pantry: 0, fridge: 0, freezer: 0 };
@@ -133,7 +151,7 @@ export function Onboarding() {
           key={loc.id}
           loc={loc}
           items={items}
-          groups={toGroups(catalogGroups(loc.id))}
+          groups={withCustom(toGroups(catalogGroups(loc.id)), items, loc.id)}
           owned={owned}
           count={counts[loc.id]}
           openKey={open[loc.id]}
@@ -260,7 +278,7 @@ function LocationStep(p: LocationStepProps) {
   };
 
   return (
-    <main className="ob-main">
+    <section className="ob-main">
       <div className="ob-heading">
         <h1>
           <span aria-hidden>{p.loc.emoji}</span> {p.loc.title}
@@ -428,7 +446,7 @@ function LocationStep(p: LocationStepProps) {
           {p.nextLabel} ›
         </button>
       </footer>
-    </main>
+    </section>
   );
 }
 
@@ -478,6 +496,8 @@ function StaplesStep({ docs, onNext }: { docs: Record<string, Staple>; onNext: (
     const missing = STAPLE_SUGGESTIONS.filter((s) => s.kind !== "kids-snack" && s.active && !docs[s.id]);
     if (missing.length)
       store.putMany(missing.map((s) => ({ c: "staples" as const, id: s.id, data: { ...s, updatedAt: now } })));
+      // Seed once on mount; later changes come from taps.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const isOn = (id: string) => docs[id]?.active ?? false;
@@ -502,7 +522,7 @@ function StaplesStep({ docs, onNext }: { docs: Record<string, Staple>; onNext: (
   );
 
   return (
-    <main className="ob-main">
+    <section className="ob-main">
       <div className="ob-heading">
         <h1>
           <span aria-hidden>🔁</span> Always buy
@@ -532,7 +552,7 @@ function StaplesStep({ docs, onNext }: { docs: Record<string, Staple>; onNext: (
           Review ›
         </button>
       </footer>
-    </main>
+    </section>
   );
 }
 
@@ -589,7 +609,7 @@ function ReviewStep({
     { step: 4, emoji: "🔁", title: "Always buy", n: plural(staples, "item") },
   ];
   return (
-    <main className="ob-main ob-done">
+    <section className="ob-main ob-done">
       <div className="ob-done-badge" aria-hidden>
         ✓
       </div>
@@ -628,6 +648,6 @@ function ReviewStep({
           Plan my week ›
         </button>
       </footer>
-    </main>
+    </section>
   );
 }

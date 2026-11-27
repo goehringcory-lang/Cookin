@@ -78,8 +78,10 @@
 .ob-link {
   min-height: 44px;
   padding: 0 4px;
-  color: var(--ob-accent) !important;
+  color: var(--ob-text) !important; /* accent fails AA contrast on the cream background */
   font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 .ob-link-spacer {
   width: 44px;
