@@ -1,4 +1,38 @@
-/** Placeholder from the scaffold. The owning thread replaces this file. */
+/**
+ * Planner feature: the "This week" tab. The shell mounts <HomeScreen /> for #home and for any
+ * route it doesn't know, so this also serves #plan/... (see routes.ts for the URL scheme).
+ */
+import { useRoute } from "../../app/nav";
+import { Home } from "./Home";
+import { PlanWeek } from "./PlanWeek";
+import { MealSheet } from "./MealSheet";
+import { parseParams } from "./routes";
+import { ToastHost } from "./ui";
+import { LunchPickerSheet } from "@features/lunches";
+import { weekStart } from "@shared/domain";
+import "./planner.css";
+
 export function HomeScreen() {
-  return <section className="ck-placeholder"><h2>This week</h2><p>Coming soon.</p></section>;
+  const route = useRoute();
+  const { params } = parseParams(route.param);
+  if (route.name === "plan") {
+    return (
+      <>
+        <PlanWeek key={`${params.w}|${params.s}`} week={params.w} slot={params.s} />
+        <ToastHost />
+      </>
+    );
+  }
+  return (
+    <>
+      <Home start={params.w} />
+      {params.m && <MealSheet slot={params.m} mode={params.x} week={params.w} />}
+      {params.l && <LunchPickerSheet date={params.l} start={params.w ?? weekStart(params.l)} onClose={() => history.back()} />}
+      <ToastHost />
+    </>
+  );
 }
+
+export { SwapBar } from "./SwapBar";
+export { swapOptions, rankForPlanning, scaleLine, servingFactor } from "./logic";
+export { href as plannerHref } from "./routes";
