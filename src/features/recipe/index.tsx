@@ -14,6 +14,7 @@ import { assign, restore, snapshot, swapDinner, usePlan, useRecipes, useSettings
 import { entryLabel } from "../planner/Home";
 import { href, parseParams, parseSlot } from "../planner/routes";
 import { BackIcon, CheckIcon, ExternalIcon, HaveBadge, RecipeImg, Sheet, SwapIcon, Time, ToastHost, toast } from "../planner/ui";
+import { removeRecipe, restoreRecipe } from "../recipes/add";
 import "../planner/planner.css";
 
 export function RecipeScreen({ id: param }: { id: string }) {
@@ -25,7 +26,7 @@ export function RecipeScreen({ id: param }: { id: string }) {
     return (
       <div className="ck-pl ck-empty">
         <h2 className="ck-h2">Recipe not found</h2>
-        <p>It may have been removed from your Recipe Box.</p>
+        <p>It may have been removed from your library.</p>
         <button className="ck-btn ck-btn--secondary" onClick={() => navigate("recipes")}>Back to Recipes</button>
       </div>
     );
@@ -184,6 +185,19 @@ function RecipeDetail({ recipe, ctx }: { recipe: Recipe; ctx: Record<string, str
           <a className="ck-btn ck-btn--ghost ck-pl-nyt" href={recipe.url} target="_blank" rel="noreferrer">
             {recipe.source === "nyt" ? "Open on NYT Cooking" : "Open original recipe"} <ExternalIcon />
           </a>
+        )}
+
+        {recipe.archived ? (
+          <button className="ck-btn ck-btn--secondary ck-pl-remove" onClick={() => { restoreRecipe(recipe.id); toast(`${recipe.title} is back in your library.`); }}>
+            Add back to my library
+          </button>
+        ) : (
+          <button className="ck-btn ck-btn--ghost ck-pl-remove" onClick={() => {
+            removeRecipe(recipe.id);
+            toast(`Removed ${recipe.title}.`, { label: "Undo", run: () => restoreRecipe(recipe.id) });
+          }}>
+            Remove from my library
+          </button>
         )}
       </div>
 

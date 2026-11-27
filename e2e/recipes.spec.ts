@@ -199,3 +199,53 @@ test.describe("Recipe page", () => {
     await expect(missing).toHaveCount(before - 1);
   });
 });
+
+test.describe("Add and remove recipes", () => {
+  const GIFT = "https://cooking.nytimes.com/recipes/1017518-panzanella?unlocked_article_code=abc";
+  const addSheet = (page: Page) => page.getByRole("dialog", { name: "Add a recipe" });
+
+  test("paste a gift link, then remove the recipe and undo", async ({ page }) => {
+    await page.route("**/api/recipes/fetch", route => route.fulfill({ json: {
+      ok: true, source: "nyt",
+      recipe: { id: "nyt-1017518", title: "Panzanella", url: GIFT, totalMinutes: 30, servings: 4, yield: "4 servings",
+        ingredients: ["2 pounds ripe tomatoes", "6 ounces fresh mozzarella", "4 ounces ciabatta", "2 garlic cloves"], steps: ["Toast the bread.", "Toss it all."] },
+    } }));
+    await openDemoAt(page, "recipes");
+    await page.getByRole("button", { name: "Add a recipe" }).click();
+    await addSheet(page).getByRole("textbox", { name: "Recipe link" }).fill(GIFT);
+    await addSheet(page).getByRole("button", { name: "Add recipe" }).click();
+    await expect(addSheet(page).getByText("Added to your library.")).toBeVisible();
+    await expect(addSheet(page).getByText("4 ingredients")).toBeVisible();
+    await addSheet(page).getByRole("button", { name: "See recipe" }).click();
+    await expect(page.getByRole("heading", { name: "Panzanella", level: 1 })).toBeVisible();
+    await expect(page.getByText("ripe tomatoes")).toBeVisible();
+
+    await page.getByRole("button", { name: "Remove from my library" }).click();
+    await expect(page.getByRole("button", { name: "Add back to my library" })).toBeVisible();
+    await page.getByRole("button", { name: "Undo" }).click();
+    await expect(page.getByRole("button", { name: "Remove from my library" })).toBeVisible();
+    await page.goto("/?demo=1#recipes");
+    await expect(page.getByText("33 recipes", { exact: true })).toBeVisible();
+  });
+
+  test("when the page can't be read, paste the ingredients instead", async ({ page }) => {
+    await page.route("**/api/recipes/fetch", route => route.fulfill({ json: { ok: false, reason: "blocked", status: 403, title: "Panzanella" } }));
+    await openDemoAt(page, "recipes/add");
+    await addSheet(page).getByRole("textbox", { name: "Recipe link" }).fill(GIFT);
+    await addSheet(page).getByRole("button", { name: "Add recipe" }).click();
+    const manual = page.getByRole("dialog", { name: "Add the ingredients" });
+    await expect(manual.getByRole("textbox", { name: "Recipe name" })).toHaveValue("Panzanella");
+    await manual.getByRole("textbox", { name: "Ingredients, one per line" }).fill("Ingredients\n2 pounds tomatoes\n1 red onion\n");
+    await manual.getByRole("button", { name: "Save recipe" }).click();
+    await expect(page.getByText("Added to your library.")).toBeVisible();
+    await expect(page.getByText("2 ingredients")).toBeVisible();
+  });
+
+  test("a link shared from the phone Share sheet opens the Add sheet", async ({ page }) => {
+    await page.route("**/api/recipes/fetch", route => route.fulfill({ json: { ok: false, reason: "no_recipe" } }));
+    await openDemoAt(page, "recipes");
+    await page.goto(`/share?demo=1&text=${encodeURIComponent("Panzanella " + GIFT)}`);
+    await expect(page.getByRole("dialog", { name: "Add the ingredients" })).toBeVisible();
+    expect(new URL(page.url()).pathname).toBe("/");
+  });
+});

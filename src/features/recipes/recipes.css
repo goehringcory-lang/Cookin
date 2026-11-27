@@ -4,3 +4,12 @@
 .ck-nyt-badge { border: 0; cursor: pointer; font: inherit; font-size: var(--ck-fs-small, 13px); min-height: 28px; }
 .ck-recipes__count { margin: 0; }
 .ck-recipes .ck-recipe-card { overflow: hidden; }
+.ck-recipes__add { white-space: nowrap; }
+.ck-add-sheet__error { color: var(--ck-need-ink); margin: 0; font-size: var(--ck-fs-small, 13px); }
+.ck-add-sheet__ok { margin: 0; font-weight: 600; color: var(--ck-have-ink); }
+.ck-add-sheet__area { min-height: 0; resize: vertical; font: inherit; line-height: 1.4; padding-top: 10px; padding-bottom: 10px; height: auto; }
+.ck-add-sheet__manual { align-self: flex-start; }
+.ck-add-sheet__preview { display: grid; grid-template-columns: 96px 1fr; overflow: hidden; }
+.ck-add-sheet__preview .ck-recipe-card__img { aspect-ratio: 1; height: 100%; }
+.ck-add-sheet .ck-row > .ck-input { flex: 1; min-width: 0; }
+.ck-pl-remove { align-self: center; color: var(--ck-text-muted, inherit); }

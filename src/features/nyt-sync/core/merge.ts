@@ -53,7 +53,7 @@ export function mergeImport(existing: Map<string, Recipe> | Record<string, Recip
     if (seen.has(r.id)) continue;
     seen.add(r.id);
     const prev = prevById.get(r.id);
-    if (prev && prev.source !== "nyt") continue;
+    if (prev && (prev.source !== "nyt" || prev.removed)) continue;
     const fields = sourceFields(r, prev);
     const next = { ...prev, ...fields, id: r.id, source: "nyt", archived: false, addedAt: prev?.addedAt ?? now, updatedAt: now } as Recipe;
     if (next.makesLeftovers === undefined && next.servings) next.makesLeftovers = next.servings >= LEFTOVER_SERVINGS;
@@ -67,13 +67,13 @@ export function mergeImport(existing: Map<string, Recipe> | Record<string, Recip
   // A recipe saved again after being removed comes back without a re-read.
   if (box) for (const id of box) {
     const prev = prevById.get(id);
-    if (prev?.archived && prev.source === "nyt" && !seen.has(id)) { writes.push({ ...prev, archived: false, updatedAt: now }); updated++; }
+    if (prev?.archived && prev.source === "nyt" && !prev.removed && !seen.has(id)) { writes.push({ ...prev, archived: false, updatedAt: now }); updated++; }
   }
 
   let archiveSkipped: number | undefined;
   if (req.complete) {
     const inBox = box ?? seen;
-    const active = [...prevById.values()].filter(p => p.source === "nyt" && !p.archived);
+    const active = [...prevById.values()].filter(p => p.source === "nyt" && !p.archived && p.addedVia !== "link");
     const gone = active.filter(p => !inBox.has(p.id));
     // A half-loaded Recipe Box page must not archive half the library.
     if (gone.length > 3 && gone.length > active.length * 0.25) archiveSkipped = gone.length;

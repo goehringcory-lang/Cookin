@@ -634,11 +634,11 @@ function ReviewStep({
         <Stepper label="Cooking for" value={people} min={1} max={12} onChange={(n) => updateSettings({ householdSize: n })} />
       </div>
       {!hasRecipes && (
-        <button className="ob-nyt" onClick={() => onFinish("recipes")}>
+        <button className="ob-nyt" onClick={() => onFinish("recipes/add")}>
           <span aria-hidden>📖</span>
           <span>
-            <b>Bring in your NYT Recipe Box</b>
-            <small>Set up the Sync button and the weekly Sunday sync.</small>
+            <b>Add your recipes</b>
+            <small>Paste NYT Cooking gift links for the dishes you want to cook.</small>
           </span>
           <span aria-hidden>›</span>
         </button>

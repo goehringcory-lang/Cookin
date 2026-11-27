@@ -68,6 +68,10 @@ export interface Recipe {
   makesLeftovers?: boolean;
   /** Recipe no longer in the NYT Recipe Box; hidden from suggestions but kept for history. */
   archived?: boolean;
+  /** Cory removed it from his library in the app; NYT box syncs must not bring it back. */
+  removed?: boolean;
+  /** "link": added by pasting/sharing a recipe link. Box syncs never archive these. */
+  addedVia?: "link" | "box";
   addedAt: number;
   updatedAt: number;
 }
