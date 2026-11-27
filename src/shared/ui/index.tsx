@@ -211,13 +211,19 @@ export type RecipeCardProps = {
   onOpen?: () => void;
   href?: string;
 };
+/** Stable 0–3 tint for a recipe's placeholder art, so cards without photos aren't all the same color. */
+export function artTone(title: string): number {
+  let h = 0;
+  for (let i = 0; i < title.length; i++) h = (h * 31 + title.charCodeAt(i)) | 0;
+  return Math.abs(h) % 4;
+}
 export function RecipeImage({ src, title }: { src?: string; title: string }) {
   const [failed, setFailed] = useState(false);
   return (
     <div className="ck-recipe-card__img">
       {src && !failed
         ? <img src={src} alt="" loading="lazy" onError={() => setFailed(true)} />
-        : <div className="ck-recipe-card__fallback" aria-hidden="true">{title.trim().charAt(0).toUpperCase()}</div>}
+        : <div className="ck-recipe-card__fallback" data-tone={artTone(title)} aria-hidden="true" />}
     </div>
   );
 }
