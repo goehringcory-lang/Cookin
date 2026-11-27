@@ -24,4 +24,4 @@ A dinner makes leftovers when `Recipe.makesLeftovers` is set, or, if it isn't, w
 
 ## Library
 
-`library.ts`: 34 lunches, all 15 minutes or less, with swaps (`anyOf`), lunchbox flags and a one-line how-to. Ids are shared catalog ids; the few lunchbox items the catalog doesn't have yet are in `LUNCH_EXTRA_ITEMS` (kitchen.ts).
+`library.ts`: 34 lunches, all 15 minutes or less, with swaps (`anyOf`), lunchbox flags and a one-line how-to. Ids are shared catalog ids; ownership goes through the catalog's `makeHas`, so generic ids like `short-pasta` match any pasta shape.

@@ -10,7 +10,7 @@ import "./lunches.css";
 
 export * from "./types";
 export { LUNCH_LIBRARY, getLunchIdea, libraryCatalogIds } from "./library";
-export { LUNCH_EXTRA_ITEMS, LUNCH_ID_ALIASES, isOwned, nameOf, statusOf } from "./kitchen";
+export { LUNCH_ID_ALIASES, canonicalId, isOwned, nameOf, statusOf } from "./kitchen";
 export { checkIdea, checkIngredient } from "./match";
 export type { IdeaCheck, IngredientCheck } from "./match";
 export {
