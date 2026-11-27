@@ -156,11 +156,12 @@ export interface ListLine {
  *  - check:   id `check:<ListLine.key>`   checked off at the store during week `weekOf`
  *  - dismiss: id `dismiss:<ListLine.key>` hidden for week `weekOf` ("I have it" on an unmatched line)
  *  - manual:  id `manual:<random>`        typed in by hand; stays until bought (then deleted)
+ *  - sent:    id `sent:<ListLine.key>`    already added to the linked Keep note during week `weekOf`
  * `weekOf` is the plan week start (YYYY-MM-DD); check/dismiss docs from other weeks are ignored.
  */
 export interface ListEntry {
   id: string;
-  type: "check" | "dismiss" | "manual";
+  type: "check" | "dismiss" | "manual" | "sent";
   /** ListLine.key for check/dismiss. */
   key?: string;
   /** Display name for manual items. */
@@ -180,6 +181,8 @@ export interface AppSettings {
   householdSize: number;
   /** 1 = Monday. */
   weekStartsOn: 0 | 1;
+  /** Link to Cory's Keep checklist ("Grocery's"), e.g. https://keep.google.com/#LIST/abc. */
+  keepNoteUrl?: string;
   updatedAt: number;
 }
 

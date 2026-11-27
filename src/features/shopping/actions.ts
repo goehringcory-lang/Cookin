@@ -83,3 +83,20 @@ export function clearChecked(lines: ShoppingLine[]) {
   const keys = lines.filter((l) => l.checked).map((l) => l.key);
   if (keys.length) store.putMany(keys.map(uncheck));
 }
+
+/** Remembers that these lines are on the linked Keep note for this shopping week. */
+export function markSent(lines: { key: string }[], weekOf: string): () => void {
+  const ids = lines.map((l) => "sent:" + l.key);
+  const undo = snapshot(ids, []);
+  const now = Date.now();
+  store.putMany(lines.map((l, i): Change => ({ c: "list", id: ids[i], data: { id: ids[i], type: "sent", key: l.key, weekOf, updatedAt: now } satisfies ListEntry })));
+  return undo;
+}
+
+/** Forgets what was sent this week, so the next "Add to Grocery's" sends everything. */
+export function forgetSent(keys: Iterable<string>): () => void {
+  const ids = [...keys].map((k) => "sent:" + k);
+  const undo = snapshot(ids, []);
+  store.putMany(ids.map((id): Change => ({ c: "list", id, data: null })));
+  return undo;
+}
