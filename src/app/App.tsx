@@ -8,6 +8,7 @@ import { ListScreen } from "@features/shopping";
 import { KitchenScreen } from "@features/inventory";
 import { RecipesScreen } from "@features/recipes";
 import { RecipeScreen } from "@features/recipe";
+import { SettingsScreen } from "@features/settings";
 import { ToastHost } from "@shared/ui";
 import { UiGallery } from "@shared/ui/Gallery";
 
@@ -36,6 +37,7 @@ export function App() {
     case "kitchen": screen = <KitchenScreen />; break;
     case "recipes": screen = <RecipesScreen />; break;
     case "recipe": screen = <RecipeScreen id={route.param || ""} />; break;
+    case "settings": screen = <SettingsScreen />; break;
     case "ui": screen = <UiGallery />; break;
     default: screen = <HomeScreen />;
   }
