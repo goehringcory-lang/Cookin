@@ -22,7 +22,7 @@ export function cleanText(input: unknown): string {
       return NAMED[e.toLowerCase()] ?? m;
     });
   }
-  return s.replace(/<[^>]*>/g, " ").replace(/[\s ]+/g, " ").trim();
+  return s.replace(/<[^>]*>/g, " ").replace(/[\s\u00a0]+/g, " ").trim();
 }
 
 /** ISO 8601 duration ("PT1H30M", "P0DT45M", "PT90M") to whole minutes. undefined when absent or zero. */
