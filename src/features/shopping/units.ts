@@ -64,6 +64,13 @@ export class Amount {
     else this.counts.set(u, (this.counts.get(u) ?? 0) + quantity);
   }
 
+  /** Adds another amount into this one. */
+  merge(other: Amount): void {
+    this.volumeMl += other.volumeMl;
+    this.massG += other.massG;
+    for (const [u, n] of other.counts) this.counts.set(u, (this.counts.get(u) ?? 0) + n);
+  }
+
   isEmpty(): boolean {
     return this.volumeMl === 0 && this.massG === 0 && this.counts.size === 0;
   }
@@ -72,8 +79,10 @@ export class Amount {
     const parts: string[] = [];
     if (this.massG > 0) parts.push(formatMass(this.massG));
     if (this.volumeMl > 0) parts.push(formatVolume(this.volumeMl));
-    for (const [unit, n] of this.counts) {
-      parts.push(unit ? `${fraction(n)} ${pluralizeUnit(unit, n)}` : fraction(n));
+    for (const [unit, raw] of this.counts) {
+      // You can't buy 2½ lemons or 1¼ cans: round countable things up.
+      const n = Math.ceil(raw - 1e-9);
+      parts.push(unit ? `${n} ${pluralizeUnit(unit, n)}` : String(n));
     }
     return parts.join(' + ');
   }

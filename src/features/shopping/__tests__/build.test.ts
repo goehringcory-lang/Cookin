@@ -151,6 +151,19 @@ describe("buildShoppingList", () => {
     expect(r.k[`manual:inv-${FLOUR}`]).toBeUndefined();
   });
 
+  it("never lists the same word twice: a Bread staple merges with low bread", () => {
+    const r = buildShoppingList({
+      ...base,
+      plan: [],
+      inventory: inv({ [id("bread")]: "low" }),
+      staples: [staple("bread", "Bread", "sandwich-bread")],
+    });
+    const breads = r.lines.filter((l) => l.name.toLowerCase() === "bread");
+    expect(breads).toHaveLength(1);
+    expect(breads[0].why).toBe("running low · staple");
+    expect(r.lines).toHaveLength(1);
+  });
+
   it("parses recipe yields", () => {
     expect(yieldServings("4 servings")).toBe(4);
     expect(yieldServings("Serves 4 to 6")).toBe(4);
