@@ -163,14 +163,42 @@ export function formatQty(n: number): string {
   return w ? `${w} ${best[1]}` : best[1];
 }
 
-/** Scales the leading quantity of an ingredient line ("1 1/2 cups rice" x2 -> "3 cups rice"). */
+/** Units after which the amount scales smoothly (fractions are fine). */
+const MEASURE = /^(cups?|c\.|tablespoons?|tbsps?\.?|tbs\.?|teaspoons?|tsps?\.?|ounces?|oz\.?|fluid ounces?|pounds?|lbs?\.?|grams?|g|kilograms?|kg|milliliters?|ml|liters?|l|quarts?|qt\.?|pints?|pt\.?|gallons?|pinch(?:es)?|dash(?:es)?|sticks?|handfuls?|inch(?:es)?|-inch)\b/i;
+/** Things you buy or use whole: never scale (half a chicken or a can of beans reads wrong). */
+const WHOLE = /^(whole|heads?|bunch(?:es)?|cans?|packages?|pkgs?\.?|jars?|box(?:es)?|bags?|loaf|loaves|bottles?|envelopes?|containers?|cartons?|sheets?|large|medium|small)\b|^\(/i;
+/** Counted produce that is fine in halves. */
+const HALVES = /^(lemons?|limes?|oranges?|avocados?|onions?|bell peppers?|grapefruits?)\b/i;
+
+/**
+ * Scales the leading quantity of an ingredient line for more or fewer servings.
+ *  - measured amounts scale with fractions: "1 1/2 cups rice" x2 -> "3 cups rice"
+ *  - whole-thing units are left as written: "1 whole chicken", "1 head garlic", "1 (15-ounce) can"
+ *  - counted items round to whole ones (lemons, limes, onions to halves): "3 carrots" x0.75 -> "2 carrots"
+ */
 export function scaleLine(line: string, factor: number): string {
   if (factor === 1) return line;
   const m = line.match(QTY);
   if (!m) return line;
-  const a = formatQty(parseQty(m[2]) * factor);
-  const b = m[4] ? formatQty(parseQty(m[4]) * factor) : undefined;
-  return m[1] + a + (b ? ` to ${b}` : "") + line.slice(m[0].length);
+  const rest = line.slice(m[0].length);
+  const next = rest.trimStart();
+  if (WHOLE.test(next)) return line;
+  const measured = MEASURE.test(next);
+  const step = measured ? 0 : HALVES.test(next) ? 0.5 : 1;
+  const fmt = (q: number) => {
+    const v = q * factor;
+    if (!step) return formatQty(v);
+    const r = Math.max(step, Math.round(v / step) * step);
+    return formatQty(r);
+  };
+  const a = fmt(parseQty(m[2]));
+  const b = m[4] ? fmt(parseQty(m[4])) : undefined;
+  return m[1] + a + (b && b !== a ? ` to ${b}` : "") + rest;
+}
+
+/** Servings to show by default: the recipe's own yield, so it reads exactly as written. */
+export function defaultServings(r: Recipe, fallback: number): number {
+  return r.servings ?? parseYield(r.yield) ?? fallback;
 }
 
 /** Scale factor for a recipe cooked for `servings` people. */

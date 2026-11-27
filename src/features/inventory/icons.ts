@@ -3,8 +3,11 @@ import type { StorageLocation } from "./types";
 /** Keyword -> emoji, checked in order against the lowercased item name. */
 const BY_NAME: [RegExp, string][] = [
   [/eggplant/, "🍆"],
+  [/mushroom/, "🍄"],
+  [/applesauce/, "🍎"],
+  [/burrito/, "🌯"],
   [/flour|cornstarch|cornmeal|baking (soda|powder)|yeast/, "🌾"],
-  [/sugar|sweetener/, "🍬"],
+  [/sugar|sweetener|agave|stevia/, "🧂"],
   [/honey/, "🍯"],
   [/maple|molasses|syrup/, "🍁"],
   [/vanilla|extract/, "🧴"],
@@ -13,7 +16,7 @@ const BY_NAME: [RegExp, string][] = [
   [/oil|cooking spray/, "🫒"],
   [/vinegar/, "🍶"],
   [/salt/, "🧂"],
-  [/pepper flakes|cayenne|chili powder|paprika|chipotle|hot pepper|jalape|sriracha|hot sauce|chili crisp|gochujang/, "🌶️"],
+  [/pepper flakes|cayenne|chili powder|paprika|chipotle|hot pepper|jalape|chiles|sriracha|hot sauce|chili crisp|gochujang/, "🌶️"],
   [/bell pepper/, "🫑"],
   [/pepper|cumin|cinnamon|nutmeg|clove|allspice|turmeric|coriander|curry|masala|seasoning|seeds|ginger|oregano|thyme|bay|spice/, "🫙"],
   [/garlic/, "🧄"],
@@ -44,7 +47,7 @@ const BY_NAME: [RegExp, string][] = [
   [/chicken|turkey|nugget/, "🍗"],
   [/beef|steak|burger/, "🥩"],
   [/bacon|pork|ham|sausage|hot dog/, "🥓"],
-  [/tofu/, "🧊"],
+  [/tofu|tempeh/, "🥢"],
   [/carrot/, "🥕"],
   [/broccoli|cauliflower|brussels|cabbage/, "🥦"],
   [/spinach|kale|lettuce|greens|arugula|herb|parsley|cilantro|basil|mint|dill|rosemary|sage/, "🥬"],
@@ -72,15 +75,37 @@ const BY_NAME: [RegExp, string][] = [
 
 const BY_LOCATION: Record<StorageLocation, string> = { pantry: "🥫", fridge: "🧊", freezer: "❄️" };
 
-/** A friendly emoji for an item row. Falls back to the storage location. */
+/** Sections where every item should share one icon, checked before the name rules. */
+const SECTION_FIRST: [RegExp, string][] = [
+  [/pasta|noodle/, "🍝"],
+  [/spice|dried herb/, "🫙"],
+  [/sugar|sweetener/, "🧂"],
+];
+
+/** Section icons used when no name rule matched. */
+const SECTION_FALLBACK: [RegExp, string][] = [
+  [/flour|baking/, "🧁"],
+  [/rice|grain/, "🍚"],
+  [/broth|stock/, "🍲"],
+  [/nut|seed/, "🥜"],
+  [/bread|tortilla|cracker/, "🍞"],
+  [/wine|spirit|beer|drink/, "🍷"],
+  [/cheese/, "🧀"],
+  [/milk|dairy|cream|egg/, "🥛"],
+  [/fish|seafood/, "🐟"],
+  [/meat|poultry/, "🍖"],
+  [/deli/, "🥪"],
+  [/snack|lunchbox|treat/, "🍪"],
+  [/spice|herb/, "🫙"],
+  [/produce|vegetable|fruit/, "🥬"],
+];
+
+/** A friendly emoji for an item row. Falls back to the section, then the storage location. */
 export function itemEmoji(name: string, category: string, location: StorageLocation): string {
+  const c = category.toLowerCase();
+  for (const [re, e] of SECTION_FIRST) if (re.test(c)) return e;
   const n = name.toLowerCase();
   for (const [re, e] of BY_NAME) if (re.test(n)) return e;
-  const c = category.toLowerCase();
-  if (/spice|herb/.test(c)) return "🫙";
-  if (/produce|vegetable|fruit/.test(c)) return "🥬";
-  if (/dairy/.test(c)) return "🥛";
-  if (/meat|fish/.test(c)) return "🍖";
-  if (/snack/.test(c)) return "🍪";
+  for (const [re, e] of SECTION_FALLBACK) if (re.test(c)) return e;
   return BY_LOCATION[location];
 }

@@ -99,3 +99,12 @@ describe('alias ranking', () => {
     expect(catalogSuggestions('flour', catalog, []).map((c) => c.id)).toEqual(['bread-flour', 'tortillas']);
   });
 });
+
+describe('row icons', () => {
+  it('gives every pasta shape, spice and sugar its section icon', async () => {
+    const { itemEmoji } = await import('./icons');
+    for (const n of ['Penne', 'Rotini', 'Spaghetti', 'Elbow macaroni']) expect(itemEmoji(n, 'Pasta & noodles', 'pantry')).toBe('🍝');
+    for (const n of ['Granulated sugar', 'Light brown sugar', 'Agave nectar']) expect(itemEmoji(n, 'Sugars & sweeteners', 'pantry')).toBe('🧂');
+    expect(itemEmoji('Dried basil', 'Spices & dried herbs', 'pantry')).toBe('🫙');
+  });
+});

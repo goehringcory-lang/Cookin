@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Recipe } from "@shared/types";
-import { formatQty, match, nextOpenDinner, parseYield, rankForPlanning, scaleLine, servingFactor, swapOptions, lineStatuses } from "../logic";
+import { defaultServings, formatQty, match, nextOpenDinner, parseYield, rankForPlanning, scaleLine, servingFactor, swapOptions, lineStatuses } from "../logic";
 import { parseParams, parseSlot, href } from "../routes";
 
 const r = (id: string, minutes: number, ingredients: string[], extra: Partial<Recipe> = {}): Recipe => ({
@@ -76,6 +76,10 @@ describe("servings", () => {
     expect(parseYield("Serves 2")).toBe(2);
     expect(parseYield(undefined)).toBeUndefined();
   });
+  it("defaults to the recipe's own yield", () => {
+    expect(defaultServings(r("x", 1, [], { yield: "4 servings" }), 3)).toBe(4);
+    expect(defaultServings(r("x", 1, []), 3)).toBe(3);
+  });
   it("prefers numeric servings", () => {
     expect(servingFactor(r("x", 1, [], { servings: 6, yield: "4 servings" }), 3)).toBe(0.5);
     expect(servingFactor(r("x", 1, []), 3)).toBe(1);
@@ -87,6 +91,17 @@ describe("servings", () => {
     expect(scaleLine("2 to 3 cloves garlic", 2)).toBe("4 to 6 cloves garlic");
     expect(scaleLine("Kosher salt", 2)).toBe("Kosher salt");
     expect(scaleLine("4 eggs", 0.75)).toBe("3 eggs");
+  });
+  it("leaves whole-thing units alone and rounds counted items", () => {
+    expect(scaleLine("1 whole chicken (4 pounds)", 0.75)).toBe("1 whole chicken (4 pounds)");
+    expect(scaleLine("1 head garlic, halved", 0.75)).toBe("1 head garlic, halved");
+    expect(scaleLine("1 (15-ounce) can chickpeas", 0.75)).toBe("1 (15-ounce) can chickpeas");
+    expect(scaleLine("2 lemons, halved", 0.75)).toBe("1 ½ lemons, halved");
+    expect(scaleLine("1 lemon", 0.75)).toBe("1 lemon");
+    expect(scaleLine("6 sprigs thyme", 0.75)).toBe("5 sprigs thyme");
+    expect(scaleLine("3 carrots, peeled", 0.75)).toBe("2 carrots, peeled");
+    expect(scaleLine("1 carrot", 0.5)).toBe("1 carrot");
+    expect(scaleLine("2 tablespoons olive oil", 0.75)).toBe("1 ½ tablespoons olive oil");
   });
   it("formats fractions", () => {
     expect(formatQty(0.333)).toBe("⅓");

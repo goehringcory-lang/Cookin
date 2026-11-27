@@ -136,19 +136,21 @@ test.describe("Recipe page", () => {
   });
 
   test("servings + and - scale the amounts", async ({ page }) => {
-    await open(page); // household of 3, recipe written for 4
+    await open(page); // recipe written for 4: shown as written by default
     const out = servings(page).locator("output");
+    await expect(out).toHaveText("4");
+    await expect(page.getByText(/scaled from/)).toHaveCount(0);
+    await expect(ingredient(page, "spaghetti")).toContainText("12 ounces spaghetti");
+
+    await servings(page).getByRole("button", { name: "Fewer servings" }).click();
     await expect(out).toHaveText("3");
-    await expect(page.getByText("amounts scaled")).toBeVisible();
+    await expect(page.getByText("scaled from 4")).toBeVisible();
     await expect(ingredient(page, "spaghetti")).toContainText("9 ounces spaghetti");
     await expect(ingredient(page, "butter")).toContainText("3 tablespoons butter");
 
     await servings(page).getByRole("button", { name: "More servings" }).click();
-    await expect(out).toHaveText("4");
-    await expect(ingredient(page, "spaghetti")).toContainText("12 ounces spaghetti"); // as written
-    await expect(page.getByText("amounts scaled")).toHaveCount(0);
-
     await servings(page).getByRole("button", { name: "More servings" }).click();
+    await expect(out).toHaveText("5");
     await expect(ingredient(page, "spaghetti")).toContainText("15 ounces spaghetti");
     await expect(ingredient(page, "butter")).toContainText("5 tablespoons butter");
 
@@ -173,7 +175,7 @@ test.describe("Recipe page", () => {
 
   test("Add to plan keeps the chosen servings and replaces a planned night", async ({ page }) => {
     await open(page);
-    await servings(page).getByRole("button", { name: "More servings" }).click(); // 4
+    await servings(page).getByRole("button", { name: "More servings" }).click(); // 5 (written for 4)
     await page.getByRole("button", { name: "Add to plan" }).click();
     await page.getByRole("dialog", { name: "Add to plan" }).getByRole("menuitem", { name: /^Tonight Nov 25/ }).click();
     await expect(page.getByText("Added to tonight.")).toBeVisible();
@@ -181,7 +183,7 @@ test.describe("Recipe page", () => {
     await page.getByRole("navigation", { name: "Sections" }).getByRole("button", { name: "This week" }).click();
     const hero = page.getByRole("article").filter({ hasText: /Tonight/ });
     await expect(hero.getByRole("heading", { name: SPAGHETTI })).toBeVisible();
-    await expect(hero).toContainText("serves 4");
+    await expect(hero).toContainText("serves 5");
     await expect(page.getByRole("button", { name: /dinner: Sheet-Pan Lemon Chicken/ })).toHaveCount(0);
   });
 

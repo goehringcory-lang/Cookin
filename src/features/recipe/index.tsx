@@ -9,7 +9,7 @@ import { useMemo, useState, type ReactElement } from "react";
 import type { Recipe } from "@shared/types";
 import { navigate } from "../../app/nav";
 import { addDays, addManualItem, planId, setStatus, todayYmd, weekStart } from "@shared/domain";
-import { dayName, itemName, lineStatuses, match, relDay, scaleLine, servingFactor, shortDate } from "../planner/logic";
+import { dayName, defaultServings, itemName, lineStatuses, match, relDay, scaleLine, servingFactor, shortDate } from "../planner/logic";
 import { assign, restore, snapshot, swapDinner, usePlan, useRecipes, useSettings, useStatusMap } from "../planner/data";
 import { entryLabel } from "../planner/Home";
 import { href, parseParams, parseSlot } from "../planner/routes";
@@ -49,8 +49,8 @@ function RecipeDetail({ recipe, ctx }: { recipe: Recipe; ctx: Record<string, str
   const entry = ctx.plan ? plan[ctx.plan] : undefined;
   const isPlannedHere = entry?.kind === "recipe" && entry.refId === recipe.id;
 
-  const [localServings, setLocalServings] = useState<number>(settings.householdSize);
-  const servings = isPlannedHere ? entry!.servings ?? settings.householdSize : localServings;
+  const [localServings, setLocalServings] = useState<number>(() => defaultServings(recipe, settings.householdSize));
+  const servings = isPlannedHere ? entry!.servings ?? defaultServings(recipe, settings.householdSize) : localServings;
   const setServings = (n: number) => {
     const v = Math.max(1, Math.min(20, n));
     if (isPlannedHere && planSlot) { const { id: _i, updatedAt: _u, date: _d, meal: _m, ...rest } = entry!; void _i; void _u; void _d; void _m; assign(planSlot.date, planSlot.meal, { ...rest, servings: v }); }
@@ -130,7 +130,7 @@ function RecipeDetail({ recipe, ctx }: { recipe: Recipe; ctx: Record<string, str
           <HaveBadge missing={m.a.missing.length} />
         </div>
         <div className="ck-pl-row">
-          <span>Servings{factor !== 1 && <span className="ck-muted ck-small"> · amounts scaled</span>}</span>
+          <span>Servings{factor !== 1 && <span className="ck-muted ck-small"> · scaled from {defaultServings(recipe, servings)}</span>}</span>
           <div className="ck-stepper" role="group" aria-label="Servings">
             <button aria-label="Fewer servings" disabled={servings <= 1} onClick={() => setServings(servings - 1)}>−</button>
             <output aria-live="polite">{servings}</output>
@@ -211,7 +211,7 @@ function AddToPlanSheet({ open, onClose, recipe, servings, plan, byId }: {
           return (
             <button key={d} role="menuitem" onClick={() => {
               const undo = snapshot([{ date: d, meal: "dinner" }]);
-              assign(d, "dinner", { kind: "recipe", refId: recipe.id, servings: servings === settings.householdSize ? undefined : servings });
+              assign(d, "dinner", { kind: "recipe", refId: recipe.id, servings: servings === defaultServings(recipe, settings.householdSize) ? undefined : servings });
               toast(`Added to ${relDay(d, today) === "Today" ? "tonight" : dayName(d, true)}.`, { label: "Undo", run: () => restore(undo) });
               onClose();
             }}>
