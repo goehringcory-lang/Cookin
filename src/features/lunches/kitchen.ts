@@ -30,26 +30,10 @@ export const LUNCH_ID_ALIASES: Readonly<Record<CatalogId, readonly CatalogId[]>>
 };
 
 /**
- * Lunch items the interim catalog doesn't have yet, with where they live.
- * The catalog thread merges these; the shape matches CatalogItem.
+ * Lunch items the catalog didn't have yet. The full catalog (packages/ingredients) now has them
+ * all under the same ids, so the list is empty; the shape matches CatalogItem.
  */
-export const LUNCH_EXTRA_ITEMS = [
-  { id: "bagels", name: "Bagels", location: "pantry", category: "Bread & snacks", aliases: ["bagel"] },
-  { id: "english-muffins", name: "English muffins", location: "pantry", category: "Bread & snacks", aliases: ["english muffin"] },
-  { id: "pretzels", name: "Pretzels", location: "pantry", category: "Bread & snacks", aliases: ["pretzel"] },
-  { id: "goldfish-crackers", name: "Goldfish crackers", location: "pantry", category: "Bread & snacks", aliases: ["goldfish"] },
-  { id: "granola-bars", name: "Granola bars", location: "pantry", category: "Bread & snacks", aliases: ["granola bar"] },
-  { id: "fig-bars", name: "Fig bars", location: "pantry", category: "Bread & snacks", aliases: ["fig newtons", "fig bar"] },
-  { id: "fruit-bars", name: "Fruit bars", location: "pantry", category: "Bread & snacks", aliases: ["fruit bar", "fruit snacks"] },
-  { id: "applesauce-cups", name: "Applesauce cups", location: "pantry", category: "Bread & snacks", aliases: ["applesauce", "applesauce pouches"] },
-  { id: "boxed-mac-and-cheese", name: "Boxed mac and cheese", location: "pantry", category: "Pasta, rice & grains", aliases: ["mac and cheese", "kraft dinner"] },
-  { id: "canned-soup", name: "Canned soup", location: "pantry", category: "Canned & jarred", aliases: ["tomato soup", "chicken noodle soup"] },
-  { id: "canned-chicken", name: "Canned chicken", location: "pantry", category: "Canned & jarred", aliases: [] },
-  { id: "string-cheese", name: "String cheese", location: "fridge", category: "Dairy & eggs", aliases: ["cheese sticks"] },
-  { id: "yogurt-cups", name: "Yogurt cups", location: "fridge", category: "Dairy & eggs", aliases: ["yogurt tubes", "go-gurt"] },
-  { id: "pepperoni", name: "Pepperoni", location: "fridge", category: "Meat, fish & tofu", aliases: [] },
-  { id: "rotisserie-chicken", name: "Rotisserie chicken", location: "fridge", category: "Meat, fish & tofu", aliases: ["cooked chicken", "shredded chicken"] },
-] as const;
+export const LUNCH_EXTRA_ITEMS: readonly { id: string; name: string; location: string; category: string; aliases: readonly string[] }[] = [];
 
 const EXTRA_NAMES = new Map<string, string>(LUNCH_EXTRA_ITEMS.map((i) => [i.id, i.name]));
 const RANK: Record<StockStatus, number> = { have: 2, low: 1, out: 0 };

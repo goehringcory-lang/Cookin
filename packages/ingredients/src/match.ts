@@ -33,6 +33,32 @@ export function makeHas(owned: Owned, index: CatalogIndex = getIndex()): (id: st
   };
 }
 
+/**
+ * An owned item that can stand in for `id` because both belong to the same swappable family
+ * (jasmine rice for long-grain rice, penne for rigatoni, bone-in for boneless thighs).
+ * Also true when the family itself is owned under an old id (inventory "white-rice").
+ */
+export function findSubstitute(
+  id: string, owned: Owned, index: CatalogIndex = getIndex(),
+): string | null {
+  const rawOwn = typeof owned === 'function' ? owned : toPredicate(owned);
+  const own = (x: string) => rawOwn(x) || legacyIdsFor(x).some(rawOwn);
+  const target = resolveId(id);
+  for (const parent of index.satisfies.get(target) ?? []) {
+    if (!index.swappable.has(parent)) continue;
+    for (const sibling of index.satisfiedBy.get(parent) ?? []) {
+      if (sibling !== target && !index.generic.has(sibling) && own(sibling)) return sibling;
+    }
+    if (own(parent)) return parent;
+  }
+  return null;
+}
+
+export interface AnalyzeOptions {
+  /** Count a same-family owned item as having it (reported in `substitutes`). Default true. */
+  allowSubstitutes?: boolean;
+}
+
 /** Of these catalog ids, which are not covered by what you own? Order preserved, duplicates removed. */
 export function missingFor(ingredientIds: readonly string[], owned: Owned, index: CatalogIndex = getIndex()): string[] {
   const has = makeHas(owned, index);
@@ -48,8 +74,11 @@ function isSoft(line: ParsedIngredient): boolean {
 }
 
 /** Sort each recipe line into have / missing / optional-missing / unknown. */
-export function analyzeRecipe(recipe: RecipeLike, owned: Owned, index: CatalogIndex = getIndex()): RecipeAnalysis {
+export function analyzeRecipe(
+  recipe: RecipeLike, owned: Owned, index: CatalogIndex = getIndex(), opts: AnalyzeOptions = {},
+): RecipeAnalysis {
   const has = makeHas(owned, index);
+  const allowSubs = opts.allowSubstitutes ?? true;
   const out: RecipeAnalysis = {
     recipeId: recipe.id, have: [], missing: [], optionalMissing: [], unknown: [],
     missingIds: [], coverage: 1, canMake: true,
@@ -61,8 +90,19 @@ export function analyzeRecipe(recipe: RecipeLike, owned: Owned, index: CatalogIn
       continue;
     }
     if (line.assumedOnly) continue;
-    const unmet = line.groups.filter((g) => !g.some(has));
+    let unmet = line.groups.filter((g) => !g.some(has));
+    let substitutes: Record<string, string> | undefined;
+    if (allowSubs && unmet.length) {
+      unmet = unmet.filter((g) => {
+        for (const id of g) {
+          const sub = findSubstitute(id, owned, index);
+          if (sub) { (substitutes ??= {})[id] = sub; return false; }
+        }
+        return true;
+      });
+    }
     const status: IngredientStatus = { line, missing: unmet.map((g) => g[0]!).filter(Boolean) };
+    if (substitutes) status.substitutes = substitutes;
     if (unmet.length === 0) out.have.push(status);
     else if (isSoft(line)) out.optionalMissing.push(status);
     else {

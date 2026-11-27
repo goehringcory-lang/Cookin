@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   analyzeRecipe, makeableRecipes, missingFor, missingForRecipe, missingForRecipes, makeHas,
-  setCustomItems, parseIngredientLine,
+  setCustomItems, parseIngredientLine, findSubstitute,
 } from '../src';
 
 const pasta = {
@@ -102,5 +102,34 @@ describe('custom items', () => {
     expect(parseIngredientLine('2 tablespoons unobtainium dust').groups).toEqual([['c-unobtainium']]);
     setCustomItems([]);
     expect(parseIngredientLine('2 tablespoons unobtainium dust').unmatched).toBe(true);
+  });
+});
+
+describe('substitutes within a swappable family', () => {
+  const r = { id: 'r', ingredients: ['1½ cups long-grain white rice', '1 pound rigatoni', '6 bone-in, skin-on chicken thighs'] };
+
+  it('counts a same-family item as owned and says which', () => {
+    const a = analyzeRecipe(r, ['jasmine-rice', 'penne', 'chicken-thighs-boneless']);
+    expect(a.canMake).toBe(true);
+    expect(a.have.map((s) => s.substitutes)).toEqual([
+      { 'long-grain-white-rice': 'jasmine-rice' },
+      { rigatoni: 'penne' },
+      { 'chicken-thighs-bone-in': 'chicken-thighs-boneless' },
+    ]);
+  });
+
+  it('works through makeableRecipes and old inventory ids', () => {
+    expect(makeableRecipes([{ id: 'x', ingredients: ['1 cup jasmine rice'] }], ['white-rice'])).toHaveLength(1);
+  });
+
+  it('does not cross families or swap into unrelated items', () => {
+    expect(missingForRecipe({ id: 'x', ingredients: ['1 cup arborio rice'] }, ['jasmine-rice'])).toEqual(['arborio-rice']);
+    expect(missingForRecipe({ id: 'x', ingredients: ['1 pound spaghetti'] }, ['penne'])).toEqual(['spaghetti']);
+    expect(findSubstitute('heavy-cream', ['milk'])).toBeNull();
+  });
+
+  it('can be turned off', () => {
+    expect(analyzeRecipe(r, ['jasmine-rice', 'penne', 'chicken-thighs-boneless'], undefined, { allowSubstitutes: false }).missingIds)
+      .toEqual(['long-grain-white-rice', 'rigatoni', 'chicken-thighs-bone-in']);
   });
 });

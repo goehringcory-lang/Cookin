@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CATALOG } from "@shared/catalog";
+import { CATALOG, getItem } from "@shared/catalog";
 import type { PlanEntry, Recipe, StockStatus } from "@shared/types";
 import {
   LUNCH_EXTRA_ITEMS,
@@ -67,8 +67,9 @@ describe("library", () => {
   });
 
   it("only uses catalog ids or the listed lunch extras", () => {
-    const known = new Set([...CATALOG.map((c) => c.id), ...LUNCH_EXTRA_ITEMS.map((i) => i.id)]);
-    expect(libraryCatalogIds().filter((id) => !known.has(id))).toEqual([]);
+    // getItem also knows generic terms (short-pasta, berries) and ids from the interim catalog (jam, ham).
+    const extras = new Set(LUNCH_EXTRA_ITEMS.map((i) => i.id));
+    expect(libraryCatalogIds().filter((id) => !getItem(id) && !extras.has(id))).toEqual([]);
   });
 
   it("asks the catalog only for items it doesn't already have", () => {

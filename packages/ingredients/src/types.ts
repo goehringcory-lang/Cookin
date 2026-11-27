@@ -31,6 +31,11 @@ export interface CatalogItem {
    * Hidden from onboarding. Owned when any item whose `satisfies` lists it is owned.
    */
   generic?: boolean;
+  /**
+   * On a generic item: its members are interchangeable, so owning one member covers a recipe
+   * asking for another (owning penne covers rigatoni). Reported as a substitute, never silently.
+   */
+  swappable?: boolean;
   /** Ids of generic (or broader) items that owning this item also covers. */
   satisfies?: string[];
 }
@@ -84,6 +89,11 @@ export interface IngredientStatus {
   line: ParsedIngredient;
   /** For a missing line: the catalog ids to buy (first alternative of each unmet group). */
   missing: string[];
+  /**
+   * Requested id -> owned id that stands in for it (same swappable family), e.g.
+   * { 'long-grain-white-rice': 'jasmine-rice' }. Only on lines counted as `have`.
+   */
+  substitutes?: Record<string, string>;
 }
 
 export interface RecipeAnalysis {
