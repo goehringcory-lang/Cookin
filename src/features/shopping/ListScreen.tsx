@@ -1,9 +1,10 @@
-import { useRef, useState, type FormEvent, type PointerEvent as ReactPointerEvent } from "react";
+import { useMemo, useRef, useState, type FormEvent, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from "react";
 import { Sheet, toast } from "@shared/ui";
 import { StaplesEditor } from "@features/settings";
+import { updateSettings, useListEntries, useSettings } from "@shared/domain";
 import { useShoppingList } from "./useShoppingList";
-import { addManual, clearChecked, finishShopping, removeLine, removeRestocks, toggleChecked } from "./actions";
-import { canShareToKeep, copyForKeep, shareToKeep, toKeepText } from "./keep";
+import { addManual, clearChecked, finishShopping, forgetSent, markSent, removeLine, removeRestocks, toggleChecked } from "./actions";
+import { canShareToKeep, copyForKeep, copyNow, parseKeepNoteUrl, shareToKeep, toKeepText, unsent } from "./keep";
 import type { ShoppingLine } from "./build";
 import "./shopping.css";
 
@@ -14,10 +15,38 @@ const plural = (n: number, one: string, many = one + "s") => `${n} ${n === 1 ? o
 export function ListScreen() {
   const { lines, doubleCheck, toBuy, inCart, weekOf } = useShoppingList();
   const [staplesOpen, setStaplesOpen] = useState(false);
+  const [keepOpen, setKeepOpen] = useState(false);
   const [draft, setDraft] = useState("");
   const share = canShareToKeep();
+  const { keepNoteUrl } = useSettings();
+  const entries = useListEntries(weekOf);
   const all = [...lines, ...doubleCheck];
   const allChecked = all.length > 0 && toBuy === 0;
+  const sentKeys = useMemo(() => new Set(entries.filter((e) => e.type === "sent" && e.key).map((e) => e.key!)), [entries]);
+  const toSend = unsent(all, sentKeys);
+  const sentOnList = all.filter((l) => sentKeys.has(l.key)).map((l) => l.key);
+
+  // A link, not a button: the note opens from the tap itself (Android hands
+  // keep.google.com links to the Keep app). The copy happens first, in the same tap.
+  const onAddToNote = (e: ReactMouseEvent<HTMLAnchorElement>) => {
+    if (!toSend.length) {
+      e.preventDefault();
+      return toast("Grocery's already has everything on this list.", sentOnList.length ? { label: "Send all again", run: () => void forgetSent(sentOnList) } : undefined);
+    }
+    const text = toKeepText(toSend);
+    if (copyNow(text)) {
+      const undo = markSent(toSend, weekOf);
+      toast(`Copied ${plural(toSend.length, "new item")}. Tap into Grocery's and paste.`, { label: "Undo", run: undo });
+      return; // let the link open the note
+    }
+    // Couldn't copy inside the tap: copy the slower way, then offer the note.
+    e.preventDefault();
+    void copyForKeep(text).then((res) => {
+      if (res !== "copied") return toast("Couldn't copy. Try Copy all below.");
+      markSent(toSend, weekOf);
+      toast(`Copied ${plural(toSend.length, "new item")}.`, { label: "Open Grocery's", run: () => window.open(keepNoteUrl, "_blank", "noopener") });
+    });
+  };
 
   const exportText = () => toKeepText(all);
 
@@ -75,14 +104,35 @@ export function ListScreen() {
 
       {all.length > 0 && (
         <div className="ck-shop__export">
-          <button className="ck-btn ck-btn--primary ck-btn--block" onClick={onCopy} disabled={toBuy === 0}>
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="8" y="8" width="12" height="12" rx="2" /><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" /></svg>
-            Copy for Keep
-          </button>
-          <p className="ck-shop__help">
-            One item per line. Paste into a Keep checklist and each line becomes a checkbox.
-            {share && <> Or <button className="ck-shop__link" onClick={onShare} disabled={toBuy === 0}>share to Keep</button> as a new note.</>}
-          </p>
+          {keepNoteUrl ? (
+            <>
+              <a className={`ck-btn ck-btn--primary ck-btn--block${toBuy === 0 ? " ck-btn--disabled" : ""}`} href={keepNoteUrl} target="_blank" rel="noopener" onClick={onAddToNote} aria-disabled={toBuy === 0 || undefined}>
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
+                {toSend.length && toSend.length < toBuy ? `Add ${plural(toSend.length, "new item")} to Grocery's` : "Add to Grocery's"}
+              </a>
+              <p className="ck-shop__help">
+                Copies {sentOnList.length ? "only what isn't in Grocery's yet" : "the list"} and opens the note. Tap a new item there and paste.
+              </p>
+              <div className="ck-shop__keep-links">
+                <button className="ck-shop__link" onClick={onCopy} disabled={toBuy === 0}>Copy all</button>
+                <button className="ck-shop__link" onClick={() => setKeepOpen(true)}>Change note</button>
+              </div>
+            </>
+          ) : (
+            <>
+              <button className="ck-btn ck-btn--primary ck-btn--block" onClick={onCopy} disabled={toBuy === 0}>
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="8" y="8" width="12" height="12" rx="2" /><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" /></svg>
+                Copy for Keep
+              </button>
+              <p className="ck-shop__help">
+                One item per line. Paste into a Keep checklist and each line becomes a checkbox.
+                {share && <> Or <button className="ck-shop__link" onClick={onShare} disabled={toBuy === 0}>share to Keep</button> as a new note.</>}
+              </p>
+              <div className="ck-shop__keep-links">
+                <button className="ck-shop__link" onClick={() => setKeepOpen(true)}>Link your Grocery's note</button>
+              </div>
+            </>
+          )}
         </div>
       )}
 
@@ -127,7 +177,45 @@ export function ListScreen() {
       <Sheet open={staplesOpen} onClose={() => setStaplesOpen(false)} title="Always buy">
         <StaplesEditor />
       </Sheet>
+
+      <Sheet open={keepOpen} onClose={() => setKeepOpen(false)} title="Your Keep note">
+        <KeepNoteForm current={keepNoteUrl} onDone={() => setKeepOpen(false)} />
+      </Sheet>
     </section>
+  );
+}
+
+function KeepNoteForm({ current, onDone }: { current?: string; onDone: () => void }) {
+  const [value, setValue] = useState(current ?? "");
+  const [error, setError] = useState("");
+  const save = (e: FormEvent) => {
+    e.preventDefault();
+    const url = parseKeepNoteUrl(value);
+    if (!url) return setError("That doesn't look like a link to one Keep note. It should start with keep.google.com and end in #LIST/… or #NOTE/….");
+    updateSettings({ keepNoteUrl: url });
+    toast("Linked. Add to Grocery's is on your list.");
+    onDone();
+  };
+  const unlink = () => {
+    updateSettings({ keepNoteUrl: undefined });
+    toast("Unlinked your Keep note.");
+    onDone();
+  };
+  return (
+    <form className="ck-shop__keep" onSubmit={save}>
+      <ol className="ck-shop__steps">
+        <li>On a computer, open <a href="https://keep.google.com/" target="_blank" rel="noopener">keep.google.com</a> and click your Grocery's note.</li>
+        <li>Copy the address from the address bar. It ends in something like <code>#LIST/1a2b3c</code>.</li>
+        <li>Paste it here. It syncs to your phone.</li>
+      </ol>
+      <label className="ck-visually-hidden" htmlFor="ck-keep-url">Keep note link</label>
+      <input id="ck-keep-url" className="ck-input" placeholder="https://keep.google.com/#LIST/…" value={value} onChange={(e) => { setValue(e.target.value); setError(""); }} inputMode="url" autoComplete="off" aria-invalid={!!error || undefined} aria-describedby={error ? "ck-keep-err" : undefined} />
+      {error && <p id="ck-keep-err" className="ck-shop__error" role="alert">{error}</p>}
+      <div className="ck-shop__keep-actions">
+        {current && <button type="button" className="ck-btn ck-btn--ghost" onClick={unlink}>Unlink</button>}
+        <button type="submit" className="ck-btn ck-btn--primary" disabled={!value.trim()}>Save</button>
+      </div>
+    </form>
   );
 }
 

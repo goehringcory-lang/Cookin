@@ -138,6 +138,40 @@ test.describe("shopping list", () => {
     expect((await copyText(page)).split("\n")).toContain("Dish soap");
   });
 
+  test("Add to Grocery's copies only new items and opens the linked Keep note", async ({ page, context }) => {
+    await context.route("https://keep.google.com/**", (r) => r.fulfill({ contentType: "text/html", body: "<title>Keep</title>" }));
+    await page.getByRole("button", { name: "Link your Grocery's note" }).click();
+    await page.getByLabel("Keep note link").fill("keep.google.com/#home");
+    await page.getByRole("button", { name: "Save" }).click();
+    await expect(page.getByRole("alert")).toContainText("doesn't look like a link");
+    await page.getByLabel("Keep note link").fill("https://keep.google.com/#LIST/grocerys123");
+    await page.getByRole("button", { name: "Save" }).click();
+
+    const add = page.getByRole("link", { name: /Add .*to Grocery's/ });
+    await expect(add).toHaveAttribute("href", "https://keep.google.com/#LIST/grocerys123");
+    const unchecked = await boxes(page).count();
+    const [popup] = await Promise.all([page.waitForEvent("popup"), add.click()]);
+    expect(popup.url()).toBe("https://keep.google.com/#LIST/grocerys123");
+    await popup.close();
+    await expect(page.getByRole("status")).toContainText(`Copied ${unchecked} new items`);
+    expect((await page.evaluate(() => navigator.clipboard.readText())).split("\n")).toHaveLength(unchecked);
+
+    // Add one thing: only it goes next time.
+    await page.getByLabel("Add an item").fill("Dish soap");
+    await page.getByRole("button", { name: "Add", exact: true }).click();
+    const one = page.getByRole("link", { name: "Add 1 new item to Grocery's" });
+    const [popup2] = await Promise.all([page.waitForEvent("popup"), one.click()]);
+    await popup2.close();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("Dish soap");
+
+    // Nothing new: no tab, just a note with a way to send everything again.
+    await page.getByRole("link", { name: "Add to Grocery's" }).click();
+    await expect(page.getByRole("status")).toContainText("already has everything");
+    await page.getByRole("button", { name: "Send all again" }).click();
+    await expect(page.getByRole("link", { name: "Add to Grocery's" })).toBeVisible();
+    await expect(page.getByText("Copies the list and opens the note")).toBeVisible();
+  });
+
   test("Done shopping clears checked items", async ({ page }) => {
     const before = await boxes(page).count();
     await box(page, "Bananas").click();
