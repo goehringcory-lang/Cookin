@@ -159,7 +159,6 @@ test.describe("swap and meal sheets", () => {
 
   // known bug: the red "Remove from plan" item in the meal options menu is below the 4.5:1 contrast ratio (.is-danger).
   test("meal options menu text meets colour contrast", async ({ page }) => {
-    test.fail();
     await openDemoAt(page, "home");
     await page.getByRole("button", { name: "Meal options" }).first().click();
     await expect(page.getByRole("menuitem", { name: "Remove from plan" })).toBeVisible();

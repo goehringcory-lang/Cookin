@@ -146,4 +146,4 @@
 .ck-pl-nyt { margin-top: var(--ck-s5); padding-left: 0; }
 .ck-pl-recipe__bar { bottom: calc(var(--ck-tabbar-h, 64px) + env(safe-area-inset-bottom)); padding-bottom: var(--ck-s3); }
 .ck-pl .ck-btn--ghost, .ck-pl-nudge__go { color: var(--ck-primary-press); }
-.ck-pl .ck-chip, .ck-swap-bar .ck-chip { min-height: 44px; }
+.ck-pl .ck-chip, .ck-swap-bar .ck-chip { min-height: 44px; min-width: 44px; }

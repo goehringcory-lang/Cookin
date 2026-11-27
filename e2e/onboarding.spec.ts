@@ -112,7 +112,6 @@ test.describe("first-run onboarding", () => {
   // known bug: an item added via "+ Add ..." during onboarding is saved but never shows up (not in search, not
   // counted as selected) because the screen reads the catalog before the custom-items sync has run.
   test("a custom item added in onboarding shows up selected", async ({ page }) => {
-    test.fail();
     await page.getByRole("button", { name: "Let's go" }).click();
     await page.getByLabel("Search ingredients").fill("Dragonfruit powder");
     await page.getByRole("button", { name: /Add .Dragonfruit powder. to pantry/ }).click();
@@ -152,7 +151,6 @@ test.describe("first-run onboarding", () => {
 
   // known bug: the grey "Skip" link in the step header (.ob-link) is below the 4.5:1 contrast ratio on steps 1 to 4.
   test("Skip link meets colour contrast", async ({ page }) => {
-    test.fail();
     await page.getByRole("button", { name: "Let's go" }).click();
     expect(await axeViolations(page)).toEqual([]);
   });

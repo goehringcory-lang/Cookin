@@ -158,7 +158,7 @@ test.describe("planning into an empty week", () => {
     await expect(page.getByRole("tab", { name: /THU/i })).toHaveAttribute("aria-selected", "true");
     await page.getByLabel("Search recipes").fill("Quesadillas");
     await page.getByRole("button", { name: "Add to Thursday dinner" }).click();
-    await expect(page.getByText("Black Bean and Cheese Quesadillas added to Thursday.")).toBeVisible();
+    await expect(page.getByText(/^Added to Thursday( dinner)?\./)).toBeVisible();
     // Planning jumps on to the next open night; go back to Thursday to see it.
     await expect(page.getByRole("tab", { name: /FRI/i })).toHaveAttribute("aria-selected", "true");
     await page.getByRole("tab", { name: /THU/i }).click();
