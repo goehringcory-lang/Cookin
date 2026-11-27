@@ -26,7 +26,7 @@ describe("matching", () => {
     const m = match(chicken, status);
     expect(m.a.canMake).toBe(true);
     expect(m.low).toEqual(["lemons"]);
-    expect(lineStatuses(m, status).map((l) => l.status)).toEqual(["have", "low", "have", "have"]);
+    expect(lineStatuses(m, status).map((l) => l.status)).toEqual(["have", "low", "have", "ignored"]) // salt is assumed;
   });
 });
 

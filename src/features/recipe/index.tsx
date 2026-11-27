@@ -33,7 +33,7 @@ export function RecipeScreen({ id: param }: { id: string }) {
   return <><RecipeDetail recipe={recipe} ctx={params} /><ToastHost /></>;
 }
 
-const STATUS_TEXT = { have: "In stock", low: "Running low", missing: "Need", unknown: "", ignored: "" } as const;
+const STATUS_TEXT = { have: "In stock", low: "Running low", missing: "Need", unknown: "", ignored: "", optional: "Optional" } as const;
 
 function RecipeDetail({ recipe, ctx }: { recipe: Recipe; ctx: Record<string, string> }) {
   const today = todayYmd();

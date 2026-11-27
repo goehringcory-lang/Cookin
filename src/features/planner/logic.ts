@@ -24,7 +24,7 @@ export function match(recipe: Recipe, status: StatusMap): Match {
   return { recipe, a, low: a.have.filter((id) => status[id] === "low") };
 }
 
-export type LineStatus = "have" | "low" | "missing" | "unknown" | "ignored";
+export type LineStatus = "have" | "low" | "missing" | "unknown" | "ignored" | "optional";
 
 /** Per ingredient line status with "running low" split out of "have". */
 export function lineStatuses(m: Match, status: StatusMap): { line: string; ids: string[]; status: LineStatus }[] {
