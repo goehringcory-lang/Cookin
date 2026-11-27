@@ -69,7 +69,7 @@ export type LunchChoice =
   | { type: "none"; note?: string };
 
 export interface LunchSettings {
-  /** People eating dinner (AppSettings.householdSize). */
+  /** People eating dinner (AppSettings.householdSize; Cory: 3, with a toddler and a newborn). */
   householdSize: number;
   /** Leftover portions needed for a dinner to count as covering lunch. */
   leftoverPortionsForLunch: number;
@@ -78,7 +78,7 @@ export interface LunchSettings {
 }
 
 export const DEFAULT_LUNCH_SETTINGS: LunchSettings = {
-  householdSize: 4,
+  householdSize: 3,
   leftoverPortionsForLunch: 2,
   includeWeekends: true,
 };
