@@ -8,6 +8,7 @@ import { ListScreen } from "@features/shopping";
 import { KitchenScreen } from "@features/inventory";
 import { RecipesScreen } from "@features/recipes";
 import { RecipeScreen } from "@features/recipe";
+import { ImportScreen } from "@features/nyt-sync";
 
 const TABS = [
   { name: "home", label: "This week", icon: "M4 6.5h16v13H4zM4 10.5h16M8.5 4v4M15.5 4v4" },
@@ -26,6 +27,8 @@ export function App() {
 
   useEffect(() => { window.scrollTo(0, 0); }, [route.name, route.param]);
 
+  // NYT import window (opened by the Sync to Cokkin button) works even before onboarding.
+  if (route.name === "import" || new URLSearchParams(location.search).has("import")) return <main className="ck-app ck-app--bare"><ImportScreen /></main>;
   if (onboarding) return <main className="ck-app ck-app--bare"><Onboarding /></main>;
 
   let screen;

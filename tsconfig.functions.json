@@ -12,5 +12,5 @@
     "isolatedModules": true,
     "types": ["@cloudflare/workers-types"]
   },
-  "include": ["functions", "src/shared/types.ts"]
+  "include": ["functions", "src/shared/types.ts", "src/features/nyt-sync/core"]
 }
