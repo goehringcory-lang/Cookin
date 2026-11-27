@@ -6,7 +6,7 @@
  * Items that are owned but low are left to the list's own "low" rule.
  */
 import type { PlanEntry } from "@shared/types";
-import { nameOf } from "./kitchen";
+import { canonicalId, nameOf } from "./kitchen";
 import { getLunchIdea } from "./library";
 import { checkIdea } from "./match";
 import type { CatalogId, Kitchen, LunchShoppingNeed } from "./types";
@@ -27,7 +27,8 @@ export function lunchShoppingNeeds(
     if (e.meal !== "lunch" || e.kind !== "lunch" || !e.refId) continue;
     const idea = getLunchIdea(e.refId);
     if (!idea) continue;
-    for (const id of checkIdea(idea, owned).missing) {
+    for (const raw of checkIdea(idea, owned).missing) {
+      const id = canonicalId(raw);
       const reason = { type: "lunch" as const, ideaId: idea.id, name: idea.name, date: e.date };
       const n = needs.get(id);
       if (n) n.reasons.push(reason);

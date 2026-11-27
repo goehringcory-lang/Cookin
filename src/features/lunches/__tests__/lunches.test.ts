@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { CATALOG } from "@shared/catalog";
+import { getItem } from "@shared/catalog";
 import type { PlanEntry, Recipe, StockStatus } from "@shared/types";
 import {
-  LUNCH_EXTRA_ITEMS,
   LUNCH_LIBRARY,
   addDays,
   autoMakesLeftovers,
@@ -66,17 +65,8 @@ describe("library", () => {
     }
   });
 
-  it("only uses catalog ids or the listed lunch extras", () => {
-    const known = new Set([...CATALOG.map((c) => c.id), ...LUNCH_EXTRA_ITEMS.map((i) => i.id)]);
-    expect(libraryCatalogIds().filter((id) => !known.has(id))).toEqual([]);
-  });
-
-  it("asks the catalog only for items it doesn't already have", () => {
-    const catalogIds = new Set(CATALOG.map((c) => c.id));
-    const extras = LUNCH_EXTRA_ITEMS.map((i) => i.id);
-    expect(new Set(extras).size).toBe(extras.length);
-    // Once the catalog adopts an extra, this reminds us to drop it from the list.
-    expect(extras.filter((id) => catalogIds.has(id))).toEqual([]);
+  it("only uses ids the catalog knows", () => {
+    expect(libraryCatalogIds().filter((id) => !getItem(id))).toEqual([]);
   });
 });
 
@@ -267,9 +257,16 @@ describe("shopping", () => {
     expect(needs.map((n) => n.itemId)).not.toContain("lettuce"); // optional
   });
 
-  it("accepts usePlanWeek()'s Record and names lunch extras", () => {
-    const needs = lunchShoppingNeeds({ a: entry("2026-12-03", "lunch", "l-yogurt-granola") }, new Set());
-    expect(needs.find((n) => n.itemId === "yogurt-cups")?.name).toBe("Yogurt cups");
+  it("accepts usePlanWeek()'s Record and uses current catalog ids and names", () => {
+    const needs = lunchShoppingNeeds({ a: entry("2026-12-03", "lunch", "l-pbj") }, new Set(["sandwich-bread", "bananas"]));
+    expect(needs.map((n) => n.itemId)).toEqual(["peanut-butter"]);
+    const yog = lunchShoppingNeeds({ a: entry("2026-12-03", "lunch", "l-yogurt-granola") }, new Set());
+    expect(yog.find((n) => n.itemId === "yogurt-cups")?.name).toBe(getItem("yogurt-cups")?.name);
+  });
+
+  it("treats any pasta shape as pasta (catalog generics)", () => {
+    const r = checkIdea(getLunchIdea("l-buttered-noodles")!, new Set(["penne", "butter"]));
+    expect(r.readiness).toBe("ready");
   });
 });
 
