@@ -1,0 +1,36 @@
+{
+  "staples": [
+    {
+      "name": "Milk",
+      "ingredientId": "milk"
+    },
+    {
+      "name": "Bananas",
+      "ingredientId": "banana"
+    },
+    {
+      "name": "Fig bars",
+      "ingredientId": "fig-bars"
+    },
+    {
+      "name": "Fruit bars",
+      "ingredientId": "fruit-bars"
+    },
+    {
+      "name": "Cheese sticks",
+      "ingredientId": "cheese-sticks"
+    },
+    {
+      "name": "Applesauce pouches",
+      "ingredientId": "applesauce-pouches"
+    },
+    {
+      "name": "Bread",
+      "ingredientId": "bread"
+    },
+    {
+      "name": "Eggs",
+      "ingredientId": "eggs"
+    }
+  ]
+}
