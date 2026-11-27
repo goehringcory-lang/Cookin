@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import type { PlanEntry, Recipe } from "@shared/types";
 import { navigate } from "../../app/nav";
 import { addDays, planId, todayYmd, weekDates, weekStart } from "@shared/domain";
-import { dayName, match, relDay, shortDate, weekRange, type StatusMap } from "./logic";
+import { defaultServings, dayName, match, relDay, shortDate, weekRange, type StatusMap } from "./logic";
 import { usePlan, useRecipes, useSettings, useStatusMap } from "./data";
 import { SwapBar } from "./SwapBar";
 import { CartIcon, ChevronL, ChevronR, GearIcon, HaveBadge, MoreIcon, PlusIcon, RecipeImg, Time } from "./ui";
@@ -71,7 +71,7 @@ export function Home({ start }: { start?: string }) {
                 <h2 className="ck-recipe-card__title">{tonightRecipe.title}</h2>
                 <div className="ck-recipe-card__meta">
                   <Time minutes={tonightRecipe.totalMinutes} />
-                  <span>serves {tonight.servings ?? settings.householdSize}</span>
+                  <span>serves {tonight.servings ?? defaultServings(tonightRecipe, settings.householdSize)}</span>
                   {tonight.cooked ? <span className="ck-badge">Cooked</span> : <HaveBadge missing={match(tonightRecipe, status).a.missing.length} />}
                 </div>
                 <div className="ck-recipe-card__actions">
