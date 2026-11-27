@@ -7,7 +7,7 @@ import { useMemo } from "react";
 import type { PlanEntry, Recipe } from "@shared/types";
 import { navigate } from "../../app/nav";
 import { addDays, planId, todayYmd, weekDates, weekStart } from "@shared/domain";
-import { dayName, itemName, makesLeftovers, match, relDay, shortDate } from "./logic";
+import { defaultServings, dayName, itemName, makesLeftovers, match, relDay, shortDate } from "./logic";
 import { assign, clear, restore, snapshot, swapSlots, usePlan, useRecipes, useSettings, useStatusMap } from "./data";
 import { SwapBar } from "./SwapBar";
 import { entryLabel } from "./Home";
@@ -35,7 +35,7 @@ export function MealSheet({ slot, mode, week }: Props) {
   if (mode === "menu" || !recipe) return <OptionsSheet entry={entry} recipe={recipe} label={label} week={week} byId={byId} plan={plan} />;
 
   const m = match(recipe, status);
-  const servings = entry.servings ?? settings.householdSize;
+  const servings = entry.servings ?? defaultServings(recipe, settings.householdSize);
   const canSwap = s.date >= today && !entry.cooked && s.meal === "dinner";
 
   return (
