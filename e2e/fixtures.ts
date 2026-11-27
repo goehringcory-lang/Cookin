@@ -39,7 +39,8 @@ export async function smallTapTargets(page: Page): Promise<string[]> {
       const label = el.getAttribute("aria-label") || el.textContent?.trim().slice(0, 30) || el.tagName;
       // Checkboxes inside a full-row label are fine: measure the label instead.
       const box = (el.closest("label") ?? el).getBoundingClientRect();
-      if (box.height < 44 || box.width < 44) out.push(`${label} (${Math.round(box.width)}x${Math.round(box.height)})`);
+      // Half-pixel tolerance: sheets render at fractional sizes (43.9px) mid-layout.
+      if (box.height < 43.5 || box.width < 43.5) out.push(`${label} (${Math.round(box.width)}x${Math.round(box.height)})`);
     }
     return out;
   });
