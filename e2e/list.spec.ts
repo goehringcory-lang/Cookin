@@ -52,13 +52,10 @@ test.describe("shopping list", () => {
   test("an item appears only once", async ({ page }) => {
     const all = (await names(page)).map(n => n.toLowerCase());
     const dupes = all.filter((n, i) => all.indexOf(n) !== i);
-    // Bread is the one known duplicate, asserted on its own below.
-    expect(dupes.filter(n => n !== "bread"), "names listed more than once").toEqual([]);
+    expect(dupes, "names listed more than once").toEqual([]);
   });
 
   test("Bread is not listed twice (as low and as a staple)", async ({ page }) => {
-    // known bug: Bread listed as both low and staple
-    test.fail();
     const bread = (await names(page)).filter(n => n.toLowerCase() === "bread");
     expect(bread).toHaveLength(1);
   });
