@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import type { InventoryEntry, ListEntry, PlanEntry, Recipe, Staple, StockStatus } from "@shared/types";
-import { getItem, matchLine } from "@shared/catalog";
+import { listNameOf, matchLine } from "@shared/catalog";
 import { buildShoppingList, yieldServings, type ListInput } from "../build";
 
 // Catalog ids and names come from the catalog, so these tests survive catalog edits.
 const id = (line: string) => matchLine(line)[0];
-const name = (i: string) => getItem(i)!.name;
+const name = (i: string) => listNameOf(i);
 const FLOUR = id("all-purpose flour"), ONION = id("2 onions"), CHICKEN = id("chicken thighs"), BEANS = id("black beans");
 const RICE = id("rice"), MILK = id("milk"), BANANAS = id("bananas"), CEREAL = id("cereal"), OIL = id("olive oil");
 const SPAGHETTI = id("spaghetti"), CHEDDAR = id("cheddar"), SALT = id("kosher salt");

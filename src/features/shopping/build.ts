@@ -11,7 +11,7 @@
  * Recipe lines that match nothing in the catalog go into `doubleCheck` instead,
  * because we can't tell if they are already in the kitchen.
  */
-import { analyzeRecipe, cleanIngredientName, getItem, matchLine } from "@shared/catalog";
+import { analyzeRecipe, cleanIngredientName, getItem, listNameOf, matchLine } from "@shared/catalog";
 import type { InventoryEntry, ListEntry, ListLine, ListReason, PlanEntry, Recipe, Staple } from "@shared/types";
 import { Amount } from "./units";
 import { parseLine } from "./parse";
@@ -109,7 +109,7 @@ export function buildShoppingList(input: ListInput): ShoppingList {
     if (!d) map.set(key, (d = { key, name, itemId, reasons: [], amount: new Amount(), manualIds: [] }));
     return d;
   };
-  const itemDraft = (id: string) => draft(drafts, itemKey(id), getItem(id)?.name ?? cleanIngredientName(id.replace(/-/g, " ")), id);
+  const itemDraft = (id: string) => draft(drafts, itemKey(id), (getItem(id) ? listNameOf(id) : null) ?? cleanIngredientName(id.replace(/-/g, " ")), id);
   const addReason = (d: Draft, r: ListReason) => {
     if (!d.reasons.some((x) => JSON.stringify(x) === JSON.stringify(r))) d.reasons.push(r);
   };
