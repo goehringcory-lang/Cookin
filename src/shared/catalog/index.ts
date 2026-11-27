@@ -60,8 +60,15 @@ export function setCustomItems(custom: CatalogItem[]) {
   }
   aliasIndex.sort((x, y) => y.a.length - x.a.length);
   cache.clear();
+  version++;
+  catalogListeners.forEach(f => f());
 }
 const cache = new Map<string, string[]>();
+let version = 0;
+const catalogListeners = new Set<() => void>();
+/** Increments whenever setCustomItems() rebuilds the matcher. */
+export const catalogVersion = () => version;
+export const subscribeCatalog = (fn: () => void) => { catalogListeners.add(fn); return () => { catalogListeners.delete(fn); }; };
 
 export const getItem = (id: string) => items.get(id);
 export const allItems = () => [...items.values()];

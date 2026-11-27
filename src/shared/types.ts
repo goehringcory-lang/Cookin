@@ -57,6 +57,8 @@ export interface Recipe {
   steps?: string[];
   totalMinutes?: number;
   yield?: string;
+  /** Numeric servings parsed from yield (e.g. "4 servings" -> 4). Planner scales by householdSize / servings. */
+  servings?: number;
   /** Free-text categories/tags from the source, e.g. "dinner, weeknight". */
   tags?: string[];
   imageUrl?: string;
@@ -73,7 +75,8 @@ export interface Recipe {
 export type Meal = "dinner" | "lunch";
 
 /**
- * Collection `plan`, doc id = `${date}:${meal}` (e.g. "2026-11-30:dinner"). One entry per slot.
+ * Collection `plan`, doc id = `${date}:${meal}` (e.g. "2026-11-30:dinner") for the main dish.
+ * Extra dishes for the same slot (a side) use `${date}:${meal}:2`, `:3`, ...
  * kind:
  *  - recipe:    refId = Recipe.id
  *  - lunch:     refId = LunchIdea.id from the lunch library
@@ -142,14 +145,21 @@ export interface ListLine {
   checked: boolean;
 }
 
-/** Collection `list`, single doc id "current": what is persisted about the list. */
-export interface ListState {
-  /** ListLine.key -> true when checked off at the store. */
-  checked: Record<string, true>;
-  /** Items typed in by hand. */
-  manual: { id: string; name: string; addedAt: number }[];
-  /** Keys hidden for this week ("I have it" on an unmatched line). */
-  dismissed: Record<string, true>;
+/**
+ * Collection `list`: one small doc per entry so edits on two devices never clobber each other.
+ *  - check:   id `check:<ListLine.key>`   checked off at the store during week `weekOf`
+ *  - dismiss: id `dismiss:<ListLine.key>` hidden for week `weekOf` ("I have it" on an unmatched line)
+ *  - manual:  id `manual:<random>`        typed in by hand; stays until bought (then deleted)
+ * `weekOf` is the plan week start (YYYY-MM-DD); check/dismiss docs from other weeks are ignored.
+ */
+export interface ListEntry {
+  id: string;
+  type: "check" | "dismiss" | "manual";
+  /** ListLine.key for check/dismiss. */
+  key?: string;
+  /** Display name for manual items. */
+  name?: string;
+  weekOf: string;
   updatedAt: number;
 }
 
@@ -164,7 +174,17 @@ export interface AppSettings {
   householdSize: number;
   /** 1 = Monday. */
   weekStartsOn: 0 | 1;
-  lastNytSync?: { at: number; total: number; added: number; via: "button" | "weekly" };
+  updatedAt: number;
+}
+
+/** Collection `meta`, doc id "nyt": written by the server on each recipe import. */
+export interface NytSyncInfo {
+  at: number;
+  total: number;
+  added: number;
+  updated: number;
+  archived: number;
+  via: "button" | "weekly";
   updatedAt: number;
 }
 
@@ -176,11 +196,12 @@ export interface Collections {
   recipes: Recipe;
   plan: PlanEntry;
   staples: Staple;
-  list: ListState;
+  list: ListEntry;
   settings: AppSettings;
+  meta: NytSyncInfo;
 }
 export type CollectionName = keyof Collections;
-export const COLLECTIONS: CollectionName[] = ["inventory", "customItems", "recipes", "plan", "staples", "list", "settings"];
+export const COLLECTIONS: CollectionName[] = ["inventory", "customItems", "recipes", "plan", "staples", "list", "settings", "meta"];
 
 /* ---------- sync wire format (client <-> /api) ---------- */
 
@@ -193,9 +214,11 @@ export interface WireDoc {
   /** Server sequence number; present on docs coming from the server. */
   v?: number;
 }
-export interface SyncPullResponse { docs: WireDoc[]; cursor: number }
+/** `more` = call again with the new cursor (the server pages at 500 docs). */
+export interface SyncPullResponse { docs: WireDoc[]; cursor: number; more: boolean }
 export interface SyncPushRequest { changes: WireDoc[] }
-export interface SyncPushResponse { cursor: number; applied: number }
+/** rejected = indexes of changes that were invalid and skipped (the client drops them). */
+export interface SyncPushResponse { cursor: number; applied: number; rejected: number[] }
 
 /** POST /api/import/recipes body (NYT bookmark button and weekly sync). */
 export interface RecipeImportRequest {
