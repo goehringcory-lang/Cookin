@@ -78,7 +78,7 @@ export interface LunchSettings {
 }
 
 export const DEFAULT_LUNCH_SETTINGS: LunchSettings = {
-  householdSize: 4,
+  householdSize: 3,
   leftoverPortionsForLunch: 2,
   includeWeekends: true,
 };
