@@ -21,7 +21,7 @@ export function describeLunch(
     case "leftovers": {
       const title = (entry.refId && recipes?.[entry.refId]?.title) || "dinner";
       const day = entry.fromDate ? `${dayName(entry.fromDate)}'s ` : "";
-      return { emoji: "♻️", label: `Lunch: leftovers from ${day}${lowerFirst(title)}`, empty: false };
+      return { emoji: "♻️", label: `Lunch: leftovers from ${day}${title}`, empty: false };
     }
     case "none":
       return { emoji: "", label: entry.note ? `Lunch: ${entry.note}` : "Lunch: on our own", empty: false };
