@@ -39,6 +39,12 @@ describe("catalog", () => {
     expect(r.canMake).toBe(true);
     expect(r.lines[0]!.ids).toEqual(["short-pasta"]);
   });
+  it("reports same-family substitutes", () => {
+    const r = analyzeRecipe({ ingredients: ["1 cup long-grain white rice"] }, ["jasmine-rice"]);
+    expect(r.canMake).toBe(true);
+    expect(r.have).toEqual(["jasmine-rice"]);
+    expect(r.lines[0]).toMatchObject({ status: "have", ids: ["jasmine-rice"], substitutes: { "long-grain-white-rice": "jasmine-rice" } });
+  });
   it("ranks makeable recipes", () => {
     const a = { id: "a", ingredients: ["1 pound spaghetti", "3 garlic cloves"] };
     const b = { id: "b", ingredients: ["1 pound spaghetti"] };

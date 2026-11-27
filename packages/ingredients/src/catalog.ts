@@ -120,6 +120,8 @@ export interface CatalogIndex {
   maxLen: number;
   assumed: Set<string>;
   generic: Set<string>;
+  /** Generic ids whose members can stand in for each other. */
+  swappable: Set<string>;
   /** item id -> ids it satisfies, transitively (excluding itself). */
   satisfies: Map<string, Set<string>>;
   /** generic or target id -> ids of items that satisfy it, transitively. */
@@ -173,6 +175,7 @@ export function buildIndex(builtIn: readonly CatalogItem[], custom: readonly Cat
     maxLen,
     assumed: new Set(items.filter((i) => i.assumed).map((i) => i.id)),
     generic: new Set(items.filter((i) => i.generic).map((i) => i.id)),
+    swappable: new Set(items.filter((i) => i.swappable).map((i) => i.id)),
     satisfies,
     satisfiedBy,
   };

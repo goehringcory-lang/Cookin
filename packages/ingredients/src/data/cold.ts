@@ -17,7 +17,7 @@ export const COLD: RawItem[] = [
     aliases: ['yogurt', 'plain yogurt', 'whole-milk yogurt', 'plain whole-milk yogurt', 'plain whole milk yogurt', 'full-fat yogurt', 'plain low-fat yogurt', 'natural yogurt', 'unsweetened yogurt', 'plain unsweetened yogurt'] },
   { id: 'greek-yogurt', name: 'Greek yogurt', category: 'dairy', common: false,
     aliases: ['greek yogurt', 'plain greek yogurt', 'full-fat greek yogurt', 'whole-milk greek yogurt', 'strained yogurt', 'labneh', '2% greek yogurt'] },
-  { id: 'yogurt-cups', name: 'Kids yogurt cups', category: 'dairy', common: true,
+  { id: 'yogurt-cups', name: 'Yogurt cups', category: 'dairy', common: true,
     aliases: ['yogurt cup', 'yogurt tube', 'flavored yogurt', 'vanilla yogurt', 'fruit yogurt', 'yogurt pouch'] },
   { id: 'butter', name: 'Butter', category: 'dairy', common: true,
     aliases: ['butter', 'unsalted butter', 'salted butter', 'stick butter', 'cold butter', 'softened butter', 'melted butter', 'european-style butter', 'cultured butter', 'brown butter', 'browned butter'] },
@@ -97,9 +97,9 @@ export const COLD: RawItem[] = [
     aliases: ['havarti', 'havarti cheese', 'dill havarti'] },
 
   // ---- meat ----
-  { id: 'chicken-thighs-boneless', name: 'Chicken thighs, boneless skinless', category: 'meat', common: true, satisfies: ['chicken', 'chicken-breast-or-thigh'],
+  { id: 'chicken-thighs-boneless', name: 'Chicken thighs, boneless skinless', category: 'meat', common: true, satisfies: ['chicken', 'chicken-breast-or-thigh', 'chicken-thighs-any'],
     aliases: ['boneless skinless chicken thigh', 'boneless, skinless chicken thigh', 'chicken thigh fillet', 'boneless chicken thigh', 'chicken thigh', 'skinless chicken thigh', 'skinless boneless chicken thigh', 'boneless skinless thigh', 'boneless, skinless thigh', 'chicken thigh cutlet'] },
-  { id: 'chicken-thighs-bone-in', name: 'Chicken thighs, bone-in', category: 'meat', common: false, satisfies: ['chicken'],
+  { id: 'chicken-thighs-bone-in', name: 'Chicken thighs, bone-in', category: 'meat', common: false, satisfies: ['chicken', 'chicken-thighs-any'],
     aliases: ['bone-in chicken thigh', 'bone-in, skin-on chicken thigh', 'bone-in skin-on chicken thigh', 'skin-on chicken thigh', 'skin-on, bone-in chicken thigh', 'bone-in thigh', 'bone-in, skin-on thigh', 'bone in chicken thigh'] },
   { id: 'chicken-breasts', name: 'Chicken breasts, boneless skinless', category: 'meat', common: true, satisfies: ['chicken', 'chicken-breast-or-thigh'],
     aliases: ['boneless skinless chicken breast', 'boneless, skinless chicken breast', 'chicken breast', 'boneless chicken breast', 'skinless chicken breast', 'chicken breast cutlet', 'chicken cutlet', 'thin chicken cutlet', 'chicken breast fillet', 'skinless boneless chicken breast', 'chicken tender', 'chicken tenderloin', 'boneless skinless breast', 'split chicken breast', 'bone-in chicken breast', 'bone-in, skin-on chicken breast'] },

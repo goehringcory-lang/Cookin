@@ -16,8 +16,8 @@ export type { CatalogIndex, CategoryWithItems } from './catalog';
 export { parseIngredientLine, parseIngredients, matchGroups } from './parse';
 
 export {
-  makeHas, missingFor, analyzeRecipe, missingForRecipe, makeableRecipes, missingForRecipes, recipeItemIds,
+  makeHas, findSubstitute, missingFor, analyzeRecipe, missingForRecipe, makeableRecipes, missingForRecipes, recipeItemIds,
 } from './match';
-export type { MakeableOptions } from './match';
+export type { MakeableOptions, AnalyzeOptions } from './match';
 
 export { normalizePhrase, normalizeTokens, singularize } from './normalize';

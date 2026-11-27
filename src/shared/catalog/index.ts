@@ -10,7 +10,7 @@ export type { DetailedAnalysis };
 
 export type { ParsedIngredient, ShoppingNeed, Category } from "../../../packages/ingredients/src";
 export {
-  parseIngredientLine, parseIngredients, missingFor, missingForRecipe, missingForRecipes, recipeItemIds,
+  parseIngredientLine, parseIngredients, findSubstitute, missingFor, missingForRecipe, missingForRecipes, recipeItemIds,
   makeHas, commonItemIds, CATEGORIES,
 } from "../../../packages/ingredients/src";
 
@@ -88,7 +88,7 @@ export interface RecipeAnalysis {
   /** Ingredient lines that matched nothing in the catalog. */
   unknown: string[];
   /** Per line detail, in recipe order. `ids` = first alternative of each group. */
-  lines: { line: string; ids: string[]; status: LineStatus; parsed: ParsedIngredient }[];
+  lines: { line: string; ids: string[]; status: LineStatus; parsed: ParsedIngredient; substitutes?: Record<string, string> }[];
   /** Share of required, matched lines you have, 0..1 (1 when nothing is tracked). */
   coverage: number;
   /** Every required ingredient is owned. */
@@ -102,7 +102,8 @@ export function analyzeRecipe(recipe: { id?: string; ingredients: string[] }, ow
   const detail = ing.analyzeRecipe({ id: recipe.id ?? "", ingredients: recipe.ingredients ?? [] }, has);
   const have = new Set<string>();
   const statusOf = new Map<ParsedIngredient, LineStatus>();
-  for (const s of detail.have) statusOf.set(s.line, "have");
+  const subsOf = new Map<ParsedIngredient, Record<string, string>>();
+  for (const s of detail.have) { statusOf.set(s.line, "have"); if (s.substitutes) subsOf.set(s.line, s.substitutes); }
   for (const s of detail.missing) statusOf.set(s.line, "missing");
   for (const s of detail.optionalMissing) statusOf.set(s.line, "optional");
   for (const l of detail.unknown) statusOf.set(l, "unknown");
@@ -114,10 +115,11 @@ export function analyzeRecipe(recipe: { id?: string; ingredients: string[] }, ow
 
   const lines = (recipe.ingredients ?? []).map((line) => {
     const p = byRaw.get(line) ?? ing.parseIngredientLine(line);
-    const ids = [...new Set(p.groups.map((g) => g.find(has) ?? g[0]!))];
+    const subs = subsOf.get(p);
+    const ids = [...new Set(p.groups.map((g) => g.find(has) ?? g.map((id) => subs?.[id]).find(Boolean) ?? g[0]!))];
     const status: LineStatus = statusOf.get(p) ?? (p.unmatched ? "ignored" : p.assumedOnly ? "ignored" : "have");
     if (status === "have") for (const id of ids) if (has(id) && !getItemAssumed(id)) have.add(id);
-    return { line, ids, status, parsed: p };
+    return subs ? { line, ids, status, parsed: p, substitutes: subs } : { line, ids, status, parsed: p };
   });
 
   const optionalMissing = [...new Set(detail.optionalMissing.flatMap((s) => s.missing))];
