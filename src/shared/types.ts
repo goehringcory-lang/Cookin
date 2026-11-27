@@ -26,6 +26,8 @@ export interface CatalogItem {
   satisfies?: string[];
   /** True for items Cory added himself (stored in `customItems`). */
   custom?: boolean;
+  /** Shopping-list name when it differs from `name` ("Rice" for "Rice (any)"). Use listNameOf(id). */
+  listName?: string;
 }
 
 /* ---------- inventory ---------- */

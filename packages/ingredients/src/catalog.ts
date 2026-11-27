@@ -16,7 +16,10 @@ const CATEGORY_BY_ID = new Map<string, Category>(CATEGORIES.map((c) => [c.id, c]
 function withLocation(raw: RawItem): CatalogItem {
   const cat = CATEGORY_BY_ID.get(raw.category);
   if (!cat) throw new Error(`Catalog item ${raw.id} has unknown category ${raw.category}`);
-  return { ...raw, location: cat.location, aliases: raw.aliases ?? [] };
+  const item: CatalogItem = { ...raw, location: cat.location, aliases: raw.aliases ?? [] };
+  // "Rice (any)" -> "Rice", "Chicken (any cut)" -> "Chicken" for the shopping list
+  if (!item.listName && /\s*\(any[^)]*\)\s*$/i.test(item.name)) item.listName = item.name.replace(/\s*\(any[^)]*\)\s*$/i, '');
+  return item;
 }
 
 /** Every catalog item, including hidden assumed and generic ones. Ids are unique and stable. */
@@ -31,6 +34,12 @@ let customItems: CatalogItem[] = [];
 export function getItem(id: string): CatalogItem | undefined {
   const r = resolveId(id);
   return BY_ID.get(r) ?? customItems.find((i) => i.id === r);
+}
+
+/** Display name for the shopping list: `listName` when set, else `name`. Unknown ids come back as-is. */
+export function listNameOf(id: string): string {
+  const item = getItem(id);
+  return item ? item.listName ?? item.name : id;
 }
 
 /** Map an id from the old interim catalog to its current id. Current ids pass through. */

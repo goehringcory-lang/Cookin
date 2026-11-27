@@ -11,7 +11,7 @@ export type { DetailedAnalysis };
 export type { ParsedIngredient, ShoppingNeed, Category } from "../../../packages/ingredients/src";
 export {
   parseIngredientLine, parseIngredients, findSubstitute, missingFor, missingForRecipe, missingForRecipes, recipeItemIds,
-  makeHas, commonItemIds, CATEGORIES,
+  makeHas, commonItemIds, CATEGORIES, listNameOf,
 } from "../../../packages/ingredients/src";
 
 export const LOCATION_NAMES: Record<Location, string> = { pantry: "Pantry", fridge: "Fridge", freezer: "Freezer" };
@@ -25,6 +25,7 @@ function toShared(i: ing.CatalogItem): SharedCatalogItem {
     aliases: i.aliases,
   };
   if (i.common) out.common = true;
+  if (i.listName) out.listName = i.listName;
   if (i.assumed) out.assumed = true;
   if (i.satisfies?.length) out.satisfies = i.satisfies;
   if ((i as SharedCatalogItem).custom) out.custom = true;
