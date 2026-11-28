@@ -10,6 +10,8 @@ import {
   groupByCategory,
   isOnList,
   isSpice,
+  browseGroups,
+  type BrowseEntry,
   nextOnTap,
   normalize,
   restockCandidates,
@@ -17,6 +19,7 @@ import {
 } from "./logic";
 import { ItemRow } from "./ItemRow";
 import { AddItemSheet, ItemSheet, RestockSheet } from "./Sheets";
+import { BrowseSheet } from "./BrowseSheet";
 
 export interface InventoryScreenProps {
   items: InventoryItem[];
@@ -48,7 +51,7 @@ interface Toast {
   action?: { label: string; run: () => void };
 }
 
-type SheetState = { kind: "add"; name?: string } | { kind: "edit"; id: string } | { kind: "restock" } | null;
+type SheetState = { kind: "add"; name?: string } | { kind: "browse" } | { kind: "edit"; id: string } | { kind: "restock" } | null;
 
 const TAB_KEY = "cookin.kitchen.tab";
 function loadTab(): Tab {
@@ -172,6 +175,35 @@ export function InventoryScreen({
     return [...s].filter(Boolean).sort();
   }, [catalog, items, categoryOrder]);
 
+  const tabLabel = TABS.find((t) => t.id === tab)!.label.toLowerCase();
+  const inSection = useCallback((e: { location: StorageLocation; category: string }) => inTab(e, tab), [tab]);
+  const browseCount = useMemo(
+    () => browseGroups(catalog, items, inSection).reduce((n, g) => n + g.items.filter((e) => !e.out).length, 0),
+    [catalog, items, inSection],
+  );
+
+  /** Add everything picked in the browse sheet: new items are added, out items flip back to Have. */
+  const addPicked = (picked: BrowseEntry[], status: "have" | "out") => {
+    const fresh = picked.filter((e) => !e.out);
+    const outIds = picked.filter((e) => e.out).map((e) => e.id);
+    const before = items.filter((i) => outIds.includes(i.id)).map((i) => [i.id, i.onList] as const);
+    const ids = fresh.length
+      ? actions.addItems(fresh.map((e) => ({ catalogId: e.id, name: e.name, location: e.location, category: e.category, status })))
+      : [];
+    if (status === "have" && outIds.length) actions.setStatus(outIds, "have");
+    if (status === "out") for (const id of [...ids, ...outIds]) actions.setOnList(id, true);
+    const n = picked.length;
+    const what = n === 1 ? picked[0].name : `${n} items`;
+    showToast({
+      text: status === "have" ? `Added ${what} to your ${tabLabel}.` : `Added ${what} to your list.`,
+      undo: () => {
+        for (const id of ids) actions.removeItem(id);
+        if (status === "have" && outIds.length) actions.setStatus(outIds, "out");
+        for (const [id, onList] of before) if (status === "out" || onList) actions.setOnList(id, Boolean(onList));
+      },
+    });
+  };
+
   const candidates = useMemo(() => restockCandidates(items), [items]);
   const onListCount = useMemo(() => items.filter(isOnList).length, [items]);
   const editing = sheet?.kind === "edit" ? items.find((i) => i.id === sheet.id) : undefined;
@@ -198,7 +230,6 @@ export function InventoryScreen({
     { id: "low", label: "Running low", count: counts.low },
     { id: "out", label: "Out", count: counts.out },
   ];
-  const tabLabel = TABS.find((t) => t.id === tab)!.label.toLowerCase();
 
   return (
     <div className="inv">
@@ -298,6 +329,17 @@ export function InventoryScreen({
       </div>
 
       <div className="inv-body">
+        {!searching && filter === "all" && browseCount > 0 && (
+          <button type="button" className="inv-browse-btn" onClick={() => setSheet({ kind: "browse" })}>
+            <span className="inv-plus" aria-hidden="true">
+              +
+            </span>
+            <span>
+              Browse {browseCount} more {tabLabel === "spices" ? "spices" : `${tabLabel} items`}
+              <small>Pick everything you have, then add them in one tap</small>
+            </span>
+          </button>
+        )}
         {groups.length === 0 && !searching && (
           <div className="inv-empty">
             <div className="inv-empty__icon" aria-hidden="true">
@@ -307,7 +349,7 @@ export function InventoryScreen({
               <>
                 <p>Nothing in your {tabLabel} yet.</p>
                 <button type="button" className="inv-secondary" onClick={() => setSheet({ kind: "add" })}>
-                  Add an item
+                  Type in a new item
                 </button>
               </>
             ) : (
@@ -395,10 +437,7 @@ export function InventoryScreen({
         aria-label="Add an item"
         onClick={() => {
           if (searching) setSheet({ kind: "add", name: query.trim() });
-          else {
-            searchRef.current?.focus();
-            window.scrollTo({ top: 0 });
-          }
+          else setSheet({ kind: "browse" });
         }}
       >
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -456,6 +495,18 @@ export function InventoryScreen({
               undo: id ? () => actions.removeItem(id) : undefined,
             });
           }}
+          onClose={() => setSheet(null)}
+        />
+      )}
+
+      {sheet?.kind === "browse" && (
+        <BrowseSheet
+          sectionLabel={tabLabel}
+          catalog={catalog}
+          items={items}
+          inSection={inSection}
+          categoryOrder={categoryOrder}
+          onAdd={addPicked}
           onClose={() => setSheet(null)}
         />
       )}

@@ -52,6 +52,35 @@ test.describe("Kitchen screen", () => {
     await expect(page.locator(".inv-row--have")).toHaveCount(0);
   });
 
+  test("browse the freezer, pick several items, add them all as Have", async ({ page }) => {
+    await page.getByRole("tab", { name: /Freezer/ }).click();
+    await page.locator(".inv-browse-btn").click();
+    const sheet = page.getByRole("dialog", { name: "Add to your freezer" });
+    await expect(sheet).toBeVisible();
+    await expectNoHorizontalScroll(page);
+    const picks = sheet.locator(".inv-pick:not(:has(.inv-pick__out))");
+    const names = [(await picks.nth(0).getAttribute("aria-label"))!, (await picks.nth(1).getAttribute("aria-label"))!];
+    await picks.nth(0).click();
+    await picks.nth(0).click(); // tap again to unpick
+    await picks.nth(0).click();
+    await picks.nth(1).click();
+    await expect(sheet.locator(".inv-pick.is-on")).toHaveCount(2);
+    await sheet.getByRole("button", { name: "I have these 2" }).click();
+    for (const n of names) await expect(row(page, n)).toHaveClass(/inv-row--have/);
+    await page.locator(".inv-toast").getByRole("button", { name: "Undo" }).click();
+    for (const n of names) await expect(row(page, n)).toHaveCount(0);
+  });
+
+  test("browse search narrows the list", async ({ page }) => {
+    await page.getByRole("tab", { name: /Freezer/ }).click();
+    await page.locator(".inv-browse-btn").click();
+    const sheet = page.getByRole("dialog", { name: "Add to your freezer" });
+    await sheet.getByRole("searchbox").fill("salmon");
+    await expect(sheet.locator(".inv-pick").first()).toContainText(/salmon/i);
+    await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== "running"));
+    expect(await axeViolations(page)).toEqual([]);
+  });
+
   test("tabs switch between pantry, fridge, freezer and spices", async ({ page }) => {
     for (const tab of ["Fridge", "Freezer", "Spices", "Pantry"]) {
       await page.getByRole("tab", { name: new RegExp(tab) }).click();

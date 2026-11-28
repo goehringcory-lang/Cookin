@@ -32,7 +32,7 @@ export const CATEGORIES: Category[] = [
   { id: 'frozen-vegetables', name: 'Frozen vegetables', location: 'freezer', icon: '🥦' },
   { id: 'frozen-fruit', name: 'Frozen fruit', location: 'freezer', icon: '🍓' },
   { id: 'frozen-protein', name: 'Frozen meat & seafood', location: 'freezer', icon: '🍤' },
-  { id: 'frozen-dough', name: 'Frozen dough & pastry', location: 'freezer', icon: '🥐' },
+  { id: 'frozen-dough', name: 'Frozen bread, dough & dairy', location: 'freezer', icon: '🥐' },
   { id: 'frozen-meals', name: 'Frozen meals & kid favorites', location: 'freezer', icon: '🍕' },
   { id: 'frozen-treats', name: 'Ice cream & treats', location: 'freezer', icon: '🍦' },
   // Hidden: assumed and generic items (never shown in onboarding)

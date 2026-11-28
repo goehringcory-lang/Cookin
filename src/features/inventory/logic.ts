@@ -181,3 +181,66 @@ export function formatCategory(c: string): string {
 export function isSpice(it: { location: string; category: string }): boolean {
   return it.location === 'pantry' && /spice|dried herb/i.test(it.category);
 }
+
+/** One row in the "browse and add" picker: a catalog item you don't stock, or one you're out of. */
+export interface BrowseEntry extends CatalogEntry {
+  /** Already in the kitchen but marked out; picking it marks it Have again. */
+  out?: boolean;
+}
+
+export interface BrowseGroup {
+  category: string;
+  items: BrowseEntry[];
+}
+
+/**
+ * Everything in one section you don't have: catalog items not in the kitchen, plus items marked out.
+ * `inSection` decides which tab an entry belongs to. Grouped by category (catalog order), A–Z inside.
+ * With a query, only matching entries are kept and each group is sorted best match first.
+ */
+export function browseGroups(
+  catalog: CatalogEntry[],
+  items: InventoryItem[],
+  inSection: (e: { location: StorageLocation; category: string }) => boolean,
+  query = '',
+  categoryOrder: string[] = [],
+): BrowseGroup[] {
+  const byId = new Map(items.map((i) => [i.id, i]));
+  const stockedNames = new Set(items.filter((i) => i.status !== 'out').map((i) => normalize(i.name)));
+  const q = normalize(query);
+  const rows: { e: BrowseEntry; s: number }[] = [];
+  const seen = new Set<string>();
+  const consider = (e: BrowseEntry) => {
+    if (seen.has(e.id) || !inSection(e)) return;
+    seen.add(e.id);
+    const s = q ? entryScore(q, e.name, e.aliases) : 1;
+    if (s > 0) rows.push({ e, s });
+  };
+  for (const c of catalog) {
+    const have = byId.get(c.id);
+    if (have && have.status !== 'out') continue;
+    if (!have && stockedNames.has(normalize(c.name))) continue;
+    consider(have ? { ...c, out: true } : c);
+  }
+  // Out custom items that aren't in the catalog list.
+  for (const i of items) if (i.status === 'out') consider({ id: i.id, name: i.name, location: i.location, category: i.category, out: true });
+
+  const map = new Map<string, { e: BrowseEntry; s: number }[]>();
+  for (const r of rows) {
+    const k = r.e.category || 'Other';
+    if (!map.has(k)) map.set(k, []);
+    map.get(k)!.push(r);
+  }
+  const rank = (c: string) => {
+    const i = categoryOrder.indexOf(c);
+    return i === -1 ? Number.MAX_SAFE_INTEGER : i;
+  };
+  return [...map.entries()]
+    .sort(([a], [b]) => rank(a) - rank(b) || a.localeCompare(b))
+    .map(([category, list]) => ({
+      category,
+      items: list
+        .sort((a, b) => (q ? b.s - a.s : 0) || a.e.name.localeCompare(b.e.name, undefined, { sensitivity: 'base' }))
+        .map((r) => r.e),
+    }));
+}

@@ -10,8 +10,10 @@ export function Sheet({
   onClose,
   children,
   footer,
+  className,
 }: {
   title: string;
+  className?: string;
   onClose(): void;
   children: ReactNode;
   footer?: ReactNode;
@@ -35,7 +37,7 @@ export function Sheet({
     <div className="inv-sheet-backdrop" onClick={onClose}>
       <div
         ref={panel}
-        className="inv-sheet"
+        className={className ? `inv-sheet ${className}` : 'inv-sheet'}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}

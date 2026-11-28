@@ -10,6 +10,10 @@ Exports `KitchenScreen` for the `#kitchen` tab.
   Hand-added lines are written to `list.manual` with id `inv-<itemId>` and removed when the item is back in stock.
 - **Search:** filters your kitchen across all tabs, offers catalog items you don't stock yet (tap to add, "Need it" to
   add straight to the list), and "Add '…' as a new item" for anything else (saved to `customItems` as `c-<slug>`).
+- **Browse and add:** the green "Browse N more … items" card at the top of each tab (and the + button) opens
+  `BrowseSheet`: every catalog item for that tab you don't have yet, plus anything marked out, grouped by section with
+  jump chips and a search box. Tap to pick several, then "I have these" adds them all as Have (or "Put them on my list
+  instead"). One Undo reverts the whole batch. Grouping lives in `browseGroups` in `logic.ts`.
 - **Just shopped:** lists everything low or out; items on your list (or already checked off on the List tab) are
   pre-selected. One tap marks them all Have.
 - Every change shows a toast with Undo.

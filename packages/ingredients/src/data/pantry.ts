@@ -777,6 +777,12 @@ export const PANTRY: RawItem[] = [
     aliases: ['cereal', 'breakfast cereal', 'cornflakes', 'corn flakes', 'cornflake', 'corn flake', 'cornflake crumb', 'cheerios', 'honey nut cheerios', 'plain cheerios', 'frosted flakes', 'rice chex', 'corn chex', 'chex', 'chex cereal', 'chex mix', 'bran flakes', 'raisin bran', 'fruity cereal', 'froot loops', 'special k', 'lucky charms', 'cocoa puffs', 'cocoa krispies', "cap'n crunch", 'grape-nuts', 'shredded wheat', 'oat cereal', 'cinnamon toast crunch', 'golden grahams', 'honey bunches of oats', 'kix', 'trix', 'wheaties', 'cocoa pebbles', 'fruity pebbles', 'cinnamon cereal', 'sugary cereal', 'crushed cereal', 'cereal bar crumbs'] },
   { id: 'peanut-butter-crackers', name: 'Peanut butter crackers', category: 'snacks', common: false,
     aliases: ['peanut butter crackers', 'peanut butter sandwich cracker', 'cheese and cracker sandwich', 'lance crackers', 'ritz bits', 'ritz bits sandwich', 'toast chee', 'nabs', 'cheese sandwich cracker', 'cheese crackers sandwich', 'cracker sandwich'] },
+  { id: 'juice-boxes', name: 'Juice boxes', category: 'snacks', common: false,
+    aliases: ['juice box', 'juice boxes', 'kids juice box', 'apple juice box', 'juice pouch'] },
+  { id: 'veggie-straws', name: 'Veggie straws and chips', category: 'snacks', common: false,
+    aliases: ['veggie straw', 'veggie straws', 'veggie chip', 'vegetable chip', 'puffed snack', 'baby puffs', 'puffs'] },
+  { id: 'jerky', name: 'Jerky and meat sticks', category: 'snacks', common: false,
+    aliases: ['jerky', 'beef jerky', 'turkey jerky', 'meat stick', 'beef stick'] },
   // counter-produce
   { id: 'yellow-onion', name: 'Yellow onions', category: 'counter-produce', common: true,
     aliases: ['yellow onions', 'onion', 'large onion', 'medium onion', 'small onion', 'spanish onion', 'brown onion', 'cooking onion', 'large yellow onion', 'medium yellow onion', 'small yellow onion', 'large spanish onion', 'onion sweet', 'onion slice', 'sliced onion', 'chopped onion', 'diced onion', 'minced onion', 'onion half', 'onion wedge', 'onion quarter', 'white or yellow onion', 'yellow or white onion', 'storage onion'],
