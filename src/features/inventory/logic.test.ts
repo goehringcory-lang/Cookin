@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   catalogSuggestions, filterItems, findExisting, formatCategory, groupByCategory, guessLocation,
-  matchScore, restockCandidates, nextOnLow, nextOnTap,
+  matchScore, restockCandidates, nextOnLow, nextOnTap, browseGroups,
 } from './logic';
 import type { CatalogEntry, InventoryItem } from './types';
 
@@ -106,5 +106,29 @@ describe('row icons', () => {
     for (const n of ['Penne', 'Rotini', 'Spaghetti', 'Elbow macaroni']) expect(itemEmoji(n, 'Pasta & noodles', 'pantry')).toBe('🍝');
     for (const n of ['Granulated sugar', 'Light brown sugar', 'Agave nectar']) expect(itemEmoji(n, 'Sugars & sweeteners', 'pantry')).toBe('🧂');
     expect(itemEmoji('Dried basil', 'Spices & dried herbs', 'pantry')).toBe('🫙');
+  });
+});
+
+describe('browseGroups', () => {
+  const cat: CatalogEntry[] = [
+    { id: 'peas', name: 'Frozen peas', location: 'freezer', category: 'Frozen vegetables', aliases: ['green pea'] },
+    { id: 'corn', name: 'Frozen corn', location: 'freezer', category: 'Frozen vegetables' },
+    { id: 'shrimp', name: 'Frozen shrimp', location: 'freezer', category: 'Frozen meat & seafood' },
+    { id: 'milk', name: 'Milk', location: 'fridge', category: 'Dairy' },
+  ];
+  const freezer = (e: { location: string }) => e.location === 'freezer';
+  it('lists what you do not have in the section, out items included and flagged', () => {
+    const items = [
+      item('corn', 'Frozen corn', { location: 'freezer', category: 'Frozen vegetables' }),
+      item('shrimp', 'Frozen shrimp', { location: 'freezer', category: 'Frozen meat & seafood', status: 'out' }),
+    ];
+    const g = browseGroups(cat, items, freezer, '', ['Frozen vegetables', 'Frozen meat & seafood']);
+    expect(g.map((x) => x.category)).toEqual(['Frozen vegetables', 'Frozen meat & seafood']);
+    expect(g[0].items.map((i) => i.id)).toEqual(['peas']);
+    expect(g[1].items[0]).toMatchObject({ id: 'shrimp', out: true });
+  });
+  it('filters by name and alias', () => {
+    expect(browseGroups(cat, [], freezer, 'green pea').flatMap((x) => x.items.map((i) => i.id))).toEqual(['peas']);
+    expect(browseGroups(cat, [], freezer, 'zzz')).toEqual([]);
   });
 });
