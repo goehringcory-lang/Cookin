@@ -55,8 +55,10 @@ test.describe("Kitchen screen", () => {
   test("browse the freezer, pick several items, add them all as Have", async ({ page }) => {
     await page.getByRole("tab", { name: /Freezer/ }).click();
     await page.locator(".inv-fab").click();
-    const sheet = page.getByRole("dialog", { name: "Add to your freezer" });
+    const sheet = page.getByRole("dialog", { name: "Add to your kitchen" });
     await expect(sheet).toBeVisible();
+    await expect(sheet.getByRole("button", { name: "All", exact: true })).toHaveAttribute("aria-pressed", "true");
+    await sheet.getByRole("button", { name: "Freezer", exact: true }).click();
     await expectNoHorizontalScroll(page);
     const picks = sheet.locator(".inv-pick:not(:has(.inv-pick__out))");
     const names = [(await picks.nth(0).getAttribute("aria-label"))!, (await picks.nth(1).getAttribute("aria-label"))!];
@@ -74,9 +76,10 @@ test.describe("Kitchen screen", () => {
   test("browse search narrows the list", async ({ page }) => {
     await page.getByRole("tab", { name: /Freezer/ }).click();
     await page.locator(".inv-fab").click();
-    const sheet = page.getByRole("dialog", { name: "Add to your freezer" });
+    const sheet = page.getByRole("dialog", { name: "Add to your kitchen" });
     await sheet.getByRole("searchbox").fill("salmon");
     await expect(sheet.locator(".inv-pick").first()).toContainText(/salmon/i);
+    await expect(sheet.locator(".inv-browse__group")).not.toHaveCount(0);
     await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== "running"));
     expect(await axeViolations(page)).toEqual([]);
   });

@@ -884,6 +884,17 @@
 .inv-browse__search input {
   background: var(--inv-bg);
 }
+.inv-browse__areas {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin: 10px -20px 0;
+  padding: 0 20px 2px;
+  scrollbar-width: none;
+}
+.inv-browse__areas .inv-chip {
+  min-height: 44px;
+}
 .inv-browse__jump {
   display: flex;
   gap: 8px;

@@ -234,7 +234,7 @@ export function InventoryScreen({
     const n = picked.length;
     const what = n === 1 ? picked[0].name : `${n} items`;
     showToast({
-      text: status === "have" ? `Added ${what} to your ${tabLabel}.` : `Added ${what} to your list.`,
+      text: status === "have" ? `Added ${what} to your kitchen.` : `Added ${what} to your list.`,
       undo: () => {
         for (const id of ids) actions.removeItem(id);
         if (status === "have" && outIds.length) actions.setStatus(outIds, "out");
@@ -567,10 +567,9 @@ export function InventoryScreen({
 
       {sheet?.kind === "browse" && (
         <BrowseSheet
-          sectionLabel={tabLabel}
+          areas={TABS.map((t) => ({ id: t.id, label: t.label, test: (e) => inTab(e, t.id) }))}
           catalog={catalog}
           items={items}
-          inSection={inSection}
           categoryOrder={categoryOrder}
           onAdd={addPicked}
           onClose={() => setSheet(null)}
