@@ -148,7 +148,7 @@ export function BrowseSheet({
                     <span className="inv-pick__mark" aria-hidden="true">
                       {on ? '✓' : '+'}
                     </span>
-                    {displayName(e.name)}
+                    {shortName(e.name)}
                     {e.out && <span className="inv-pick__out">out</span>}
                   </button>
                 );
@@ -170,7 +170,7 @@ function shortCategory(c: string): string {
 }
 
 /** In a list that is all freezer food, "Frozen peas" reads better as "Peas". */
-function displayName(name: string): string {
+export function shortName(name: string): string {
   const s = name.replace(/^Frozen\s+/, '');
   return s === name ? name : s.charAt(0).toUpperCase() + s.slice(1);
 }

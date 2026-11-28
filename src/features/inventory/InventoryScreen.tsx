@@ -19,7 +19,7 @@ import {
 } from "./logic";
 import { ItemRow } from "./ItemRow";
 import { AddItemSheet, ItemSheet, RestockSheet } from "./Sheets";
-import { BrowseSheet } from "./BrowseSheet";
+import { BrowseSheet, shortName } from "./BrowseSheet";
 
 export interface InventoryScreenProps {
   items: InventoryItem[];
@@ -64,6 +64,22 @@ function loadTab(): Tab {
   return "pantry";
 }
 
+const SHOW_ALL_KEY = "cookin.kitchen.showAll";
+function loadShowAll(): boolean {
+  try {
+    return localStorage.getItem(SHOW_ALL_KEY) !== "0";
+  } catch {
+    return true;
+  }
+}
+function saveShowAll(on: boolean) {
+  try {
+    localStorage.setItem(SHOW_ALL_KEY, on ? "1" : "0");
+  } catch {
+    /* storage blocked */
+  }
+}
+
 const STATUS_WORD: Record<StockStatus, string> = { have: "Have", low: "Running low", out: "Out" };
 
 export function InventoryScreen({
@@ -75,6 +91,7 @@ export function InventoryScreen({
   checkedOnList,
 }: InventoryScreenProps) {
   const [tab, setTab] = useState<Tab>(() => initialTab ?? loadTab());
+  const [showAll, setShowAll] = useState<boolean>(() => loadShowAll());
   const [filter, setFilter] = useState<StatusFilter>("all");
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
@@ -177,10 +194,32 @@ export function InventoryScreen({
 
   const tabLabel = TABS.find((t) => t.id === tab)!.label.toLowerCase();
   const inSection = useCallback((e: { location: StorageLocation; category: string }) => inTab(e, tab), [tab]);
-  const browseCount = useMemo(
-    () => browseGroups(catalog, items, inSection).reduce((n, g) => n + g.items.filter((e) => !e.out).length, 0),
-    [catalog, items, inSection],
-  );
+  /** Catalog items in this tab you don't have (not in the kitchen at all), by section. Out items already show as rows. */
+  const missingBySection = useMemo(() => {
+    const m = new Map<string, BrowseEntry[]>();
+    for (const g of browseGroups(catalog, items, inSection, "", categoryOrder)) {
+      const list = g.items.filter((e) => !e.out);
+      if (list.length) m.set(g.category, list);
+    }
+    return m;
+  }, [catalog, items, inSection, categoryOrder]);
+  const showMissing = showAll && !searching && filter === "all";
+
+  /** Sections to draw: stocked groups, plus (when showing everything) sections where you have nothing yet. */
+  const sections = useMemo(() => {
+    const byCat = new Map(groups.map((g) => [g.category, g.items]));
+    const cats = [...byCat.keys()];
+    if (showMissing) for (const c of missingBySection.keys()) if (!byCat.has(c)) cats.push(c);
+    const order = categoryOrder ?? [];
+    const rank = (c: string) => (order.indexOf(c) === -1 ? Number.MAX_SAFE_INTEGER : order.indexOf(c));
+    if (showMissing) cats.sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
+    return cats.map((c) => ({
+      category: c,
+      items: byCat.get(c) ?? [],
+      missing: showMissing ? (missingBySection.get(c) ?? []) : [],
+    }));
+  }, [groups, missingBySection, showMissing, categoryOrder]);
+  const missingCount = useMemo(() => [...missingBySection.values()].reduce((n, l) => n + l.length, 0), [missingBySection]);
 
   /** Add everything picked in the browse sheet: new items are added, out items flip back to Have. */
   const addPicked = (picked: BrowseEntry[], status: "have" | "out") => {
@@ -233,7 +272,7 @@ export function InventoryScreen({
 
   return (
     <div className="inv">
-      <header className="inv-header">
+      <header className="inv-header" inert={sheet !== null}>
         <div className="inv-header__row">
           <div>
             <h1 className="inv-title">Kitchen</h1>
@@ -253,7 +292,7 @@ export function InventoryScreen({
         </div>
       </header>
 
-      <div className="inv-sticky">
+      <div className="inv-sticky" inert={sheet !== null}>
         <div className="inv-search">
           <svg className="inv-search__icon" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="11" cy="11" r="7" />
@@ -325,22 +364,24 @@ export function InventoryScreen({
               {c.count !== undefined && c.count > 0 && <span className="inv-chip__n">{c.count}</span>}
             </button>
           ))}
+          {!searching && filter === "all" && missingCount > 0 && (
+            <button
+              type="button"
+              className="inv-link inv-showall"
+              aria-pressed={showAll}
+              onClick={() => {
+                setShowAll(!showAll);
+                saveShowAll(!showAll);
+              }}
+            >
+              {showAll ? "Only mine" : "Show all"}
+            </button>
+          )}
         </div>
       </div>
 
-      <div className="inv-body">
-        {!searching && filter === "all" && browseCount > 0 && (
-          <button type="button" className="inv-browse-btn" onClick={() => setSheet({ kind: "browse" })}>
-            <span className="inv-plus" aria-hidden="true">
-              +
-            </span>
-            <span>
-              Browse {browseCount} more {tabLabel === "spices" ? "spices" : `${tabLabel} items`}
-              <small>Pick everything you have, then add them in one tap</small>
-            </span>
-          </button>
-        )}
-        {groups.length === 0 && !searching && (
+      <div className="inv-body" inert={sheet !== null}>
+        {sections.length === 0 && !searching && (
           <div className="inv-empty">
             <div className="inv-empty__icon" aria-hidden="true">
               {filter === "all" ? "🧺" : "👌"}
@@ -360,17 +401,42 @@ export function InventoryScreen({
           </div>
         )}
 
-        {groups.map((g) => (
+        {sections.map((g) => (
           <section key={g.category} className="inv-group">
             <h2 className="inv-group__title">
               {formatCategory(g.category)}
-              <span className="inv-group__count">{g.items.length}</span>
+              <span className="inv-group__count">
+                {showMissing ? `${g.items.length} of ${g.items.length + g.missing.length}` : g.items.length}
+              </span>
             </h2>
-            <ul className="inv-list">
-              {g.items.map((it) => (
-                <ItemRow key={it.id} item={it} showLocation={searching} onTap={onTap} onSet={setOne} onEdit={onEdit} />
-              ))}
-            </ul>
+            {g.items.length > 0 && (
+              <ul className="inv-list">
+                {g.items.map((it) => (
+                  <ItemRow key={it.id} item={it} showLocation={searching} onTap={onTap} onSet={setOne} onEdit={onEdit} />
+                ))}
+              </ul>
+            )}
+            {g.missing.length > 0 && (
+              <div className="inv-missing">
+                <p className="inv-missing__label">Don't have · tap any you do</p>
+                <div className="inv-browse__chips">
+                  {g.missing.map((e) => (
+                    <button
+                      key={e.id}
+                      type="button"
+                      className="inv-pick inv-pick--missing"
+                      aria-label={`Add ${e.name}, I have it`}
+                      onClick={() => addFromCatalog(e, "have")}
+                    >
+                      <span className="inv-pick__mark" aria-hidden="true">
+                        +
+                      </span>
+                      {shortName(e.name)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </section>
         ))}
 
@@ -423,7 +489,7 @@ export function InventoryScreen({
           </section>
         )}
 
-        {!searching && groups.length > 0 && (
+        {!searching && sections.length > 0 && (
           <p className="inv-hint inv-foot-hint">
             Tap an item to mark it out, or pick Have, Low or Out. Low items go on your list right away. Out items go on
             it when a planned recipe needs them. Press and hold an item for more.

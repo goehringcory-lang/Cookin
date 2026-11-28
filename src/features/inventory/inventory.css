@@ -293,7 +293,7 @@
 }
 .inv-group__count {
   font-weight: 600;
-  color: var(--inv-faint);
+  color: var(--inv-muted);
 }
 .inv-list {
   list-style: none;
@@ -972,33 +972,34 @@
   margin-top: 4px;
 }
 
-/* Entry point at the top of each tab */
-.inv-browse-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 56px;
-  margin: 4px 0 16px;
-  padding: 10px 14px;
-  border-radius: var(--inv-radius);
-  border: 1.5px dashed var(--inv-accent);
+/* Items you don't have, shown inline under each section */
+.inv-missing {
+  margin-top: 10px;
+  padding: 0 4px;
+}
+.inv-list + .inv-missing {
+  margin-top: 12px;
+}
+.inv-missing__label {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--inv-muted);
+}
+.inv-pick--missing {
+  font-size: 14px;
+  padding: 4px 12px 4px 6px;
+  background: transparent;
+  border-style: dashed;
+  color: var(--inv-muted);
+}
+.inv-pick--missing:active {
   background: var(--inv-accent-soft);
-  color: var(--inv-accent-ink);
-  text-align: left;
+}
+.inv-chips .inv-showall {
+  flex: none;
+  margin-left: auto;
+  padding: 0 4px;
   font-size: 15px;
   font-weight: 600;
-}
-.inv-browse-btn .inv-plus {
-  background: var(--inv-accent);
-  color: #fff;
-}
-.inv-browse-btn small {
-  display: block;
-  font-size: 13px;
-  font-weight: 500;
-  opacity: 0.85;
-}
-.inv-browse-btn:active {
-  transform: scale(0.99);
+  color: var(--inv-out-ink) !important;
 }

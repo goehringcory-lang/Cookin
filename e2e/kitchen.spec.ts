@@ -54,7 +54,7 @@ test.describe("Kitchen screen", () => {
 
   test("browse the freezer, pick several items, add them all as Have", async ({ page }) => {
     await page.getByRole("tab", { name: /Freezer/ }).click();
-    await page.locator(".inv-browse-btn").click();
+    await page.locator(".inv-fab").click();
     const sheet = page.getByRole("dialog", { name: "Add to your freezer" });
     await expect(sheet).toBeVisible();
     await expectNoHorizontalScroll(page);
@@ -73,12 +73,24 @@ test.describe("Kitchen screen", () => {
 
   test("browse search narrows the list", async ({ page }) => {
     await page.getByRole("tab", { name: /Freezer/ }).click();
-    await page.locator(".inv-browse-btn").click();
+    await page.locator(".inv-fab").click();
     const sheet = page.getByRole("dialog", { name: "Add to your freezer" });
     await sheet.getByRole("searchbox").fill("salmon");
     await expect(sheet.locator(".inv-pick").first()).toContainText(/salmon/i);
     await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== "running"));
     expect(await axeViolations(page)).toEqual([]);
+  });
+
+  test("tabs show items you don't have; one tap marks one Have", async ({ page }) => {
+    await page.getByRole("tab", { name: /Freezer/ }).click();
+    const chip = page.locator(".inv-pick--missing").first();
+    const name = (await chip.getAttribute("aria-label"))!.replace(/^Add (.*), I have it$/, "$1");
+    await chip.click();
+    await expect(row(page, name)).toHaveClass(/inv-row--have/);
+    await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== "running"));
+    expect(await axeViolations(page)).toEqual([]);
+    await page.getByRole("button", { name: "Only mine" }).click();
+    await expect(page.locator(".inv-pick--missing")).toHaveCount(0);
   });
 
   test("tabs switch between pantry, fridge, freezer and spices", async ({ page }) => {
