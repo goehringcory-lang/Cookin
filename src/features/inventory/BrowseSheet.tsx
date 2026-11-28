@@ -1,27 +1,33 @@
-import { useDeferredValue, useMemo, useState } from 'react';
+import { useCallback, useDeferredValue, useMemo, useState } from 'react';
 import type { CatalogEntry, InventoryItem, StorageLocation } from './types';
 import { browseGroups, formatCategory, type BrowseEntry } from './logic';
 import { Sheet } from './Sheets';
 
 /**
- * "Browse and add": every catalog item in one section that you don't have yet (and anything marked out),
- * grouped by category. Tap to pick as many as you like, then add them all as Have in one go
+ * "Browse and add": every catalog item you don't have yet (and anything marked out), across the whole kitchen,
+ * grouped by category, with a Pantry / Fridge / Freezer / Spices filter. Tap to pick as many as you like, then add them all as Have in one go
  * (or put them on the grocery list instead).
  */
+export interface BrowseArea {
+  id: string;
+  label: string;
+  test(e: { location: StorageLocation; category: string }): boolean;
+}
+
 export function BrowseSheet({
-  sectionLabel,
+  areas,
+  initialArea = 'all',
   catalog,
   items,
-  inSection,
   categoryOrder,
   onAdd,
   onClose,
 }: {
-  /** Lowercase section name for copy, e.g. "freezer". */
-  sectionLabel: string;
+  /** Filters shown at the top (Pantry, Fridge, …). "All" is added in front. */
+  areas: BrowseArea[];
+  initialArea?: string;
   catalog: CatalogEntry[];
   items: InventoryItem[];
-  inSection(e: { location: StorageLocation; category: string }): boolean;
   categoryOrder?: string[];
   /** Picked entries; `status` is have (in the kitchen) or out (on the grocery list). */
   onAdd(picked: BrowseEntry[], status: 'have' | 'out'): void;
@@ -29,6 +35,13 @@ export function BrowseSheet({
 }) {
   const [query, setQuery] = useState('');
   const deferred = useDeferredValue(query);
+  const [area, setArea] = useState(initialArea);
+  const current = areas.find((a) => a.id === area);
+  const inSection = useCallback(
+    (e: { location: StorageLocation; category: string }) => (current ? current.test(e) : true),
+    [current],
+  );
+  const sectionLabel = current ? current.label.toLowerCase() : 'kitchen';
   const [picked, setPicked] = useState<Map<string, BrowseEntry>>(() => new Map());
 
   const all = useMemo(
@@ -63,7 +76,7 @@ export function BrowseSheet({
 
   return (
     <Sheet
-      title={`Add to your ${sectionLabel}`}
+      title="Add to your kitchen"
       onClose={onClose}
       className="inv-sheet--tall"
       footer={
@@ -106,11 +119,27 @@ export function BrowseSheet({
             </button>
           )}
         </div>
+        <div className="inv-browse__areas" role="group" aria-label="Where it's kept">
+          {[{ id: 'all', label: 'All' }, ...areas].map((a) => (
+            <button
+              key={a.id}
+              type="button"
+              aria-pressed={area === a.id}
+              className="inv-chip"
+              onClick={() => {
+                setArea(a.id);
+                document.querySelector('.inv-sheet--tall .inv-sheet__body')?.scrollTo({ top: 0 });
+              }}
+            >
+              {a.label}
+            </button>
+          ))}
+        </div>
         {!deferred.trim() && all.length > 1 && (
           <div className="inv-browse__jump" role="group" aria-label="Jump to a section">
             {all.map((g) => (
               <button key={g.category} type="button" className="inv-chip" onClick={() => jump(g.category)}>
-                {shortCategory(g.category)}
+                {area === 'freezer' ? shortCategory(g.category) : formatCategory(g.category)}
               </button>
             ))}
           </div>
@@ -148,7 +177,7 @@ export function BrowseSheet({
                     <span className="inv-pick__mark" aria-hidden="true">
                       {on ? '✓' : '+'}
                     </span>
-                    {shortName(e.name)}
+                    {area === 'freezer' ? shortName(e.name) : e.name}
                     {e.out && <span className="inv-pick__out">out</span>}
                   </button>
                 );
